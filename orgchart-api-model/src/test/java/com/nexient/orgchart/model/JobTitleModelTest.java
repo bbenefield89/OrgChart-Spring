@@ -1,8 +1,7 @@
 package com.nexient.orgchart.model;
 
-import com.nexient.orgchart.model.JobTitleModel;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 /**
@@ -13,7 +12,7 @@ public class JobTitleModelTest {
 
     JobTitleModel jobTitle;
 
-    @BeforeClass
+    @BeforeSuite
     public void before(){
         jobTitle=new JobTitleModel();
     }
@@ -24,4 +23,6 @@ public class JobTitleModelTest {
         String descript=jobTitle.getDescription();
         Assert.assertEquals(descript, description);
     }
+
+
 }

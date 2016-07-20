@@ -35,13 +35,13 @@ public class JobTitleServiceTest extends AbstractTestNGSpringContextTests {
 
 	}
 
-	@Test
-	@Rollback
-	public void shouldFindAllJobTitles() {
-		List<JobTitle> jobTitles = jobTitleService.findAll();
-		assertNotNull(jobTitles);
-		assertTrue(0 < jobTitles.size());
-	}
+//	@Test
+//	@Rollback
+//	public void shouldFindAllJobTitles() {
+//		List<JobTitle> jobTitles = jobTitleService.findAll();
+//		assertNotNull(jobTitles);
+//		assertTrue(0 < jobTitles.size());
+//	}
 
 	@Test
 	@Rollback

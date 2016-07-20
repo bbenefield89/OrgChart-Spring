@@ -5,8 +5,6 @@ import com.nexient.orgchart.data.entity.JobTitle;
 import com.nexient.orgchart.data.validation.Validator;
 import org.testng.annotations.Test;
 
-//import org.testng.annotations.Test;
-
 import java.util.Collections;
 
 /**

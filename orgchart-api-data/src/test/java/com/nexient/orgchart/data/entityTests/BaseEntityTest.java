@@ -2,7 +2,8 @@ package com.nexient.orgchart.data.entityTests;
 
 import com.nexient.orgchart.data.entity.BaseEntity;
 import com.nexient.orgchart.data.entity.Employee;
-import org.junit.Assert;
+
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
