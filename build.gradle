@@ -1,9 +1,9 @@
 /*group = "com.nexient"
 version = "0.0.2-SNAPSHOT"
 description = "OrgChart"*/
-/*
-sourceCompatibility = 1.8
-targetCompatibility = 1.8*/
+
+//sourceCompatibility = 1.8
+//targetCompatibility = 1.8
 
 ext {
     apacheCommonsVersion = "3.4"
