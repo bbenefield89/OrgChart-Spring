@@ -20,14 +20,11 @@ public class BaseEntityTest {
 
 	private BaseEntity baseEntity;
 
-	private Set<Employee> employees = new TreeSet<Employee>();
-
 	private static final Random RANDOM = new Random();
 
 	@BeforeClass
 	public void beforeClass() {
 		baseEntity = new BaseEntity();
-		employees = Entities.employees(2);
 	}
 
 	@Test
@@ -35,5 +32,11 @@ public class BaseEntityTest {
 		final int id = RANDOM.nextInt();
 		baseEntity.setId(id);
 		Assert.assertEquals(id, Math.toIntExact(baseEntity.getId()));
+	}
+
+	@Test
+	public void setAndGetIsActive(){
+		baseEntity.setIsActive(true);
+		Assert.assertTrue(baseEntity.getIsActive());
 	}
 }

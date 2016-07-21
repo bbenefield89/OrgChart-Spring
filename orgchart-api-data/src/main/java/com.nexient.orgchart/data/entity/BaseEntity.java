@@ -15,8 +15,19 @@ public class BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "DEPARTMENT_ID", unique = true, nullable = false)
+	@Column(name = "ID", unique = true, nullable = false)
 	private Integer id;
+
+	@Column(name = "IS_ACTIVE")
+	private Boolean isActive;
+
+	public Boolean getIsActive() {
+		return isActive;
+	}
+
+	public void setIsActive(Boolean active) {
+		isActive = active;
+	}
 
 	public Integer getId() {
 		return id;
