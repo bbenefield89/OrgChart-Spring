@@ -1,4 +1,4 @@
-package com.nexient.orgchart.data.entityTests;
+package com.nexient.orgchart.data.entity;
 
 import com.nexient.orgchart.data.entity.BaseEntity;
 import com.nexient.orgchart.data.entity.Employee;

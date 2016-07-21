@@ -1,10 +1,13 @@
 package com.nexient.orgchart.data.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,51 +15,16 @@ import java.util.Set;
 @Table(name = "JOB_TITLE")
 public class JobTitle extends BaseEntity {
 
-	@Column(name = "DESCRIPTION", nullable = false, length = 45)
-	private String description;
+	@Column(name = "NAME", unique = true, nullable = false)
+	@NotNull
+	@NotEmpty
+	private String name;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jobTitle")
-	private Set<Employee> employees = new HashSet<Employee>(0);
-
-	public JobTitle() {
+	public String getName() {
+		return name;
 	}
 
-	private JobTitle(Builder builder) {
-		this.description = builder.description;
-		this.employees = builder.employees;
-	}
-
-	public String getDescription() {
-		return this.description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Set<Employee> getEmployees() {
-		return this.employees;
-	}
-
-	public void setEmployees(Set<Employee> employees) {
-		this.employees = employees;
-	}
-
-	public static class Builder {
-		private String description;
-		private Set<Employee> employees = new HashSet<Employee>(0);
-
-		public Builder(String description) {
-			this.description = description;
-		}
-
-		public Builder employees(Set<Employee> employees) {
-			this.employees = employees;
-			return this;
-		}
-
-		public JobTitle build() {
-			return new JobTitle(this);
-		}
+	public void setName(String name) {
+		this.name = name;
 	}
 }

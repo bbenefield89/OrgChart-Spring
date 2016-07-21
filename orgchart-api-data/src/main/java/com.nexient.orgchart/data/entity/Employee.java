@@ -8,11 +8,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Employee entity. @author MyEclipse Persistence Tools
+ * Employee entity. @author dhoover
  */
 @Entity
 @Table(name = "EMPLOYEE")
@@ -30,8 +31,15 @@ public class Employee extends BaseEntity {
 	@JoinColumn(name = "MANAGER_ID")
 	private Employee manager;
 
+	@Column(name = "SKYPE_NAME", unique = true, nullable = false)
+	@NotNull
+	private String skypeName;
+
 	@Column(name = "FIRST_NAME", nullable = false, length = 20)
 	private String firstName;
+
+	@Column(name ="MIDDLE_INITIAL", length = 1)
+	private Character middleInitial;
 
 	@Column(name = "LAST_NAME", nullable = false, length = 45)
 	private String lastName;
@@ -42,99 +50,76 @@ public class Employee extends BaseEntity {
 	@Column(name = "IS_MANAGER", nullable = false)
 	private Boolean isManager = false;
 
-	public Employee() {
+	public boolean getIsManager() {
+		return isManager;
 	}
 
-	private Employee(Builder builder) {
-		this.jobTitle = builder.jobTitle;
-		this.department = builder.department;
-		this.manager = builder.manager;
-		this.firstName = builder.firstName;
-		this.lastName = builder.lastName;
-		this.email = builder.email;
-		this.isManager = builder.isManager;
-
-	}
-
-	public JobTitle getJobTitle() {
-		return jobTitle;
-	}
-
-	public Department getDepartment() {
-		return department;
-	}
-
-	public Employee getManager() {
-		return manager;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
+	public void setIsManager(boolean isManager) {
+		this.isManager = isManager;
 	}
 
 	public String getEmail() {
 		return email;
 	}
 
-	public static class Builder {
-		private final String firstName;
-		private final String lastName;
-		private JobTitle jobTitle;
-		private Department department;
-		private Employee manager;
-		private String email;
-		private Boolean isManager;
-		private Set<Department> departments;
-		private Set<Employee> employees;
-
-		public Builder(String firstName, String lastName) {
-			this.firstName = firstName;
-			this.lastName = lastName;
-		}
-
-		public Builder jobTitle(JobTitle jobTitle) {
-			this.jobTitle = jobTitle;
-			return this;
-		}
-
-		public Builder department(Department department) {
-			this.department = department;
-			return this;
-		}
-
-		public Builder manager(Employee manager) {
-			this.manager = manager;
-			return this;
-		}
-
-		public Builder email(String email) {
-			this.email = email;
-			return this;
-		}
-
-		public Builder isManager(Boolean isManager) {
-			this.isManager = isManager;
-			return this;
-		}
-
-		public Builder departments(Set<Department> departments) {
-			this.departments = departments;
-			return this;
-		}
-
-		public Builder employees(Set<Employee> employees) {
-			this.employees = employees;
-			return this;
-		}
-
-		public Employee build()
-
-		{
-			return new Employee(this);
-		}
+	public void setEmail(String email) {
+		this.email = email;
 	}
+
+	public String getSkypeName() {
+		return skypeName;
+	}
+
+	public void setSkypeName(String skypeName) {
+		this.skypeName = skypeName;
+	}
+
+	public Department getDepartment() {
+		return department;
+	}
+
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public Employee getManager() {
+		return manager;
+	}
+
+	public void setManager(Employee manager) {
+		this.manager = manager;
+	}
+
+	public Character getMiddleInitial() {
+		return middleInitial;
+	}
+
+	public void setMiddleInitial(Character middleInitial) {
+		this.middleInitial = middleInitial;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public JobTitle getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(JobTitle jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+
 }

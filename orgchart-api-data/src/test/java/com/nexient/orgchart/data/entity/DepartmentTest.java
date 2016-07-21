@@ -1,7 +1,5 @@
-package com.nexient.orgchart.data.entityTests;
+package com.nexient.orgchart.data.entity;
 
-import com.nexient.orgchart.data.entity.Department;
-import com.nexient.orgchart.data.entity.Employee;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -24,8 +22,8 @@ public class DepartmentTest {
     @BeforeSuite
     public void before() {
         dept = Entities.department();
-//        emp = Entities.employee();
-//        emp.setId(Entities.EMPLOYEE_ID);
+        emp = Entities.employee();
+        emp.setId(Entities.EMPLOYEE_ID);
     }
 
     @Test
@@ -49,11 +47,11 @@ public class DepartmentTest {
         Assert.assertEquals(dept.getId(), parent.getId());
     }
 
-//    @Test
-//    public void setAndGetManager(){
-//        dept.setManager(emp);
-//        Assert.assertNotNull(dept.getManager());
-//        Assert.assertEquals(dept.getManager().getId(), emp.getId());
-//    }
+    @Test
+    public void setAndGetManager(){
+        dept.setManager(emp);
+        Assert.assertNotNull(dept.getManager());
+        Assert.assertEquals(dept.getManager().getId(), emp.getId());
+    }
 
 }
