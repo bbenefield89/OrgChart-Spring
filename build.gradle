@@ -91,7 +91,6 @@ allprojects {
     }
     test.finalizedBy jacocoTestReport
 
-
 }
 
 task wrapper(type: Wrapper) {

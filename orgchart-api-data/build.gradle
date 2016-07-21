@@ -3,6 +3,7 @@ version '0.0.2-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'jacoco'
+apply plugin: 'liquibase'
 
 repositories {
     mavenCentral()
@@ -10,4 +11,32 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+//
+//liquibase {
+//    activities {
+//
+//        main {
+//            changeLogFile "$projectDir/liquibase/db.changelog.xml"
+//        }
+//        runList = 'main'
+//        tasks.build.dependsOn(update)
+//    }
+//}
+
+liquibase {
+    activities {
+        def dbUrl = project.hasProperty("orgchart.db.url") ? project.getProperty("orgchart.db.url") : "jdbc:mysql://localhost:3306/orgchart_api"
+        def dbUsername = project.hasProperty("orgchart.db.username") ? project.getProperty("orgchart.db.username") : "orgchart"
+        def dbPassword = project.hasProperty("orgchart.db.password") ? project.getProperty("orgchart.db.password") : "orgchart"
+
+        main {
+            changeLogFile "$projectDir/liquibase/db.changelog.xml"
+            url dbUrl
+            username dbUsername
+            password dbPassword
+        }
+        runList = 'main'
+        tasks.build.dependsOn(update)
+    }
 }

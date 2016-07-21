@@ -101,7 +101,7 @@ public class EmployeeTest {
     public void setAndGetIsManager(){
         emp.setIsManager(true);
         Assert.assertNotNull(emp.getIsManager());
+        Assert.assertTrue(emp.getIsManager());
     }
-
 
 }
