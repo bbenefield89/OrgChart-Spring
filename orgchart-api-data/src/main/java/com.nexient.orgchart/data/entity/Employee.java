@@ -42,12 +42,6 @@ public class Employee extends BaseEntity {
 	@Column(name = "IS_MANAGER", nullable = false)
 	private Boolean isManager = false;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "manager")
-	private Set<Department> departments = new HashSet<Department>(0);
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "manager")
-	private Set<Employee> employees = new HashSet<Employee>(0);
-
 	public Employee() {
 	}
 
@@ -59,8 +53,7 @@ public class Employee extends BaseEntity {
 		this.lastName = builder.lastName;
 		this.email = builder.email;
 		this.isManager = builder.isManager;
-		this.departments = builder.departments;
-		this.employees = builder.employees;
+
 	}
 
 	public JobTitle getJobTitle() {
@@ -73,14 +66,6 @@ public class Employee extends BaseEntity {
 
 	public Employee getManager() {
 		return manager;
-	}
-
-	public Set<Department> getDepartments() {
-		return departments;
-	}
-
-	public Set<Employee> getEmployees() {
-		return employees;
 	}
 
 	public String getFirstName() {

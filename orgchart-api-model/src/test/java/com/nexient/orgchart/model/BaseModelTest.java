@@ -18,14 +18,14 @@ public class BaseModelTest {
     }
 
     @Test
-    public void idSetandGetTest(){
+    public void setAndGetId(){
         bm.setId(id);
         Integer bmId=bm.getId();
         Assert.assertEquals(id,bmId );
     }
 
     @Test
-    public void isActiveSetAndGetTest(){
+    public void setAndGetIsActive(){
         bm.setIsActive(true);
         Assert.assertTrue(bm.getIsActive());
     }
