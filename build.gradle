@@ -1,7 +1,3 @@
-/*group = "com.nexient"
-version = "0.0.2-SNAPSHOT"
-description = "OrgChart"*/
-
 //sourceCompatibility = 1.8
 //targetCompatibility = 1.8
 
@@ -18,7 +14,6 @@ ext {
     testNgVersion = "6.9.10"
     jacocoToolVersion = "0.7.6.201602180812"
 }
-
 
 buildscript {
     repositories {
@@ -43,7 +38,10 @@ allprojects {
     apply plugin: "idea"
     apply plugin: 'liquibase'
     apply plugin: "jacoco"
-    apply plugin: "info.solidsoft.pitest"
+
+    group = "com.nexient"
+    version = "0.0.2-SNAPSHOT"
+    description = "OrgChart"
 
     repositories {
         mavenLocal()
@@ -91,16 +89,7 @@ allprojects {
     }
     test.finalizedBy jacocoTestReport
 
-}
 
-pitest {
-    targetClasses = ["com.nexient.orgchart.model",
-                     "com.nexient.orgchart.service",
-                     "com.nexient.orgchart.web",
-                     "com.nexient.orgchart.entity",
-                     "com.nexient.orgchart.repository"]
-    threads = 4
-    outputFormats = ['HTML']
 }
 
 task wrapper(type: Wrapper) {
@@ -108,6 +97,8 @@ task wrapper(type: Wrapper) {
 }
 
 project("orgchart-api-data") {
+    apply plugin: "info.solidsoft.pitest"
+
     dependencies {
         compile "org.springframework.data:spring-data-jpa:$springDataJpaVersion",
                 "org.springframework.security:spring-security-web:$springSecurityVersion",
@@ -119,15 +110,31 @@ project("orgchart-api-data") {
         testCompile "org.hsqldb:hsqldb:2.3.3",
                 "org.testng:testng:6.9.4"
     }
+
+    pitest{
+        targetClasses =["com.nexient.orgchart.data.entity.*",
+                "com.nexient.orgchart.data.repository.*"
+        ]
+    }
+
 }
 project("orgchart-api-model") {
+    apply plugin: "info.solidsoft.pitest"
+
     dependencies {
         compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
                 "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion",
                 "org.hibernate:hibernate-validator:5.2.2.Final"
     }
+
+    pitest {
+        targetClasses = ["com.nexient.orgchart.model.*"]
+    }
+
 }
 project("orgchart-api-service") {
+    apply plugin: "info.solidsoft.pitest"
+
     dependencies {
         compile project(":orgchart-api-data"),
                 project(":orgchart-api-model"),
@@ -136,8 +143,14 @@ project("orgchart-api-service") {
         testCompile project(":orgchart-api-data").sourceSets.test.output
         testCompile project(":orgchart-api-model").sourceSets.test.output
     }
+    pitest {
+        targetClasses = ["com.nexient.orgchart.service.*"
+        ]
+    }
 }
 project("orgchart-api-web") {
+    apply plugin: "info.solidsoft.pitest"
+
     apply plugin: 'war'
 
     ext.jacksonVersion = "2.6.0"
@@ -159,65 +172,14 @@ project("orgchart-api-web") {
         providedCompile "javax.servlet:javax.servlet-api:3.0.1"
     }
 
+    pitest {
+        targetClasses = ["com.nexient.orgchart.web.*"
+        ]
+    }
     war {
         archiveName = 'api#orgchart.war'
     }
 }
-
-//test.dependsOn(subprojects.test)
-//
-//subprojects {
-//    group = 'com.nexient.orgchart'
-//    version = '1.0'
-//
-//    ext.hibernateVersion = "4.3.10.Final"
-//    ext.jacksonVersion = "2.6.0"
-//    ext.log4j2Version = "2.3"
-//    ext.powerMockVersion = "1.6.3"
-//    ext.querydslVersion = "3.6.6"
-//    ext.slf4jVersion = "1.7.12"
-//    ext.springDataJpaVersion = "1.8.1.RELEASE"
-//    ext.springDataVersion = "1.10.1.RELEASE"
-//    ext.springSecurityVersion = "4.0.2.RELEASE"
-//    ext.springVersion = "4.1.7.RELEASE"
-//    ext.jodaVersion = "2.9.4"
-//
-//
-//
-//    dependencies {
-//
-//
-//        compile "org.springframework:spring-webmvc:$springVersion",
-//                "org.springframework.security:spring-security-config:$springSecurityVersion",
-//                "org.springframework.security:spring-security-web:$springSecurityVersion",
-//                "org.springframework.data:spring-data-jpa:$springDataJpaVersion",
-//                "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
-//                "com.fasterxml.jackson.datatype:jackson-datatype-joda:$jacksonVersion",
-//                "c3p0:c3p0:0.9.0.4",
-//                "org.hibernate:hibernate-validator:5.2.2.Final",
-//                "javax.el:javax.el-api:3.0.0",
-//                "org.apache.logging.log4j:log4j-api:$log4j2Version",
-//                "org.apache.logging.log4j:log4j-core:$log4j2Version",
-//                'org.apache.commons:commons-lang3:3.4',
-//                'org.apache.commons:commons-collections4:4.1',
-//                "com.jayway.jsonpath:json-path:2.0.0",
-//                'commons-fileupload:commons-fileupload:1.3.1',
-//                "org.springframework:spring-context:$springVersion",
-//                "org.springframework:spring-context-support:$springVersion",
-//                "com.google.code.simple-spring-memcached:spring-cache:3.5.0",
-//                'com.google.code.simple-spring-memcached:spymemcached-provider:3.5.0',
-//                "joda-time:joda-time:$jodaVersion"
-//
-//        testCompile "junit:junit:4.12",
-//                "org.springframework:spring-test:$springVersion",
-//                "org.springframework.security:spring-security-test:$springSecurityVersion",
-//                "org.powermock:powermock-mockito-release-full:$powerMockVersion",
-//                "org.apache.commons:commons-lang3:3.4",
-//                "org.hsqldb:hsqldb:2.3.3"
-//    }
-//}
-
-
 /*
     compile group: "org.springframework.security", name: "spring-security-config", version:"3.1.0.RELEASE"
     compile group: "org.springframework.security", name: "spring-security-taglibs", version:"3.1.0.RELEASE"
