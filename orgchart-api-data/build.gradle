@@ -10,7 +10,8 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+
 }
 //
 //liquibase {
@@ -37,6 +38,6 @@ liquibase {
             password dbPassword
         }
         runList = 'main'
-        tasks.build.dependsOn(update)
+        //tasks.build.dependsOn(update)
     }
 }

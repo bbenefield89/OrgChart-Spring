@@ -1,4 +1,4 @@
-package com.nexient.orgchart.data.repository;
+package com.nexient.orgchart.data.config;
 
 import javax.sql.DataSource;
 
@@ -22,8 +22,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Configuration
 @EnableJpaRepositories({ "com.nexient.orgchart.data.repository" })
 @EnableTransactionManagement
-@PropertySource("classpath:db.properties")
-public class JPAConfig {
+public class JpaConfig {
 
     @Autowired
     private Environment env;
@@ -54,7 +53,7 @@ public class JPAConfig {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setDataSource(dataSource());
-        factory.setPackagesToScan(ENTITIES_PACKAGE);
+        factory.setPackagesToScan(ENTITIES_PACKAGE, "org.springframework.data.jpa.convert.threeten");
 
         return factory;
     }

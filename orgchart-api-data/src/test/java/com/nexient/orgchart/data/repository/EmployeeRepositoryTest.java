@@ -4,7 +4,7 @@ import com.nexient.orgchart.data.entity.Department;
 import com.nexient.orgchart.data.entity.Employee;
 import com.nexient.orgchart.data.entity.Entities;
 import com.nexient.orgchart.data.entity.JobTitle;
-import org.junit.runner.RunWith;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
@@ -15,16 +15,16 @@ import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import java.util.List;
 
 /**
  * Created by dhoover on 7/21/2016.
  */
-@RunWith(SpringJUnit4ClassRunner.class)
+//@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestJpaConfig.class)
 @Transactional
-public class EmployeeRepositoryTest {
+public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringContextTests{
 
     private static final String NOT_PRESENT_VALUE = "XXX";
     private static final Integer NOT_PRESENT_ID = -666;
@@ -166,12 +166,23 @@ public class EmployeeRepositoryTest {
     @Test
     public void findByManagerId_empty() throws Exception {
         Employee emp = Entities.employee();
-        emp.setDepartment(this.department);
-        emp.setJobTitle(this.jobTitle);
         this.empRepo.saveAndFlush(emp);
 
         List<Employee> emps = this.empRepo.findByManager(emp);
         Assert.assertTrue(emps.isEmpty());
     }
 
+    @Test
+    public void findByJobTitle(){
+        employee.setJobTitle(this.jobTitle);
+        this.empRepo.saveAndFlush(employee);
+        List<Employee> emps = this.empRepo.findByJobTitle(this.jobTitle);
+        Assert.assertEquals(emps.size(),1);
+    }
+
+    @Test
+    public void findByIsManager(){
+        List<Employee> mgrs = this.empRepo.findByIsManager(true);
+        Assert.assertTrue(mgrs.isEmpty());
+    }
 }

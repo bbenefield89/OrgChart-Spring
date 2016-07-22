@@ -104,12 +104,12 @@ project("orgchart-api-data") {
         compile "org.springframework.data:spring-data-jpa:$springDataJpaVersion",
                 "org.springframework.security:spring-security-web:$springSecurityVersion",
                 "org.apache.commons:commons-lang3:$apacheCommonsVersion",
-                "org.hibernate:hibernate-entitymanager:5.0.9.Final",
+                "org.hibernate:hibernate-entitymanager:$hibernateVersion",
                 "c3p0:c3p0:0.9.0.4",
                 "mysql:mysql-connector-java:5.1.36"
 
         testCompile "org.hsqldb:hsqldb:2.3.3",
-                "org.testng:testng:6.9.4"
+                "org.testng:testng:$testNgVersion"
     }
 
     pitest{
