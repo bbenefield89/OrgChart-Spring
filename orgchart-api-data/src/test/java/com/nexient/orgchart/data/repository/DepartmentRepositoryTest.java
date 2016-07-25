@@ -37,8 +37,9 @@ public class DepartmentRepositoryTest  extends AbstractTransactionalTestNGSpring
     @Autowired
     private DepartmentRepository repository;
 
-    @BeforeTest
+    @BeforeClass
     public void before() throws Exception {
+        super.springTestContextPrepareTestInstance();
         this.parent = Entities.department();
         this.parent = this.repository.saveAndFlush(parent);
 

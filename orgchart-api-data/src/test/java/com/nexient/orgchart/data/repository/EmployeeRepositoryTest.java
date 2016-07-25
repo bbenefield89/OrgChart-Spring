@@ -11,6 +11,7 @@ import org.springframework.test.context.testng.AbstractTransactionalTestNGSpring
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -39,7 +40,7 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
     @Autowired
     private JobTitleRepository jobTitleRepo;
 
-    @BeforeSuite
+    @BeforeClass
     public void before() throws Exception {
         super.springTestContextPrepareTestInstance();
         this.department = Entities.department();

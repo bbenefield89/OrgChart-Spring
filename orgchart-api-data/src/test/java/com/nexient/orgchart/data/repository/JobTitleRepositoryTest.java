@@ -32,8 +32,9 @@ public class JobTitleRepositoryTest extends AbstractTransactionalTestNGSpringCon
     @Autowired
     JobTitleRepository jobTitleRepo;
 
-    @BeforeTest
+    @BeforeClass
     public void before() throws Exception {
+        super.springTestContextPrepareTestInstance();
         this.jobTitle = Entities.jobTitle();
         if(jobTitleRepo==null){
             System.out.println("its null");
