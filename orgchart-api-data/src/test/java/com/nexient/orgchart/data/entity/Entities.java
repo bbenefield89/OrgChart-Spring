@@ -73,10 +73,10 @@ public class Entities {
 		return emp;
 	}
 
-	public static JobTitle jobTitle() {
-		JobTitle jobTitle = new JobTitle();
-		jobTitle.setName(JOB_TITLE_NAME + random.nextInt());
-		return jobTitle;
+	public static Employee employee(Integer employeeId) {
+		Employee emp = new Employee();
+		emp.setId(EMPLOYEE_ID);
+		return emp;
 	}
 
 	public static Employee manager() {
@@ -96,10 +96,10 @@ public class Entities {
 		return title;
 	}
 
-	public static Employee employee(Integer employeeId) {
-		Employee emp = new Employee();
-		emp.setId(EMPLOYEE_ID);
-		return emp;
+	public static JobTitle jobTitle() {
+		JobTitle jobTitle = new JobTitle();
+		jobTitle.setName(JOB_TITLE_NAME + random.nextInt());
+		return jobTitle;
 	}
 
 }
