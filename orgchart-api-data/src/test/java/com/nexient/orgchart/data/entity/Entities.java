@@ -31,8 +31,6 @@ public class Entities {
 	public static Department department() {
 		Department department = new Department();
 		department.setName(departmentName());
-		department.setId(DEPT_ID);
-
 		return department;
 	}
 
@@ -66,6 +64,8 @@ public class Entities {
 		return emp;
 	}
 
+
+
 	public static Employee employee() {
 		Employee emp = new Employee();
 		emp.setDepartment(department());
@@ -81,7 +81,6 @@ public class Entities {
 
 	public static JobTitle jobTitle() {
 		JobTitle jobTitle = new JobTitle();
-		jobTitle.setId(JOB_TITLE_ID);
 		jobTitle.setName(JOB_TITLE_NAME + random.nextInt());
 		return jobTitle;
 	}
@@ -97,6 +96,11 @@ public class Entities {
 		return mgr;
 	}
 
+	public static JobTitle jobTitle(Integer jobTitleId) {
+		JobTitle title = new JobTitle();
+		title.setId(JOB_TITLE_ID);
+		return title;
+	}
 
 	public static Employee employee(Integer employeeId) {
 		Employee emp = new Employee();

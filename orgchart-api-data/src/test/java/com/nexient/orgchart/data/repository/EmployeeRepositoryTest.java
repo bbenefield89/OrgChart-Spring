@@ -50,8 +50,8 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
         this.jobTitleRepo.saveAndFlush(jobTitle);
 
         this.employee = Entities.employee();
-        this.employee.setDepartment(this.department);
         this.employee.setJobTitle(this.jobTitle);
+        this.employee.setDepartment(this.department);
         this.empRepo.saveAndFlush(this.employee);
     }
 
