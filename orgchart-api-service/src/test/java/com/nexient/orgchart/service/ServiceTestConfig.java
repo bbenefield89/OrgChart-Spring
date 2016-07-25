@@ -65,6 +65,7 @@ public class ServiceTestConfig {
 		when(repo.findOne(Entities.DEPT_ID)).thenReturn(this.mockDepartment);
 		when(repo.save(this.mockDepartment)).thenReturn(this.mockDepartment);
 		// TODO add verify that delete was called
+		//doNothing().when(repo.delete(this.mockDepartment));
 		//verify(repo, times(1)).delete(this.mockDepartment);
 		return repo;
 	}
