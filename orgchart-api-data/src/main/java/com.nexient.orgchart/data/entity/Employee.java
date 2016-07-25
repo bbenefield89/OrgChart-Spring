@@ -90,7 +90,9 @@ public class Employee extends BaseEntity {
 		this.manager = manager;
 	}
 
-	public Character getMiddleInitial() { return middleInitial;	}
+	public Character getMiddleInitial() {
+	    return middleInitial;
+	}
 
 	public void setMiddleInitial(Character middleInitial) {
 		this.middleInitial = middleInitial;

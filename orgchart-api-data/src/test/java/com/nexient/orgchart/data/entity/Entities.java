@@ -1,12 +1,10 @@
 package com.nexient.orgchart.data.entity;
 
 import com.nexient.orgchart.data.entity.Department;
-
 import com.nexient.orgchart.data.entity.Employee;
 import com.nexient.orgchart.data.entity.JobTitle;
 
 import java.util.Random;
-
 
 /**
  * Created by kskronek on 5/25/2016.
@@ -64,16 +62,12 @@ public class Entities {
 		return emp;
 	}
 
-
-
 	public static Employee employee() {
 		Employee emp = new Employee();
-		emp.setDepartment(department());
 		emp.setFirstName(FIRST_NAME);
 		emp.setMiddleInitial(MIDDLE_INITIAL);
 		emp.setLastName(LAST_NAME);
 		emp.setEmail(EMAIL + random.nextInt());
-		emp.setJobTitle(jobTitle());
 		emp.setSkypeName(SKYPE_NAME + random.nextInt());
 		emp.setIsManager(false);
 		return emp;
@@ -109,4 +103,3 @@ public class Entities {
 	}
 
 }
-
