@@ -11,21 +11,26 @@ import java.util.List;
 public class JobTitleService {
 
 	@Autowired
-	JobTitleRepository repository;
+	JobTitleRepository jobRepository;
 
 	public List<JobTitle> findAll() {
-		return this.repository.findAll();
+		return this.jobRepository.findAll();
 	}
 
-	public JobTitle findOne(Integer id) {
-		return this.repository.findOne(id);
+	public List<JobTitle> findAllActiveJobTitles() {
+		return this.jobRepository.findByIsActiveIsTrue();
+	}
+
+	public JobTitle findJobTitleByID(Integer id) {
+		return this.jobRepository.findOne(id);
 	}
 
 	public Integer saveOrUpdate(JobTitle jobTitle) {
-		return this.repository.save(jobTitle).getId();
+		return this.jobRepository.save(jobTitle).getId();
 	}
 
 	public void removeJobTitle(JobTitle jobTitle) {
-		this.repository.delete(jobTitle);
+		this.jobRepository.delete(jobTitle);
 	}
+
 }
