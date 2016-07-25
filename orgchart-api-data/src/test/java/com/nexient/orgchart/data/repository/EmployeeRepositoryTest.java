@@ -4,24 +4,21 @@ import com.nexient.orgchart.data.entity.Department;
 import com.nexient.orgchart.data.entity.Employee;
 import com.nexient.orgchart.data.entity.Entities;
 import com.nexient.orgchart.data.entity.JobTitle;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
+
 import java.util.List;
 
 /**
  * Created by dhoover on 7/21/2016.
  */
-//@RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = TestJpaConfig.class)
 @Transactional
 public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringContextTests{
@@ -44,6 +41,7 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
 
     @BeforeSuite
     public void before() throws Exception {
+        super.springTestContextPrepareTestInstance();
         this.department = Entities.department();
         this.deptRepo.saveAndFlush(this.department);
 
