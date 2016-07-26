@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "JOB_TITLE")
-public class JobTitle extends BaseEntity {
+public class JobTitleEntity extends BaseEntity {
 
 	@Column(name = "NAME", unique = true, nullable = false)
 	@NotNull

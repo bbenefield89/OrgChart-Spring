@@ -1,9 +1,5 @@
 package com.nexient.orgchart.data.entity;
 
-import com.nexient.orgchart.data.entity.Department;
-import com.nexient.orgchart.data.entity.Employee;
-import com.nexient.orgchart.data.entity.JobTitle;
-
 import java.util.Random;
 
 /**
@@ -11,14 +7,14 @@ import java.util.Random;
  */
 public class Entities {
 
-	public static final String DEPARTMENT_NAME = "Department";
+	public static final String DEPARTMENT_NAME = "DepartmentEntity";
 	public static final Integer DEPT_ID = 22;
 	public static final String EMAIL = "email";
 	public static final Integer EMPLOYEE_ID = 5;
 	public static final String FIRST_NAME = "first name";
 	public static final String JOB_TITLE = "Job Title";
 	public static final Integer JOB_TITLE_ID = 5;
-	public static final String JOB_TITLE_NAME = "JobTitle";
+	public static final String JOB_TITLE_NAME = "JobTitleEntity";
 	public static final String LAST_NAME = "last name";
 	public static final Integer MANAGER_ID = 1;
 	public static final String SKYPE_NAME = "skype name";
@@ -26,33 +22,33 @@ public class Entities {
 
 	private static Random random = new Random();
 
-	public static Department department() {
-		Department department = new Department();
-		department.setIsActive(true);
-		department.setName(departmentName());
-		return department;
+	public static DepartmentEntity department() {
+		DepartmentEntity departmentEntity = new DepartmentEntity();
+		departmentEntity.setIsActive(true);
+		departmentEntity.setName(departmentName());
+		return departmentEntity;
 	}
 
-	public static Department department(Integer id) {
-		Department department = department();
+	public static DepartmentEntity department(Integer id) {
+		DepartmentEntity department = department();
 		department.setIsActive(true);
 		department.setId(id);
 		return department;
 	}
 
-	public static Department department(Department parent) {
-		Department department = department();
-		department.setIsActive(true);
-		department.setParentDepartment(parent);
-		return department;
+	public static DepartmentEntity department(DepartmentEntity parent) {
+		DepartmentEntity departmentEntity = department();
+		departmentEntity.setIsActive(true);
+		departmentEntity.setParentDepartment(parent);
+		return departmentEntity;
 	}
 
 	private static String departmentName() {
 		return DEPARTMENT_NAME + random.nextInt();
 	}
 
-	public static Employee employee(Department dept) {
-		Employee emp = new Employee();
+	public static EmployeeEntity employee(DepartmentEntity dept) {
+		EmployeeEntity emp = new EmployeeEntity();
 		emp.setIsActive(true);
 		emp.setFirstName(FIRST_NAME);
 		emp.setMiddleInitial(MIDDLE_INITIAL);
@@ -64,8 +60,8 @@ public class Entities {
 		return emp;
 	}
 
-	public static Employee employee() {
-		Employee emp = new Employee();
+	public static EmployeeEntity employee() {
+		EmployeeEntity emp = new EmployeeEntity();
 		emp.setIsActive(true);
 		emp.setFirstName(FIRST_NAME);
 		emp.setMiddleInitial(MIDDLE_INITIAL);
@@ -76,15 +72,15 @@ public class Entities {
 		return emp;
 	}
 
-	public static Employee employee(Integer employeeId) {
-		Employee emp = new Employee();
+	public static EmployeeEntity employee(Integer employeeId) {
+		EmployeeEntity emp = new EmployeeEntity();
 		emp.setIsActive(true);
 		emp.setId(EMPLOYEE_ID);
 		return emp;
 	}
 
-	public static Employee manager() {
-		Employee mgr = new Employee();
+	public static EmployeeEntity manager() {
+		EmployeeEntity mgr = new EmployeeEntity();
 		mgr.setFirstName(FIRST_NAME);
 		mgr.setIsActive(true);
 		mgr.setMiddleInitial(MIDDLE_INITIAL);
@@ -95,15 +91,15 @@ public class Entities {
 		return mgr;
 	}
 
-	public static JobTitle jobTitle(Integer jobTitleId) {
-		JobTitle title = new JobTitle();
+	public static JobTitleEntity jobTitle(Integer jobTitleId) {
+		JobTitleEntity title = new JobTitleEntity();
 		title.setId(JOB_TITLE_ID);
 		title.setIsActive(true);
 		return title;
 	}
 
-	public static JobTitle jobTitle() {
-		JobTitle jobTitle = new JobTitle();
+	public static JobTitleEntity jobTitle() {
+		JobTitleEntity jobTitle = new JobTitleEntity();
 		jobTitle.setIsActive(true);
 		jobTitle.setName(JOB_TITLE_NAME + random.nextInt());
 		return jobTitle;

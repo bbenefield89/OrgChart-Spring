@@ -1,26 +1,22 @@
 package com.nexient.orgchart.data.entity;
 
-import com.nexient.orgchart.data.entity.JobTitle;
 //import org.springframework.validation.Validator;
-import com.nexient.orgchart.data.validation.Validator;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import java.util.Collections;
-
 /**
  * Created by kskronek on 6/8/2016.
  */
-public class JobTitleTest {
+public class JobTitleEntityTest {
 
 	static final private String name = "New Job Title";
 
-	JobTitle jobTitle;
+	JobTitleEntity jobTitle;
 
 	@BeforeSuite
 	public void before(){
-		jobTitle=new JobTitle();
+		jobTitle=new JobTitleEntity();
 	}
 
 	@Test

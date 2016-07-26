@@ -1,9 +1,9 @@
 package com.nexient.orgchart.data.repository;
 
-import com.nexient.orgchart.data.entity.Department;
-import com.nexient.orgchart.data.entity.Employee;
+import com.nexient.orgchart.data.entity.DepartmentEntity;
+import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.data.entity.Entities;
-import com.nexient.orgchart.data.entity.JobTitle;
+import com.nexient.orgchart.data.entity.JobTitleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.testng.Assert;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -26,10 +25,10 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
 
     private static final String NOT_PRESENT_VALUE = "XXX";
     private static final Integer NOT_PRESENT_ID = -666;
-    private Department department = new Department();
-    private JobTitle jobTitle = new JobTitle();
-    private Employee employee;
-    private Employee manager;
+    private DepartmentEntity departmentEntity = new DepartmentEntity();
+    private JobTitleEntity jobTitle = new JobTitleEntity();
+    private EmployeeEntity employee;
+    private EmployeeEntity manager;
 
     @Autowired
     private EmployeeRepository empRepo;
@@ -43,22 +42,22 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
     @BeforeClass
     public void before() throws Exception {
         super.springTestContextPrepareTestInstance();
-        this.department = Entities.department();
-        this.deptRepo.saveAndFlush(this.department);
+        this.departmentEntity = Entities.department();
+        this.deptRepo.saveAndFlush(this.departmentEntity);
 
         this.jobTitle = Entities.jobTitle();
         this.jobTitleRepo.saveAndFlush(jobTitle);
 
         this.employee = Entities.employee();
         this.employee.setJobTitle(this.jobTitle);
-        this.employee.setDepartment(this.department);
+        this.employee.setDepartment(this.departmentEntity);
         this.empRepo.saveAndFlush(this.employee);
     }
 
     @AfterSuite
     public void after() {
         this.empRepo.delete(this.employee);
-        this.deptRepo.delete(this.department);
+        this.deptRepo.delete(this.departmentEntity);
         this.jobTitleRepo.delete(this.jobTitle);
 
         if (this.manager != null) {
@@ -75,16 +74,16 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
 
     @Test
     public void findAll() throws Exception {
-        List<Employee> emps = this.empRepo.findAll();
-        Assert.assertNotNull(emps, "Expecting a non-null Employee List but was null");
+        List<EmployeeEntity> emps = this.empRepo.findAll();
+        Assert.assertNotNull(emps, "Expecting a non-null EmployeeEntity List but was null");
         Assert.assertTrue(0 < emps.size());
     }
 
     @Test
     public void findByDepartment() throws Exception {
-        List<Employee> emps = this.empRepo.findByDepartment(this.employee.getDepartment());
-        Assert.assertNotNull(emps, "Expecting a non-null Employee List but was null");
-        Employee emp = emps.get(0);
+        List<EmployeeEntity> emps = this.empRepo.findByDepartment(this.employee.getDepartment());
+        Assert.assertNotNull(emps, "Expecting a non-null EmployeeEntity List but was null");
+        EmployeeEntity emp = emps.get(0);
         Assert.assertEquals(this.employee.getId(), emp.getId());
         Assert.assertEquals(this.employee.getFirstName(), emp.getFirstName());
         Assert.assertEquals(this.employee.getLastName(), emp.getLastName());
@@ -93,14 +92,14 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
 
     @Test
     public void findByDepartment_null() throws Exception {
-        List<Employee> emps = this.empRepo.findByDepartment(null);
+        List<EmployeeEntity> emps = this.empRepo.findByDepartment(null);
         Assert.assertTrue(emps.isEmpty());
     }
 
     @Test
     public void findByEmail() throws Exception {
-        Employee emp = this.empRepo.findByEmail(this.employee.getEmail());
-        Assert.assertNotNull(emp, "Expecting a non-null Employee but was null");
+        EmployeeEntity emp = this.empRepo.findByEmail(this.employee.getEmail());
+        Assert.assertNotNull(emp, "Expecting a non-null EmployeeEntity but was null");
         Assert.assertEquals(this.employee.getId(), emp.getId());
         Assert.assertEquals(this.employee.getFirstName(), emp.getFirstName());
         Assert.assertEquals(this.employee.getLastName(), emp.getLastName());
@@ -109,20 +108,20 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
 
     @Test
     public void findByEmail_null() throws Exception {
-        Employee emp = this.empRepo.findByEmail(null);
-        Assert.assertNull(emp, "Expecting a null Employee but was non-null");
+        EmployeeEntity emp = this.empRepo.findByEmail(null);
+        Assert.assertNull(emp, "Expecting a null EmployeeEntity but was non-null");
     }
 
     @Test
     public void findByEmailTest_notPresent() throws Exception {
-        Employee emp = this.empRepo.findByEmail(NOT_PRESENT_VALUE);
-        Assert.assertNull(emp, "Expecting a null Employee but was non-null");
+        EmployeeEntity emp = this.empRepo.findByEmail(NOT_PRESENT_VALUE);
+        Assert.assertNull(emp, "Expecting a null EmployeeEntity but was non-null");
     }
 
     @Test
     public void findById() throws Exception {
-        Employee emp = this.empRepo.findOne(this.employee.getId());
-        Assert.assertNotNull(emp, "Expecting a non-null Employee but was null");
+        EmployeeEntity emp = this.empRepo.findOne(this.employee.getId());
+        Assert.assertNotNull(emp, "Expecting a non-null EmployeeEntity but was null");
         Assert.assertEquals(this.employee.getId(), emp.getId());
         Assert.assertEquals(this.employee.getFirstName(), emp.getFirstName());
         Assert.assertEquals(this.employee.getLastName(), emp.getLastName());
@@ -131,14 +130,14 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
 
     @Test (expectedExceptions = InvalidDataAccessApiUsageException.class)
     public void findById_null() throws Exception {
-        Employee emp = this.empRepo.findOne((Integer) null);
-        Assert.assertNull(emp, "Expecting a null Employee but was non-null");
+        EmployeeEntity emp = this.empRepo.findOne((Integer) null);
+        Assert.assertNull(emp, "Expecting a null EmployeeEntity but was non-null");
     }
 
     @Test
     public void findById_notPresent() throws Exception {
-        Employee emp = this.empRepo.findOne(NOT_PRESENT_ID);
-        Assert.assertNull(emp, "Expecting a null Employee but was non-null");
+        EmployeeEntity emp = this.empRepo.findOne(NOT_PRESENT_ID);
+        Assert.assertNull(emp, "Expecting a null EmployeeEntity but was non-null");
     }
 
     private void createManager() {
@@ -153,10 +152,10 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
         this.employee.setManager(this.manager);
         this.empRepo.save(this.employee);
 
-        List<Employee> emps = this.empRepo.findByManager(this.employee.getManager());
-        Assert.assertNotNull(emps, "Expecting a null Employee but was non-null");
-        Assert.assertTrue(emps.size() > 0, "Expecting a null Employee but was non-null");
-        Employee emp = emps.get(0);
+        List<EmployeeEntity> emps = this.empRepo.findByManager(this.employee.getManager());
+        Assert.assertNotNull(emps, "Expecting a null EmployeeEntity but was non-null");
+        Assert.assertTrue(emps.size() > 0, "Expecting a null EmployeeEntity but was non-null");
+        EmployeeEntity emp = emps.get(0);
         Assert.assertEquals(this.employee.getFirstName(), emp.getFirstName());
         Assert.assertEquals(this.employee.getLastName(), emp.getLastName());
         Assert.assertEquals(this.employee.getEmail(), emp.getEmail());
@@ -164,10 +163,10 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
 
     @Test
     public void findByManagerId_empty() throws Exception {
-        Employee mgr = Entities.employee();
+        EmployeeEntity mgr = Entities.employee();
         this.empRepo.saveAndFlush(mgr);
 
-        List<Employee> emps = this.empRepo.findByManager(mgr);
+        List<EmployeeEntity> emps = this.empRepo.findByManager(mgr);
         Assert.assertTrue(emps.isEmpty());
     }
 
@@ -175,19 +174,19 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
     public void findByJobTitle(){
         employee.setJobTitle(this.jobTitle);
         this.empRepo.saveAndFlush(employee);
-        List<Employee> emps = this.empRepo.findByJobTitle(this.jobTitle);
+        List<EmployeeEntity> emps = this.empRepo.findByJobTitle(this.jobTitle);
         Assert.assertEquals(emps.size(),1);
     }
 
     @Test
     public void findByJobTitle_Null(){
-        List<Employee> emps = this.empRepo.findByJobTitle(null);
+        List<EmployeeEntity> emps = this.empRepo.findByJobTitle(null);
         Assert.assertTrue(emps.isEmpty());
     }
 
     @Test
     public void findByIsManager(){
-        List<Employee> mgrs = this.empRepo.findByIsManager(true);
+        List<EmployeeEntity> mgrs = this.empRepo.findByIsManager(true);
         Assert.assertTrue(mgrs.isEmpty());
     }
 }

@@ -11,15 +11,13 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-import static javax.swing.text.StyleConstants.Size;
-
 @Entity
 @Table(name = "DEPARTMENT")
-public class Department extends BaseEntity {
+public class DepartmentEntity extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MANAGER_ID")
-	private Employee manager;
+	private EmployeeEntity manager;
 
 	@Column(name = "NAME", nullable = false, length = 50, unique = true)
 	@NotNull
@@ -29,13 +27,13 @@ public class Department extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PARENT_DEPARTMENT_ID", referencedColumnName = "ID")
-	private Department parentDepartment;
+	private DepartmentEntity parentDepartment;
 
 	public String getName() {
 		return this.name;
 	}
 
-	public Department getParentDepartment() {
+	public DepartmentEntity getParentDepartment() {
 		return this.parentDepartment;
 	}
 
@@ -43,15 +41,15 @@ public class Department extends BaseEntity {
 		this.name = name;
 	}
 
-	public void setParentDepartment(Department department) {
-		this.parentDepartment = department;
+	public void setParentDepartment(DepartmentEntity departmentEntity) {
+		this.parentDepartment = departmentEntity;
 	}
 
-	public Employee getManager() {
+	public EmployeeEntity getManager() {
 		return manager;
 	}
 
-	public void setManager(Employee manager) {
+	public void setManager(EmployeeEntity manager) {
 		this.manager = manager;
 	}
 }

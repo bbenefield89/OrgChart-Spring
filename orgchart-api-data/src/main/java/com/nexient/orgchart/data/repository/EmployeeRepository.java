@@ -1,9 +1,8 @@
 package com.nexient.orgchart.data.repository;
 
-import com.nexient.orgchart.data.entity.Department;
-import com.nexient.orgchart.data.entity.Employee;
-import com.nexient.orgchart.data.entity.JobTitle;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.nexient.orgchart.data.entity.DepartmentEntity;
+import com.nexient.orgchart.data.entity.EmployeeEntity;
+import com.nexient.orgchart.data.entity.JobTitleEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,16 +11,16 @@ import java.util.List;
  * Created by kskronek on 5/24/2016.
  */
 @Repository
-public interface EmployeeRepository extends BaseRepository<Employee, Integer> {
+public interface EmployeeRepository extends BaseRepository<EmployeeEntity, Integer> {
 
-    List<Employee> findByDepartment(Department department);
+    List<EmployeeEntity> findByDepartment(DepartmentEntity departmentEntity);
 
-    Employee findByEmail(String email);
+    EmployeeEntity findByEmail(String email);
 
-    List<Employee> findByManager(Employee manager);
+    List<EmployeeEntity> findByManager(EmployeeEntity manager);
 
-    List<Employee> findByJobTitle(JobTitle jobTitle);
+    List<EmployeeEntity> findByJobTitle(JobTitleEntity jobTitle);
 
-    List<Employee> findByIsManager(boolean isManager);
+    List<EmployeeEntity> findByIsManager(boolean isManager);
 
 }

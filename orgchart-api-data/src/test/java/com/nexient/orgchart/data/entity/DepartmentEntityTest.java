@@ -9,13 +9,13 @@ import java.util.Random;
 /**
  * Created by mrangel on 7/21/2016.
  */
-public class DepartmentTest {
+public class DepartmentEntityTest {
 
     private static final String NEW_NAME = "new name";
 
-    private Department dept;
-    private Employee emp;
-    private Department child;
+    private DepartmentEntity dept;
+    private EmployeeEntity emp;
+    private DepartmentEntity child;
 
     private static final Random RANDOM = new Random();
 
@@ -42,7 +42,7 @@ public class DepartmentTest {
     @Test
     public void setAndGetParentDepartment() {
         child = Entities.department(dept);
-        Department parent = child.getParentDepartment();
+        DepartmentEntity parent = child.getParentDepartment();
         Assert.assertNotNull(parent);
         Assert.assertEquals(dept.getId(), parent.getId());
     }

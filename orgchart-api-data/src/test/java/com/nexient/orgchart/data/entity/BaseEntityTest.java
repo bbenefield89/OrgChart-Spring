@@ -1,15 +1,10 @@
 package com.nexient.orgchart.data.entity;
 
-import com.nexient.orgchart.data.entity.BaseEntity;
-import com.nexient.orgchart.data.entity.Employee;
-
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.Random;
-import java.util.Set;
-import java.util.TreeSet;
 
 import static org.testng.Assert.assertEquals;
 

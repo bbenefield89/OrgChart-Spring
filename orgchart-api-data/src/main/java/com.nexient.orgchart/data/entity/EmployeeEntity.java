@@ -1,35 +1,31 @@
 package com.nexient.orgchart.data.entity;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
- * Employee entity. @author dhoover
+ * EmployeeEntity entity. @author dhoover
  */
 @Entity
 @Table(name = "EMPLOYEE")
-public class Employee extends BaseEntity {
+public class EmployeeEntity extends BaseEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "JOB_TITLE_ID")
-	private JobTitle jobTitle;
+	private JobTitleEntity jobTitle;
 
 	@ManyToOne
 	@JoinColumn(name = "DEPARTMENT_ID")
-	private Department department;
+	private DepartmentEntity department;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MANAGER_ID")
-	private Employee manager;
+	private EmployeeEntity manager;
 
 	@Column(name = "SKYPE_NAME", unique = true, nullable = false)
 	@NotNull
@@ -74,19 +70,19 @@ public class Employee extends BaseEntity {
 		this.skypeName = skypeName;
 	}
 
-	public Department getDepartment() {
+	public DepartmentEntity getDepartment() {
 		return department;
 	}
 
-	public void setDepartment(Department department) {
-		this.department = department;
+	public void setDepartment(DepartmentEntity departmentEntity) {
+		this.department = departmentEntity;
 	}
 
-	public Employee getManager() {
+	public EmployeeEntity getManager() {
 		return manager;
 	}
 
-	public void setManager(Employee manager) {
+	public void setManager(EmployeeEntity manager) {
 		this.manager = manager;
 	}
 
@@ -114,11 +110,11 @@ public class Employee extends BaseEntity {
 		this.firstName = firstName;
 	}
 
-	public JobTitle getJobTitle() {
+	public JobTitleEntity getJobTitle() {
 		return jobTitle;
 	}
 
-	public void setJobTitle(JobTitle jobTitle) {
+	public void setJobTitle(JobTitleEntity jobTitle) {
 		this.jobTitle = jobTitle;
 	}
 
