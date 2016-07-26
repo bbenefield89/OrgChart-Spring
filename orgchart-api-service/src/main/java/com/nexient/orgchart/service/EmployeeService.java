@@ -1,6 +1,6 @@
 package com.nexient.orgchart.service;
 
-import com.nexient.orgchart.data.entity.Employee;
+import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.data.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,27 +13,27 @@ public class EmployeeService {
 	@Autowired
 	EmployeeRepository repository;
 
-	public List<Employee> findAll() {
+	public List<EmployeeEntity> findAll() {
 
 		return this.repository.findAll();
 	}
 
-	public List<Employee> findByIsActive(){
+	public List<EmployeeEntity> findByIsActive(){
 
 		return this.repository.findByIsActiveIsTrue();
 
 	}
-	public Employee findEmployeeById(Integer id) {
+	public EmployeeEntity findEmployeeById(Integer id) {
 
 		return this.repository.findOne(id);
 	}
 
-	public Employee storeOrUpdate(Employee employee) {
+	public EmployeeEntity storeOrUpdate(EmployeeEntity employee) {
 
 		return this.repository.save(employee);
 	}
 
-	public void removeEmployee(Employee employee) {
+	public void removeEmployee(EmployeeEntity employee) {
 
 		employee.setIsActive(false);
 	}

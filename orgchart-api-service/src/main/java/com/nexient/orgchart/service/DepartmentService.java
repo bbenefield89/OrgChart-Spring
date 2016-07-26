@@ -1,7 +1,6 @@
 package com.nexient.orgchart.service;
 
-import com.nexient.orgchart.data.entity.Department;
-import com.nexient.orgchart.data.entity.Employee;
+import com.nexient.orgchart.data.entity.DepartmentEntity;
 import com.nexient.orgchart.data.repository.DepartmentRepository;
 import com.nexient.orgchart.data.repository.EmployeeRepository;
 
@@ -22,26 +21,26 @@ public class DepartmentService {
 	@Autowired
 	private EmployeeRepository empRepository;
 
-	public List<Department> findAllDepartments() {
+	public List<DepartmentEntity> findAllDepartments() {
 		return this.deptRepository.findAll();
 	}
 
-	public List<Department> findAllActiveDepartments() {
+	public List<DepartmentEntity> findAllActiveDepartments() {
 		return this.deptRepository.findByIsActiveIsTrue();
 	}
 
-	public Department findDepartmentByID(Integer departmentId) {
+	public DepartmentEntity findDepartmentByID(Integer departmentId) {
 		return this.deptRepository.findOne(departmentId);
 	}
 
-	public void removeDepartment(Department department) {
-		department.setIsActive(false);
-		storeOrUpdateDepartment(department);
+	public void removeDepartment(DepartmentEntity departmentEntity) {
+		departmentEntity.setIsActive(false);
+		storeOrUpdateDepartment(departmentEntity);
 	}
 
-	public Department storeOrUpdateDepartment(Department department) {
+	public DepartmentEntity storeOrUpdateDepartment(DepartmentEntity departmentEntity) {
 
-		return this.deptRepository.save(department);
+		return this.deptRepository.save(departmentEntity);
 	}
 
 }
