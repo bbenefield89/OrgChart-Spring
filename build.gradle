@@ -102,7 +102,7 @@ project("orgchart-api-data") {
                 "org.springframework.security:spring-security-web:$springSecurityVersion",
                 "org.apache.commons:commons-lang3:$apacheCommonsVersion",
                 "org.hibernate:hibernate-entitymanager:$hibernateVersion",
-                "c3p0:c3p0:0.9.0.4",
+                "c3p0:c3p0:0.9.0.4",//replace with Hikari
                 "mysql:mysql-connector-java:5.1.36"
 
         testCompile "org.hsqldb:hsqldb:2.3.4",
@@ -116,6 +116,7 @@ project("orgchart-api-data") {
     }
 
 }
+
 project("orgchart-api-model") {
     apply plugin: "info.solidsoft.pitest"
 
