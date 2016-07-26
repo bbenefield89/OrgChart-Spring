@@ -50,9 +50,8 @@ public class JobTitleRepositoryTest extends AbstractTransactionalTestNGSpringCon
         Assert.assertNotNull(this.jobTitle);
         Assert.assertNotNull(this.jobTitle.getId());
     }
-//TODO fix duplicateName test
+
     @Test(expectedExceptions = DataIntegrityViolationException.class)
-   // @Test(expectedExceptions = GenericJDBCException.class)
     public void duplicateName() {
         JobTitle title = new JobTitle();
         title.setName(jobTitle.getName());
@@ -86,7 +85,6 @@ public class JobTitleRepositoryTest extends AbstractTransactionalTestNGSpringCon
         JobTitle title = this.jobTitleRepo.findByName(this.jobTitle.getName());
         title.setName(SOME_NEW_NAME);
         this.jobTitleRepo.save(title);
-
         title = null;
         title = this.jobTitleRepo.findByName(SOME_NEW_NAME);
         Assert.assertNotNull(title);

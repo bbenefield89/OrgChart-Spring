@@ -105,7 +105,7 @@ project("orgchart-api-data") {
                 "c3p0:c3p0:0.9.0.4",
                 "mysql:mysql-connector-java:5.1.36"
 
-        testCompile "org.hsqldb:hsqldb:2.3.3",
+        testCompile "org.hsqldb:hsqldb:2.3.4",
                 "org.testng:testng:$testNgVersion"
     }
 
