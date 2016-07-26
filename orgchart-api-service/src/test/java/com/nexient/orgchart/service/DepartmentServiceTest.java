@@ -89,7 +89,7 @@ public class DepartmentServiceTest extends AbstractTestNGSpringContextTests {
 		List<Department> depts = departmentService.findAllActiveDepartments();
 		Assert.assertTrue(depts.isEmpty());
 	}
-	
+
 	@Test(expectedExceptions = Exception.class)
 	public void testUpdateDepartmentIdNull() throws Exception{
 		Department child = new Department();

@@ -3,6 +3,7 @@ package com.nexient.orgchart.data.repository;
 import com.nexient.orgchart.data.entity.Entities;
 import com.nexient.orgchart.data.entity.JobTitle;
 
+import org.hibernate.exception.GenericJDBCException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
@@ -36,9 +37,6 @@ public class JobTitleRepositoryTest extends AbstractTransactionalTestNGSpringCon
     public void before() throws Exception {
         super.springTestContextPrepareTestInstance();
         this.jobTitle = Entities.jobTitle();
-        if(jobTitleRepo==null){
-            System.out.println("its null");
-        }
         this.jobTitle.setId(this.jobTitleRepo.save(this.jobTitle).getId());
     }
 
@@ -52,12 +50,14 @@ public class JobTitleRepositoryTest extends AbstractTransactionalTestNGSpringCon
         Assert.assertNotNull(this.jobTitle);
         Assert.assertNotNull(this.jobTitle.getId());
     }
-
+//TODO fix duplicateName test
     @Test(expectedExceptions = DataIntegrityViolationException.class)
-    public void duplicateName() throws Exception {
-        JobTitle title = Entities.jobTitle();
-        title.setName(this.jobTitle.getName());
-        this.jobTitleRepo.save(title);
+   // @Test(expectedExceptions = GenericJDBCException.class)
+    public void duplicateName() {
+        JobTitle title = new JobTitle();
+        title.setName(jobTitle.getName());
+        jobTitleRepo.save(title);
+
     }
 
     @Test

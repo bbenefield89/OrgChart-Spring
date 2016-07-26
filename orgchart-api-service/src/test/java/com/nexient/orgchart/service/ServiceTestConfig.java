@@ -46,6 +46,7 @@ public class ServiceTestConfig {
 
 		listOfFoundTitles = new ArrayList<JobTitle>();
 		mockTitle = Entities.jobTitle();
+		mockTitle.setId(Entities.JOB_TITLE_ID);
 		listOfFoundTitles.add(mockTitle);
 
 		listOfFoundEmployees = new ArrayList<Employee>();
@@ -81,6 +82,7 @@ public class ServiceTestConfig {
 		when(repo.findAll()).thenReturn(this.listOfFoundTitles);
 		when(repo.findOne(Entities.JOB_TITLE_ID)).thenReturn(this.mockTitle);
 		when(repo.save(this.mockTitle)).thenReturn(this.mockTitle);
+
 		return repo;
 	}
 
