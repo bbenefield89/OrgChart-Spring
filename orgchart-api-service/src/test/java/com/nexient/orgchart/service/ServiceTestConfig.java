@@ -1,9 +1,9 @@
 package com.nexient.orgchart.service;
 
-import com.nexient.orgchart.data.entity.Department;
-import com.nexient.orgchart.data.entity.Employee;
+import com.nexient.orgchart.data.entity.DepartmentEntity;
+import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.data.entity.Entities;
-import com.nexient.orgchart.data.entity.JobTitle;
+import com.nexient.orgchart.data.entity.JobTitleEntity;
 import com.nexient.orgchart.data.repository.DepartmentRepository;
 import com.nexient.orgchart.data.repository.EmployeeRepository;
 import com.nexient.orgchart.data.repository.JobTitleRepository;
@@ -16,9 +16,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javafx.beans.binding.Bindings.when;
 import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -30,32 +28,32 @@ import static org.mockito.Mockito.when;
 public class ServiceTestConfig {
 
 
-	private List<Department> listOfFoundDepts;
-	private List<JobTitle> listOfFoundTitles;
-	private List<Employee> listOfFoundEmployees;
+	private List<DepartmentEntity> listOfFoundDepts;
+	private List<JobTitleEntity> listOfFoundTitles;
+	private List<EmployeeEntity> listOfFoundEmployees;
 
-	private Department mockDepartment;
-	private JobTitle mockTitle;
-	private Employee mockEmployee;
+	private DepartmentEntity mockDepartment;
+	private JobTitleEntity mockTitle;
+	private EmployeeEntity mockEmployee;
 
 	@PostConstruct
 	private void init() {
-		listOfFoundDepts = new ArrayList<Department>();
+		listOfFoundDepts = new ArrayList<DepartmentEntity>();
 		mockDepartment = Entities.department(Entities.DEPT_ID);
 		listOfFoundDepts.add(mockDepartment);
 
-		listOfFoundTitles = new ArrayList<JobTitle>();
-		mockTitle = Entities.jobTitle();
+		listOfFoundTitles = new ArrayList<JobTitleEntity>();
+        mockTitle = Entities.jobTitle();
 		mockTitle.setId(Entities.JOB_TITLE_ID);
 		listOfFoundTitles.add(mockTitle);
 
-		listOfFoundEmployees = new ArrayList<Employee>();
+		listOfFoundEmployees = new ArrayList<EmployeeEntity>();
 		mockEmployee = Entities.employee(Entities.EMPLOYEE_ID);
 		listOfFoundEmployees.add(mockEmployee);
 	}
 
 	@Bean
-	Department getDepartment() {
+	DepartmentEntity getDepartment() {
 		return this.mockDepartment;
 	}
 
@@ -69,7 +67,7 @@ public class ServiceTestConfig {
 	}
 
 	@Bean
-	JobTitle getJobTitle() {
+	JobTitleEntity getJobTitle() {
 		return this.mockTitle;
 	}
 
@@ -83,7 +81,7 @@ public class ServiceTestConfig {
 	}
 
 	@Bean
-	Employee getEmployee() {
+	EmployeeEntity getEmployee() {
 		return this.mockEmployee;
 	}
 

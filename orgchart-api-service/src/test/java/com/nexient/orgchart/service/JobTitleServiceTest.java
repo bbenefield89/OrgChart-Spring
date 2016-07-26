@@ -1,14 +1,11 @@
 package com.nexient.orgchart.service;
 
 import com.nexient.orgchart.data.entity.Entities;
-import com.nexient.orgchart.data.entity.JobTitle;
-import com.nexient.orgchart.data.repository.JobTitleRepository;
+import com.nexient.orgchart.data.entity.JobTitleEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -25,9 +22,9 @@ public class JobTitleServiceTest extends AbstractTestNGSpringContextTests {
     JobTitleService jobTitleService;
 
     @Autowired
-    private JobTitle mockTitle;
+    private JobTitleEntity mockTitle;
 
-    private ArrayList<JobTitle> findAllJobTitleList = new ArrayList<JobTitle>();
+    private ArrayList<JobTitleEntity> findAllJobTitleList = new ArrayList<JobTitleEntity>();
 
 //	@BeforeClass
 //	public void before() throws Exception {
@@ -36,20 +33,20 @@ public class JobTitleServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void findAllJobTitlesTest() {
-        List<JobTitle> titles = this.jobTitleService.findAll();
+        List<JobTitleEntity> titles = this.jobTitleService.findAll();
         assertNotNull(titles);
     }
 
     @Test
     public void findAllActiveJobTitlesTest(){
-        List<JobTitle> titles = this.jobTitleService.findAllActiveJobTitles();
+        List<JobTitleEntity> titles = this.jobTitleService.findAllActiveJobTitles();
         Assert.assertNotNull(titles);
     }
 
     @Test
     public void findJobTitleByIDTest() {
 
-        JobTitle title = this.jobTitleService.findJobTitleByID(Entities.JOB_TITLE_ID);
+        JobTitleEntity title = this.jobTitleService.findJobTitleByID(Entities.JOB_TITLE_ID);
         Assert.assertNotNull(title);
         Assert.assertEquals(title.getId(), Entities.JOB_TITLE_ID);
     }
