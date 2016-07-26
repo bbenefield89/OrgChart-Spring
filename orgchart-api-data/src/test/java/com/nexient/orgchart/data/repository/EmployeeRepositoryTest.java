@@ -114,7 +114,7 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
     }
 
     @Test
-    public void findByEmailTest_XXX() throws Exception {
+    public void findByEmailTest_notPresent() throws Exception {
         Employee emp = this.empRepo.findByEmail(NOT_PRESENT_VALUE);
         Assert.assertNull(emp, "Expecting a null Employee but was non-null");
     }
@@ -136,7 +136,7 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
     }
 
     @Test
-    public void findById_XXX() throws Exception {
+    public void findById_notPresent() throws Exception {
         Employee emp = this.empRepo.findOne(NOT_PRESENT_ID);
         Assert.assertNull(emp, "Expecting a null Employee but was non-null");
     }
@@ -164,10 +164,10 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
 
     @Test
     public void findByManagerId_empty() throws Exception {
-        Employee emp = Entities.employee();
-        this.empRepo.saveAndFlush(emp);
+        Employee mgr = Entities.employee();
+        this.empRepo.saveAndFlush(mgr);
 
-        List<Employee> emps = this.empRepo.findByManager(emp);
+        List<Employee> emps = this.empRepo.findByManager(mgr);
         Assert.assertTrue(emps.isEmpty());
     }
 
@@ -177,6 +177,12 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
         this.empRepo.saveAndFlush(employee);
         List<Employee> emps = this.empRepo.findByJobTitle(this.jobTitle);
         Assert.assertEquals(emps.size(),1);
+    }
+
+    @Test
+    public void findByJobTitle_Null(){
+        List<Employee> emps = this.empRepo.findByJobTitle(null);
+        Assert.assertTrue(emps.isEmpty());
     }
 
     @Test

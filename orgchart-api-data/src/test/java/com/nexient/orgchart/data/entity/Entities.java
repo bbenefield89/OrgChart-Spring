@@ -28,6 +28,7 @@ public class Entities {
 
 	public static Department department() {
 		Department department = new Department();
+		department.setIsActive(true);
 		department.setName(departmentName());
 		return department;
 	}
@@ -52,6 +53,7 @@ public class Entities {
 
 	public static Employee employee(Department dept) {
 		Employee emp = new Employee();
+		emp.setIsActive(true);
 		emp.setFirstName(FIRST_NAME);
 		emp.setMiddleInitial(MIDDLE_INITIAL);
 		emp.setLastName(LAST_NAME);
@@ -64,6 +66,7 @@ public class Entities {
 
 	public static Employee employee() {
 		Employee emp = new Employee();
+		emp.setIsActive(true);
 		emp.setFirstName(FIRST_NAME);
 		emp.setMiddleInitial(MIDDLE_INITIAL);
 		emp.setLastName(LAST_NAME);
@@ -75,6 +78,7 @@ public class Entities {
 
 	public static Employee employee(Integer employeeId) {
 		Employee emp = new Employee();
+		emp.setIsActive(true);
 		emp.setId(EMPLOYEE_ID);
 		return emp;
 	}
@@ -82,6 +86,7 @@ public class Entities {
 	public static Employee manager() {
 		Employee mgr = new Employee();
 		mgr.setFirstName(FIRST_NAME);
+		mgr.setIsActive(true);
 		mgr.setMiddleInitial(MIDDLE_INITIAL);
 		mgr.setLastName(LAST_NAME);
 		mgr.setEmail(EMAIL + random.nextInt());
@@ -93,11 +98,13 @@ public class Entities {
 	public static JobTitle jobTitle(Integer jobTitleId) {
 		JobTitle title = new JobTitle();
 		title.setId(JOB_TITLE_ID);
+		title.setIsActive(true);
 		return title;
 	}
 
 	public static JobTitle jobTitle() {
 		JobTitle jobTitle = new JobTitle();
+		jobTitle.setIsActive(true);
 		jobTitle.setName(JOB_TITLE_NAME + random.nextInt());
 		return jobTitle;
 	}

@@ -20,30 +20,6 @@ import static org.testng.AssertJUnit.assertTrue;
 @ContextConfiguration(classes = ServiceTestConfig.class)
 public class DepartmentServiceTest extends AbstractTestNGSpringContextTests {
 
-//	@Autowired
-//	private DepartmentService departmentService;
-//
-//	private ArrayList<Department> listOfFoundDepts = new ArrayList<Department>();
-//
-//	@Test
-//	public void shouldFindDepartmentByID() {
-//
-//	}
-//
-//	private void assertTrue(boolean b) {
-//	}
-//
-//	@Test
-//	public void shouldFindAllDepartments() {
-//		assertNotNull(departmentService.findAll());
-//	}
-//
-//	@Test
-//	public void shouldStoreDepartmentUsingDepartmentDAO() {
-////		assertNotNull(departmentService.saveOrUpdate(mockDepartment));
-////		assertEquals(TestObject.DEPT_ID, departmentService.saveOrUpdate(mockDepartment));
-//	}
-
 	@Autowired
 	private DepartmentService departmentService;
 
@@ -66,44 +42,29 @@ public class DepartmentServiceTest extends AbstractTestNGSpringContextTests {
 
 	@Test
 	public void storeDepartment() {
-		Department dept = this.departmentService.storeDepartment(this.mockDepartment);
+		Department dept = this.departmentService.storeOrUpdateDepartment(this.mockDepartment);
 		Assert.assertNotNull(dept);
-		Assert.assertEquals( Entities.DEPT_ID, dept.getId(), "Expected " + Entities.DEPT_ID + " but got " + dept.getId());
+		Assert.assertEquals(Entities.DEPT_ID, dept.getId(), "Expected " + Entities.DEPT_ID + " but got " + dept.getId());
 	}
 
-	//TODO write test
-//	@Test
-//    public void removeDepartment(){
-//
-//	}
+	@Test
+	public void removeDepartment() {
+		mockDepartment.setIsActive(true);
+		departmentService.removeDepartment(mockDepartment);
+		Assert.assertFalse(mockDepartment.getIsActive());
+	}
 
 	@Test
-	public void updateDepartment() throws Exception{
+	public void updateDepartment() throws Exception {
 		mockDepartment.setName("Other Dept Name");
-		departmentService.updateDepartment(mockDepartment);
+		departmentService.storeOrUpdateDepartment(mockDepartment);
 		Assert.assertEquals(this.mockDepartment.getName(), departmentService.findDepartmentByID(mockDepartment.getId()).getName());
 	}
 
 	@Test
-	public void findAllActiveDepartments(){
+	public void findAllActiveDepartments() {
 		List<Department> depts = departmentService.findAllActiveDepartments();
 		Assert.assertTrue(depts.isEmpty());
 	}
-
-	@Test(expectedExceptions = Exception.class)
-	public void testUpdateDepartmentIdNull() throws Exception{
-		Department child = new Department();
-		departmentService.updateDepartment(child);
-	}
-
-// TODO finish this test
-//	@Test
-//	public void testUpdateParentDepartmentIdNonexistent() throws Exception{
-//		Department parent = new Department();
-//		parent.setId(-1);
-//		mockDepartment.setParentDepartment(parent);
-//		departmentService.updateDepartment(mockDepartment);
-//		Assert.assertNull(mockDepartment.getParentDepartment().getId());
-//	}
 
 }

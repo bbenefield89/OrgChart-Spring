@@ -18,18 +18,23 @@ public class EmployeeService {
 		return this.repository.findAll();
 	}
 
-	public Employee findOne(Integer id) {
+	public List<Employee> findByIsActive(){
+
+		return this.repository.findByIsActiveIsTrue();
+
+	}
+	public Employee findEmployeeById(Integer id) {
 
 		return this.repository.findOne(id);
 	}
 
-	public Integer saveOrUpdate(Employee employee) {
+	public Employee storeOrUpdate(Employee employee) {
 
-		return this.repository.save(employee).getId();
+		return this.repository.save(employee);
 	}
 
-	public void deleteEmployee(Employee employee) {
+	public void removeEmployee(Employee employee) {
 
-		this.repository.delete(employee);
+		employee.setIsActive(false);
 	}
 }

@@ -1,5 +1,6 @@
 package com.nexient.orgchart.data.repository;
 
+import com.nexient.orgchart.data.entity.Department;
 import com.nexient.orgchart.data.entity.Entities;
 import com.nexient.orgchart.data.entity.JobTitle;
 
@@ -65,6 +66,15 @@ public class JobTitleRepositoryTest extends AbstractTransactionalTestNGSpringCon
         List<JobTitle> titles = this.jobTitleRepo.findAll();
         Assert.assertNotNull(titles);
         Assert.assertTrue(0 < titles.size());
+    }
+
+    @Test
+    public void findByIsActiveIsTrue() throws Exception {
+        jobTitle.setIsActive(true);
+        jobTitleRepo.save(jobTitle);
+        List<JobTitle> titles = this.jobTitleRepo.findByIsActiveIsTrue();
+        Assert.assertNotNull(titles);
+        Assert.assertTrue(!titles.isEmpty());
     }
 
     @Test

@@ -27,12 +27,6 @@ public class JobTitleServiceTest extends AbstractTestNGSpringContextTests {
     @Autowired
     private JobTitle mockTitle;
 
-//	 @Autowired
-//	 JobTitleDAO jobTitleDAO;
-
-    //	JobTitleRepository mockJobTitleDAO = mock(JobTitleRepository.class);
-//	JobTitle mockJobTitle = mock(JobTitle.class);
-
     private ArrayList<JobTitle> findAllJobTitleList = new ArrayList<JobTitle>();
 
 //	@BeforeClass
@@ -57,7 +51,6 @@ public class JobTitleServiceTest extends AbstractTestNGSpringContextTests {
 
         JobTitle title = this.jobTitleService.findJobTitleByID(Entities.JOB_TITLE_ID);
         Assert.assertNotNull(title);
-       // Assert.assertEquals(title.getName(), Entities.JOB_TITLE_NAME);
         Assert.assertEquals(title.getId(), Entities.JOB_TITLE_ID);
     }
 
@@ -71,14 +64,10 @@ public class JobTitleServiceTest extends AbstractTestNGSpringContextTests {
 
     @Test
     public void removeJobTitleTest(){
-//        Integer id = this.jobTitleService.saveOrUpdate(this.mockTitle);
-//        Assert.assertEquals(this.mockTitle.getId(), id);
-//        this.jobTitleService.removeJobTitle(this.mockTitle);
-//        List<JobTitle> titles = jobTitleService.findAll();
-//        for(JobTitle j: titles) {
-//             Assert.assertNotEquals(j, this.mockTitle);
-//        }
-
+        this.mockTitle.setIsActive(true);
+        Integer id = this.jobTitleService.removeJobTitle(this.mockTitle);
+        Assert.assertEquals(this.mockTitle.getId(), id);
+        Assert.assertFalse(this.mockTitle.getIsActive());
     }
 
 }

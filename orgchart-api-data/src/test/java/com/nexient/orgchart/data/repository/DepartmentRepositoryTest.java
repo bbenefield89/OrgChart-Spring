@@ -105,7 +105,7 @@ public class DepartmentRepositoryTest  extends AbstractTransactionalTestNGSpring
     }
 
     @Test
-    public void findByName_null() throws Exception {
+    public void findByName_notPresent() throws Exception {
         Department dept = this.repository.findByName(NOT_PRESENT_VALUE);
         Assert.assertNull(dept);
     }
@@ -114,7 +114,7 @@ public class DepartmentRepositoryTest  extends AbstractTransactionalTestNGSpring
     public void findByParentDeptId() throws Exception {
         List<Department> depts = this.repository
                 .findByParentDepartmentId(this.department.getParentDepartment().getId());
-        Assert. assertNotNull(depts);
+        Assert.assertNotNull(depts);
         Assert.assertEquals(1, depts.size());
         Department dept = depts.get(0);
         Assert.assertEquals(this.department.getName(), dept.getName());
@@ -122,7 +122,7 @@ public class DepartmentRepositoryTest  extends AbstractTransactionalTestNGSpring
     }
 
     @Test
-    public void findByParentDeptId_unknowId() throws Exception {
+    public void findByParentDeptId_unknownId() throws Exception {
         List<Department> depts = this.repository.findByParentDepartmentId(random.nextInt());
         Assert.assertNotNull(depts);
         Assert.assertEquals(0, depts.size());
@@ -139,6 +139,5 @@ public class DepartmentRepositoryTest  extends AbstractTransactionalTestNGSpring
         Assert.assertNotNull(dept);
         Assert.assertEquals(SOME_NEW_NAME, dept.getName());
     }
-
 
 }

@@ -65,9 +65,6 @@ public class ServiceTestConfig {
 		when(repo.findAll()).thenReturn(this.listOfFoundDepts);
 		when(repo.findOne(Entities.DEPT_ID)).thenReturn(this.mockDepartment);
 		when(repo.save(this.mockDepartment)).thenReturn(this.mockDepartment);
-		// TODO add verify that delete was called
-		//doNothing().when(repo.delete(this.mockDepartment));
-		//verify(repo, times(1)).delete(this.mockDepartment);
 		return repo;
 	}
 
@@ -82,7 +79,6 @@ public class ServiceTestConfig {
 		when(repo.findAll()).thenReturn(this.listOfFoundTitles);
 		when(repo.findOne(Entities.JOB_TITLE_ID)).thenReturn(this.mockTitle);
 		when(repo.save(this.mockTitle)).thenReturn(this.mockTitle);
-
 		return repo;
 	}
 

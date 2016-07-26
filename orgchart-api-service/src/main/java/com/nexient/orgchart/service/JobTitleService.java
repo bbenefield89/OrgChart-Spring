@@ -29,8 +29,9 @@ public class JobTitleService {
 		return this.jobRepository.save(jobTitle).getId();
 	}
 
-	public void removeJobTitle(JobTitle jobTitle) {
-		this.jobRepository.delete(jobTitle);
+	public Integer removeJobTitle(JobTitle jobTitle) {
+		jobTitle.setIsActive(false);
+		return saveOrUpdate(jobTitle);
 	}
 
 }
