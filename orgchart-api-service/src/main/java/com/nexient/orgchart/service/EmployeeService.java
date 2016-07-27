@@ -1,40 +1,81 @@
 package com.nexient.orgchart.service;
 
+import com.nexient.orgchart.data.entity.DepartmentEntity;
 import com.nexient.orgchart.data.entity.EmployeeEntity;
+import com.nexient.orgchart.data.repository.DepartmentRepository;
 import com.nexient.orgchart.data.repository.EmployeeRepository;
+import com.nexient.orgchart.mapper.EmployeeMapper;
+import com.nexient.orgchart.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service("employeeService")
 public class EmployeeService {
 
 	@Autowired
-	EmployeeRepository repository;
+	EmployeeRepository employeeRepository;
 
-	public List<EmployeeEntity> findAll() {
+	@Autowired
+	DepartmentRepository departmentRepository;
 
-		return this.repository.findAll();
+	@Autowired
+	EmployeeMapper employeeMapper;
+
+	public List<Employee> findAll() {
+		List<Employee> empModels = new ArrayList<>();
+
+		for(EmployeeEntity emp : employeeRepository.findAll()){
+			empModels.add(employeeMapper.entityToModel(emp));
+		}
+
+		return empModels;
 	}
 
-	public List<EmployeeEntity> findByIsActive(){
+	public List<Employee> findByIsActive(){
 
-		return this.repository.findByIsActiveIsTrue();
+		List<Employee> empModels = new ArrayList<>();
+
+		for(EmployeeEntity emp: employeeRepository.findByIsActiveIsTrue()){
+			empModels.add(employeeMapper.entityToModel(emp));
+		}
+
+		return empModels;
 
 	}
-	public EmployeeEntity findEmployeeById(Integer id) {
+	public Employee findEmployeeById(Integer id) {
 
-		return this.repository.findOne(id);
+		return employeeMapper.entityToModel(this.employeeRepository.findOne(id));
 	}
 
-	public EmployeeEntity storeOrUpdate(EmployeeEntity employee) {
+	public Employee storeOrUpdate(Employee employee) {
+		Assert.notNull(employee);
 
-		return this.repository.save(employee);
+		return employeeMapper.entityToModel(this.employeeRepository.save(employeeMapper.modelToEntity(employee)));
 	}
 
-	public void removeEmployee(EmployeeEntity employee) {
-
+	public boolean removeEmployee(Employee employee) {
+		Assert.notNull(employee);
 		employee.setIsActive(false);
+		EmployeeEntity empEnt = employeeMapper.modelToEntity(employee);
+
+		for(EmployeeEntity emp : employeeRepository.findByManager(empEnt)){
+			emp.setManager(null);
+			employeeRepository.save(emp);
+		}
+
+		for(DepartmentEntity dept : departmentRepository.findByManager(employeeMapper.modelToEntity(employee))){
+			dept.setManager(null);
+			departmentRepository.save(dept);
+		}
+
+		storeOrUpdate(employee);
+
+		return !(employee.getIsActive());
+
+
 	}
 }
