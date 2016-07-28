@@ -63,7 +63,6 @@ public class JobTitleService {
 
 		for(EmployeeEntity emp : empRepository.findByJobTitle(mapper.modelToEntity(jobTitle))){
 			emp.setJobTitle(null);
-			empRepository.save(emp);
 		}
 
 		titleEntity = storeOrUpdate(jobTitle);
