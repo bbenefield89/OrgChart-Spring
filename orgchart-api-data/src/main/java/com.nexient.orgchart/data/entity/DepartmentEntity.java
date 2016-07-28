@@ -1,15 +1,13 @@
 package com.nexient.orgchart.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "DEPARTMENT")
@@ -28,6 +26,12 @@ public class DepartmentEntity extends BaseEntity {
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "PARENT_DEPARTMENT_ID", referencedColumnName = "ID")
 	private DepartmentEntity parentDepartment;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "parentDepartment")
+	private Set<DepartmentEntity> departments = new HashSet<>(0);
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
+	private Set<EmployeeEntity> employees = new HashSet<>(0);
 
 	public String getName() {
 		return this.name;
@@ -52,4 +56,20 @@ public class DepartmentEntity extends BaseEntity {
 	public void setManager(EmployeeEntity manager) {
 		this.manager = manager;
 	}
+
+    public Set<DepartmentEntity> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Set<DepartmentEntity> departments) {
+        this.departments = departments;
+    }
+
+    public Set<EmployeeEntity> getEmployees() {
+        return employees;
+    }
+
+    public void setEmployees(Set<EmployeeEntity> employees) {
+        this.employees = employees;
+    }
 }

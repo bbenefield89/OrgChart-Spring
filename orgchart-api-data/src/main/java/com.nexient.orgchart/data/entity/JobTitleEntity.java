@@ -20,11 +20,22 @@ public class JobTitleEntity extends BaseEntity {
 	@NotEmpty
 	private String name;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jobTitle")
+	private Set<EmployeeEntity> employees = new HashSet<EmployeeEntity>(0);
+
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public Set<EmployeeEntity> getEmployees() {
+		return this.employees;
+	}
+
+	public void setEmployees(Set<EmployeeEntity> employees) {
+		this.employees = employees;
 	}
 }
