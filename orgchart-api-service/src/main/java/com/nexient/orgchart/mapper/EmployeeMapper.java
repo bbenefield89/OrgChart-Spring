@@ -4,6 +4,7 @@ import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
  * Created by mrangel on 7/26/2016.
@@ -20,6 +21,7 @@ public class EmployeeMapper implements EntityModelMapper<EmployeeEntity, Employe
 
     @Override
     public Employee entityToModel(EmployeeEntity entity) {
+        Assert.notNull(entity);
         Employee empModel = new Employee();
         empModel.setId(entity.getId());
         empModel.setIsManager(entity.getIsManager());
@@ -45,6 +47,7 @@ public class EmployeeMapper implements EntityModelMapper<EmployeeEntity, Employe
 
     @Override
     public EmployeeEntity modelToEntity(Employee model) {
+        Assert.notNull(model);
         EmployeeEntity empEntity = new EmployeeEntity();
         empEntity.setId(model.getId());
         empEntity.setIsManager(model.getIsManager());
