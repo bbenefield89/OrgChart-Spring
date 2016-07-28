@@ -7,6 +7,7 @@ import com.nexient.orgchart.data.repository.EmployeeRepository;
 import com.nexient.orgchart.data.repository.JobTitleRepository;
 import com.nexient.orgchart.mapper.EmployeeMapper;
 import com.nexient.orgchart.mapper.JobTitleMapper;
+import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.model.JobTitle;
 import com.nexient.orgchart.model.Models;
 import org.mockito.InjectMocks;
