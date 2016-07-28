@@ -8,16 +8,11 @@ import com.nexient.orgchart.model.Department;
 import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.model.JobTitle;
 import com.nexient.orgchart.model.Models;
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mapping.model.IllegalMappingException;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import static org.mockito.Matchers.any;
@@ -106,8 +101,20 @@ public class EmployeeMapperTest {
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testModelToEntityNullModel(){
+    public void testModelToEntityNullModel() throws Exception{
         empMapper.modelToEntity(null);
+    }
+
+    @Test
+    public void testSetAndGetDepartmentMapper(){
+        empMapper.setDepartmentMapper(this.deptMapper);
+        Assert.assertNotNull(empMapper.getDepartmentMapper());
+    }
+
+    @Test
+    public void testSetAndGetJobTitleMapper(){
+        empMapper.setJobTitleMapper(this.titleMapper);
+        Assert.assertNotNull(empMapper.getJobTitleMapper());
     }
 
 }
