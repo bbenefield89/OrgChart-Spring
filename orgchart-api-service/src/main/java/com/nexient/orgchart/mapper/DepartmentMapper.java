@@ -22,8 +22,12 @@ public class DepartmentMapper implements EntityModelMapper<DepartmentEntity, Dep
         Department deptModel= new Department();
         deptModel.setId(entity.getId());
         deptModel.setName(entity.getName());
-        deptModel.setManager(em.entityToModel(entity.getManager()));
-        deptModel.setParentDepartment(entityToModel(entity.getParentDepartment()));
+        if(entity.getManager()!= null) {
+            deptModel.setManager(em.entityToModel(entity.getManager()));
+        }
+        if(entity.getParentDepartment()!= null) {
+            deptModel.setParentDepartment(entityToModel(entity.getParentDepartment()));
+        }
         deptModel.setIsActive(entity.getIsActive());
         return deptModel;
     }
@@ -33,8 +37,12 @@ public class DepartmentMapper implements EntityModelMapper<DepartmentEntity, Dep
         DepartmentEntity deptModel= new DepartmentEntity();
         deptModel.setId(model.getId());
         deptModel.setName(model.getName());
-        deptModel.setManager(em.modelToEntity(model.getManager()));
-        deptModel.setParentDepartment(modelToEntity(model.getParentDepartment()));
+        if(model.getManager()!= null) {
+            deptModel.setManager(em.modelToEntity(model.getManager()));
+        }
+        if(model.getParentDepartment()!= null) {
+            deptModel.setParentDepartment(modelToEntity(model.getParentDepartment()));
+        }
         deptModel.setIsActive(model.getIsActive());
         return deptModel;
 

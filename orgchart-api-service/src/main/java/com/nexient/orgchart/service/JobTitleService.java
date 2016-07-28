@@ -49,15 +49,15 @@ public class JobTitleService {
 		return mapper.entityToModel(this.jobRepository.findOne(id));
 	}
 
-	public JobTitle storeOrUpdate(JobTitle jobTitle) {
-
+	public JobTitleEntity storeOrUpdate(JobTitle jobTitle) {
 		Assert.notNull(jobTitle);
-
-		return mapper.entityToModel(this.jobRepository.save(mapper.modelToEntity(jobTitle)));
+        JobTitleEntity titleEntity = mapper.modelToEntity(jobTitle);
+		return this.jobRepository.save(titleEntity);
 	}
 
 	public boolean removeJobTitle(JobTitle jobTitle) {
 		Assert.notNull(jobTitle);
+		JobTitleEntity titleEntity = mapper.modelToEntity(jobTitle);
 
 		jobTitle.setIsActive(false);
 
@@ -66,9 +66,9 @@ public class JobTitleService {
 			empRepository.save(emp);
 		}
 
-		storeOrUpdate(jobTitle);
+		titleEntity = storeOrUpdate(jobTitle);
 
-		return !(jobTitle.getIsActive());
+		return !(titleEntity.getIsActive());
 	}
 
 }

@@ -111,7 +111,7 @@ public class DepartmentRepositoryTest  extends AbstractTransactionalTestNGSpring
     @Test
     public void findByParentDeptId() throws Exception {
         List<DepartmentEntity> depts = this.repository
-                .findByParentDepartmentId(this.departmentEntity.getParentDepartment().getId());
+                .findByParentDepartment(this.departmentEntity.getParentDepartment());
         Assert.assertNotNull(depts);
         Assert.assertEquals(1, depts.size());
         DepartmentEntity dept = depts.get(0);
@@ -120,8 +120,10 @@ public class DepartmentRepositoryTest  extends AbstractTransactionalTestNGSpring
     }
 
     @Test
-    public void findByParentDeptId_unknownId() throws Exception {
-        List<DepartmentEntity> depts = this.repository.findByParentDepartmentId(random.nextInt());
+    public void findByParentDept_unknown() throws Exception {
+        DepartmentEntity parDept = new DepartmentEntity();
+        parDept.setId(-66);
+        List<DepartmentEntity> depts = this.repository.findByParentDepartment(parDept);
         Assert.assertNotNull(depts);
         Assert.assertEquals(0, depts.size());
     }

@@ -3,6 +3,7 @@ package com.nexient.orgchart.mapper;
 import com.nexient.orgchart.data.entity.JobTitleEntity;
 import com.nexient.orgchart.model.JobTitle;
 import org.springframework.stereotype.Component;
+import org.springframework.util.Assert;
 
 /**
  * Created by mrangel on 7/26/2016.
@@ -13,6 +14,7 @@ public class JobTitleMapper implements EntityModelMapper<JobTitleEntity, JobTitl
 
     @Override
     public JobTitle entityToModel(JobTitleEntity entity) {
+        Assert.notNull(entity);
         JobTitle jobTitleModel = new JobTitle();
         jobTitleModel.setId(entity.getId());
         jobTitleModel.setIsActive(entity.getIsActive());
@@ -26,7 +28,7 @@ public class JobTitleMapper implements EntityModelMapper<JobTitleEntity, JobTitl
         jobTitleEntity.setId(model.getId());
         jobTitleEntity.setName(model.getName());
         jobTitleEntity.setIsActive(model.getIsActive());
-        return null;
+        return jobTitleEntity;
     }
 
 }

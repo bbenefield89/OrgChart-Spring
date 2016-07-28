@@ -1,72 +1,171 @@
 package com.nexient.orgchart.service;
 
+import com.nexient.orgchart.data.entity.DepartmentEntity;
 import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.data.entity.Entities;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
+import com.nexient.orgchart.data.entity.JobTitleEntity;
+import com.nexient.orgchart.data.repository.DepartmentRepository;
+import com.nexient.orgchart.data.repository.EmployeeRepository;
+import com.nexient.orgchart.mapper.DepartmentMapper;
+import com.nexient.orgchart.mapper.EmployeeMapper;
+import com.nexient.orgchart.mapper.JobTitleMapper;
+import com.nexient.orgchart.model.Employee;
+import com.nexient.orgchart.model.Models;
+import org.mockito.*;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertNotNull;
-import static org.testng.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.*;
 
-@ContextConfiguration(classes = ServiceTestConfig.class)
-public class EmployeeServiceTest extends AbstractTestNGSpringContextTests {
+public class EmployeeServiceTest {
 
-	@Autowired
-	EmployeeService employeeService;
+	@InjectMocks
+	private EmployeeService employeeService;
 
-	@Autowired
-	EmployeeEntity mockEmployee;
+    private EmployeeEntity employee;
 
-	@BeforeClass
+	@Spy
+    private EmployeeMapper employeeMapper = new EmployeeMapper();
+
+	@Spy
+	private DepartmentMapper departmentMapper = new DepartmentMapper();
+
+	@Spy
+	private JobTitleMapper jobTitleMapper = new JobTitleMapper();
+
+    @Mock
+    private EmployeeRepository repo;
+
+    @Mock
+    private DepartmentEntity mockDepartment;
+
+    @Mock
+    private DepartmentRepository deptRepo;
+
+    private List<EmployeeEntity> listOfFoundEmployees;
+
+    private List<DepartmentEntity> listOfFoundDepts;
+
+    @BeforeTest
 	public void before() {
+        MockitoAnnotations.initMocks(this);
+
+	    listOfFoundEmployees = new ArrayList<>();
+        listOfFoundEmployees.add(Entities.employee());
+        listOfFoundDepts = new ArrayList<>();
+        mockDepartment = Entities.department(Entities.DEPT_ID);
+        listOfFoundDepts.add(mockDepartment);
+
+		employeeMapper.setDepartmentMapper(departmentMapper);
+		employeeMapper.setJobTitleMapper(jobTitleMapper);
+
+		employee = Entities.employee();
+        when(repo.findAll()).thenReturn(listOfFoundEmployees);
+        when(repo.findOne(Entities.EMPLOYEE_ID)).thenReturn(employee);
+        when(repo.save(any(EmployeeEntity.class))).thenReturn(employee);
+        when(repo.findByIsActiveIsTrue()).thenReturn(this.listOfFoundEmployees);
+        when(repo.findByDepartment(any(DepartmentEntity.class))).thenReturn(this.listOfFoundEmployees);
+        when(repo.findByManager(any(EmployeeEntity.class))).thenReturn(this.listOfFoundEmployees);
+        when(repo.findByJobTitle(any(JobTitleEntity.class))).thenReturn(this.listOfFoundEmployees);
+        when(deptRepo.findByManager(any(EmployeeEntity.class))).thenReturn(this.listOfFoundDepts);
 
 	}
 
+	@AfterTest
+    public void after(){
+    }
+
 	@Test
 	public void findAllEmployees() {
-		assertNotNull(this.employeeService.findAll());
+	    List<Employee> emps = this.employeeService.findAll();
+		Assert.assertNotNull(this.employeeService.findAll());
+        Assert.assertTrue(emps.size() > 0);
 	}
 
 	@Test
 	public void findByEmployeeID() {
-		EmployeeEntity emp = this.employeeService.findEmployeeById(Entities.EMPLOYEE_ID);
-		assertNotNull(emp);
-		assertEquals(Entities.EMPLOYEE_ID, emp.getId());
+	    employee.setId(Entities.EMPLOYEE_ID);
+		Employee emp = this.employeeService.findEmployeeById(employee.getId());
+        Assert.assertNotNull(emp);
+        Assert.assertEquals(Models.EMPLOYEE_ID, emp.getId());
 
 	}
 
 	@Test
 	public void findByIsActiveIsTrue(){
-		List<EmployeeEntity> emps = employeeService.findByIsActive();
-		Assert.assertTrue(emps.isEmpty());
+		List<Employee> emps = employeeService.findByIsActive();
+		Assert.assertNotNull(emps);
+        Assert.assertTrue(emps.size()>0);
 	}
 
 	@Test
 	public void storeEmployee(){
-		EmployeeEntity emp = this.employeeService.storeOrUpdate(this.mockEmployee);
+		EmployeeEntity emp = this.employeeService.storeOrUpdate(employeeMapper.entityToModel(this.employee));
 		Assert.assertNotNull(emp);
-		Assert.assertEquals( emp.getId(), Entities.EMPLOYEE_ID);
+		Assert.assertEquals( emp.getId(), employee.getId());
+	}
+
+	@Test
+	public void removeEmployee_false(){
+		this.employee.setIsActive(true);
+		this.employee.setJobTitle(Entities.jobTitle());
+		this.employee.setDepartment(Entities.department());
+
+        doAnswer(new Answer<EmployeeEntity>() {
+            @Override
+            public EmployeeEntity answer(InvocationOnMock invocation) throws Throwable {
+                Object[] args = invocation.getArguments();
+                EmployeeEntity empy = (EmployeeEntity) args[0];
+                empy.setIsActive(true);
+                return empy;
+            }
+        }).when(this.repo).save(any(EmployeeEntity.class));
+
+		Assert.assertFalse(this.employeeService.removeEmployee(employeeMapper.entityToModel(this.employee)));
 	}
 
 	@Test
 	public void removeEmployee(){
-		this.mockEmployee.setIsActive(true);
-		this.employeeService.removeEmployee(this.mockEmployee);
-		Assert.assertFalse(this.mockEmployee.getIsActive());
+	    this.employee.setIsActive(true);
+		EmployeeEntity employee = this.employee;
+		employee.setIsActive(true);
+		employee.setJobTitle(Entities.jobTitle());
+		employee.setDepartment(Entities.department());
+
+        doAnswer(new Answer<EmployeeEntity>() {
+            @Override
+            public EmployeeEntity answer(InvocationOnMock invocation) throws Throwable {
+                Object[] args = invocation.getArguments();
+                EmployeeEntity empy = (EmployeeEntity) args[0];
+                empy.setIsActive(false);
+                return empy;
+            }
+        }).when(this.repo).save(any(EmployeeEntity.class));
+
+		Assert.assertTrue(this.employeeService.removeEmployee(employeeMapper.entityToModel(employee)));
 	}
 
 	@Test
 	public void updateEmployee() {
-		this.mockEmployee.setFirstName("Other EmployeeEntity Name");
-		this.employeeService.storeOrUpdate(this.mockEmployee);
-		Assert.assertEquals(this.mockEmployee.getFirstName(), employeeService.findEmployeeById(mockEmployee.getId()).getFirstName());
+		this.employee.setFirstName("Other Employee Entity Name");
+		this.employeeService.storeOrUpdate(employeeMapper.entityToModel(this.employee));
+		Assert.assertEquals(this.employee.getFirstName(), employeeService.findEmployeeById(employee.getId()).getFirstName());
 	}
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void storeDepartment_Null()throws Exception{
+        this.employeeService.storeOrUpdate(null);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void removeDepartment_Null()throws Exception{
+        this.employeeService.removeEmployee(null);
+    }
+
 }

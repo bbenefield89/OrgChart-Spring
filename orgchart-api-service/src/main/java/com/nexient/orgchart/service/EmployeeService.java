@@ -46,15 +46,15 @@ public class EmployeeService {
 		return empModels;
 
 	}
-	public Employee findEmployeeById(Integer id) {
 
+	public Employee findEmployeeById(Integer id) {
 		return employeeMapper.entityToModel(this.employeeRepository.findOne(id));
 	}
 
-	public Employee storeOrUpdate(Employee employee) {
+	public EmployeeEntity storeOrUpdate(Employee employee) {
 		Assert.notNull(employee);
 
-		return employeeMapper.entityToModel(this.employeeRepository.save(employeeMapper.modelToEntity(employee)));
+		return this.employeeRepository.save(employeeMapper.modelToEntity(employee));
 	}
 
 	public boolean removeEmployee(Employee employee) {
@@ -72,10 +72,9 @@ public class EmployeeService {
 			departmentRepository.save(dept);
 		}
 
-		storeOrUpdate(employee);
+		empEnt = storeOrUpdate(employee);
 
-		return !(employee.getIsActive());
-
+		return !(empEnt.getIsActive());
 
 	}
 }
