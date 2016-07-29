@@ -5,6 +5,7 @@ import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.data.entity.Entities;
 import com.nexient.orgchart.data.repository.DepartmentRepository;
 import com.nexient.orgchart.mapper.DepartmentMapper;
+import com.nexient.orgchart.mapper.EmployeeMapper;
 import com.nexient.orgchart.model.Department;
 import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
@@ -34,6 +35,9 @@ public class DepartmentServiceTest {
 	@Spy
 	private DepartmentMapper departmentMapper = new DepartmentMapper();
 
+	@Spy
+	private EmployeeMapper employeeMapper = new EmployeeMapper();
+
 	@Mock
 	private DepartmentRepository repo;
 
@@ -48,6 +52,8 @@ public class DepartmentServiceTest {
 
 		department=Entities.department();
 		department.setId(Entities.DEPT_ID);
+
+		departmentMapper.setEmployeeMapper(employeeMapper);
 
 		when(repo.findAll()).thenReturn(this.listOfFoundDepts);
 		when(repo.findOne(Entities.DEPT_ID)).thenReturn(this.department);
