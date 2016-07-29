@@ -4,7 +4,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * Created by mrangel on 7/21/2016.
@@ -17,12 +19,20 @@ public class DepartmentEntityTest {
     private EmployeeEntity emp;
     private DepartmentEntity child;
 
+    private Set<DepartmentEntity> childDepartments;
+    private Set<EmployeeEntity> departmentEmployees;
+
     private static final Random RANDOM = new Random();
 
     @BeforeSuite
     public void before() {
         dept = Entities.department();
         emp = Entities.employee();
+        child = Entities.department();
+
+        childDepartments= new HashSet<>();
+        departmentEmployees= new HashSet<>();
+
         emp.setId(Entities.EMPLOYEE_ID);
     }
 
@@ -52,6 +62,20 @@ public class DepartmentEntityTest {
         dept.setManager(emp);
         Assert.assertNotNull(dept.getManager());
         Assert.assertEquals(dept.getManager().getId(), emp.getId());
+    }
+
+    @Test
+    public void setAndGetChildDepartments(){
+        childDepartments.add(child);
+        dept.setChildDepartments(childDepartments);
+        Assert.assertNotNull(dept.getChildDepartments());
+    }
+
+    @Test
+    public void setAndGetEmployees(){
+        departmentEmployees.add(emp);
+        dept.setDepartmentEmployees(departmentEmployees);
+        Assert.assertNotNull(dept.getDepartmentEmployees());
     }
 
 }

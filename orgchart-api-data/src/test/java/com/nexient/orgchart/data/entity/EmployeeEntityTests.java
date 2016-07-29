@@ -5,7 +5,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.util.HashSet;
 import java.util.Random;
+import java.util.Set;
 
 public class EmployeeEntityTests {
 
@@ -19,6 +21,10 @@ public class EmployeeEntityTests {
 	DepartmentEntity dept;
 	JobTitleEntity title;
 
+	Set<EmployeeEntity> managedEmployees;
+	Set<DepartmentEntity> managedDepartments;
+
+
 	Random random = new Random();
 
 	@BeforeSuite
@@ -30,6 +36,9 @@ public class EmployeeEntityTests {
 		dept.setId(random.nextInt());
 		title = new JobTitleEntity();
 		title.setId(random.nextInt());
+
+		managedDepartments= new HashSet<>();
+		managedEmployees = new HashSet<>();
 	}
 
 	@Test
@@ -105,4 +114,17 @@ public class EmployeeEntityTests {
 		Assert.assertEquals(emp.getJobTitle().getId(), title.getId());
 	}
 
+	@Test
+	public void setAndGetManangedEmployees(){
+		managedEmployees.add(emp);
+		emp.setManagedEmployees(managedEmployees);
+		Assert.assertNotNull(emp.getManagedEmployees());
+	}
+
+	@Test
+	public void setAndGetManagedDepartments(){
+		managedDepartments.add(dept);
+		emp.setManagedDepartments(managedDepartments);
+		Assert.assertNotNull(emp.getManagedDepartments());
+	}
 }
