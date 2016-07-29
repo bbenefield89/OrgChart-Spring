@@ -15,4 +15,5 @@ import com.nexient.orgchart.data.entity.BaseEntity;
 public interface BaseRepository<T extends BaseEntity, ID extends Serializable> extends JpaRepository<T, ID> {
 
     List<T> findByIsActiveIsTrue();
+    List<T> findByIsActiveIsFalse();
 }
