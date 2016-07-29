@@ -96,7 +96,7 @@ public class JobTitleServiceTest {
 
     @Test
     public void storeJobTitleTest() {
-        JobTitleEntity title = this.jobTitleService.storeOrUpdate(mockJobTitleMapper.entityToModel(this.title));
+        JobTitle title = this.jobTitleService.storeOrUpdate(mockJobTitleMapper.entityToModel(this.title));
         Assert.assertNotNull(title);
         Assert.assertEquals(this.title.getId(), title.getId());
     }
@@ -104,18 +104,7 @@ public class JobTitleServiceTest {
     @Test
     public void removeJobTitleTest(){
         this.title.setIsActive(true);
-
-        doAnswer(new Answer<JobTitleEntity>() {
-            @Override
-            public JobTitleEntity answer(InvocationOnMock invocation) throws Throwable {
-                Object[] args = invocation.getArguments();
-                JobTitleEntity jobby = (JobTitleEntity) args[0];
-                jobby.setIsActive(false);
-                return jobby;
-            }
-        }).when(this.repo).save(any(JobTitleEntity.class));
-
-        Assert.assertTrue(this.jobTitleService.removeJobTitle(mockJobTitleMapper.entityToModel(this.title)));
+        Assert.assertTrue(this.jobTitleService.removeJobTitle(this.title.getId()));
     }
 
     @Test
@@ -132,17 +121,28 @@ public class JobTitleServiceTest {
             }
         }).when(this.repo).save(any(JobTitleEntity.class));
 
-        Assert.assertFalse(this.jobTitleService.removeJobTitle(mockJobTitleMapper.entityToModel(this.title)));
+        Assert.assertFalse(this.jobTitleService.removeJobTitle(this.title.getId()));
 
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void storeJobTitle_Null()throws Exception{
+    public void storeJobTitle_Null(){
         this.jobTitleService.storeOrUpdate(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void removeJobTitle_Null()throws Exception{
+    public void removeJobTitle_Null(){
         this.jobTitleService.removeJobTitle(null);
+    }
+
+    @Test
+    public void remove(){
+        EmployeeEntity emp = Entities.employee();
+        emp.setId(Entities.EMPLOYEE_ID);
+        emp.setJobTitle(title);
+        listOfFoundEmployees.add(emp);
+
+        when(empRepo.findByJobTitle(any(JobTitleEntity.class))).thenReturn(listOfFoundEmployees);
+        Assert.assertTrue(this.jobTitleService.removeJobTitle(this.title.getId()));
     }
 }

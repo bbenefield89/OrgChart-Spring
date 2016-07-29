@@ -66,6 +66,8 @@ public class EmployeeServiceTest {
 		employeeMapper.setJobTitleMapper(jobTitleMapper);
 
 		employee = Entities.employee();
+		employee.setId(Entities.EMPLOYEE_ID);
+
         when(repo.findAll()).thenReturn(listOfFoundEmployees);
         when(repo.findOne(Entities.EMPLOYEE_ID)).thenReturn(employee);
         when(repo.save(any(EmployeeEntity.class))).thenReturn(employee);
@@ -106,7 +108,7 @@ public class EmployeeServiceTest {
 
 	@Test
 	public void storeEmployee(){
-		EmployeeEntity emp = this.employeeService.storeOrUpdate(employeeMapper.entityToModel(this.employee));
+		Employee emp = this.employeeService.storeOrUpdate(employeeMapper.entityToModel(this.employee));
 		Assert.assertNotNull(emp);
 		Assert.assertEquals( emp.getId(), employee.getId());
 	}
@@ -127,7 +129,7 @@ public class EmployeeServiceTest {
             }
         }).when(this.repo).save(any(EmployeeEntity.class));
 
-		Assert.assertFalse(this.employeeService.removeEmployee(employeeMapper.entityToModel(this.employee)));
+		Assert.assertFalse(this.employeeService.removeEmployee(this.employee.getId()));
 	}
 
 	@Test
@@ -138,17 +140,7 @@ public class EmployeeServiceTest {
 		employee.setJobTitle(Entities.jobTitle());
 		employee.setDepartment(Entities.department());
 
-        doAnswer(new Answer<EmployeeEntity>() {
-            @Override
-            public EmployeeEntity answer(InvocationOnMock invocation) throws Throwable {
-                Object[] args = invocation.getArguments();
-                EmployeeEntity empy = (EmployeeEntity) args[0];
-                empy.setIsActive(false);
-                return empy;
-            }
-        }).when(this.repo).save(any(EmployeeEntity.class));
-
-		Assert.assertTrue(this.employeeService.removeEmployee(employeeMapper.entityToModel(employee)));
+		Assert.assertTrue(this.employeeService.removeEmployee(employee.getId()));
 	}
 
 	@Test
