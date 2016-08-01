@@ -35,7 +35,7 @@ public class EmployeeService {
 		return empModels;
 	}
 
-	public List<Employee> findByIsActive(){
+	public List<Employee> findAllActiveEmployees(){
 
 		List<Employee> empModels = new ArrayList<>();
 
@@ -81,5 +81,15 @@ public class EmployeeService {
 
 		return !(employee.getIsActive());
 
+	}
+
+	public List<Employee> findAllInactiveEmployees(){
+		List<Employee> emps = new ArrayList<>();
+
+		for(EmployeeEntity e: this.employeeRepository.findByIsActiveIsFalse()){
+			emps.add(employeeMapper.entityToModel(e));
+		}
+
+		return emps;
 	}
 }
