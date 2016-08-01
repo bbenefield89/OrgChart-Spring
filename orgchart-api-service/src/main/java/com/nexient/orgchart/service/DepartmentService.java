@@ -82,7 +82,13 @@ public class DepartmentService {
 	}
 
 
+    public List<Department> findAllInactiveDepartments() {
+    	List<Department> depts = new ArrayList<>();
 
+		for(DepartmentEntity department: this.deptRepository.findByIsActiveIsFalse()){
+			depts.add(departmentMapper.entityToModel(department));
+		}
 
-
+		return depts;
+	}
 }

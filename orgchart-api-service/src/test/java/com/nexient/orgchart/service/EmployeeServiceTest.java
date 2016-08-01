@@ -101,7 +101,7 @@ public class EmployeeServiceTest {
 
 	@Test
 	public void findByIsActiveIsTrue(){
-		List<Employee> emps = employeeService.findByIsActive();
+		List<Employee> emps = employeeService.findAllActiveEmployees();
 		Assert.assertNotNull(emps);
         Assert.assertTrue(emps.size()>0);
 	}
