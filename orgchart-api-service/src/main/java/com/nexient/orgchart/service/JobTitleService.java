@@ -48,7 +48,7 @@ public class JobTitleService {
     public List<JobTitle> findAllInactiveJobTitles(){
         List<JobTitle> jobTitleModel = new ArrayList<>();
 
-        for(JobTitleEntity title: jobRepository.findByIsActiveIsFalse()){
+        for(JobTitleEntity title: this.jobRepository.findByIsActiveIsFalse()){
             jobTitleModel.add(mapper.entityToModel(title));
         }
         return jobTitleModel;

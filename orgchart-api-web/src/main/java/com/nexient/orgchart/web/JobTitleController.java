@@ -31,7 +31,7 @@ public class JobTitleController {
     }
 
     @RequestMapping(value = "/archives", method = RequestMethod.GET)
-    public List<JobTitle> findAllArchivedMessages() {
+    public List<JobTitle> findAllArchivedJobTitles() {
         return titleService.findAllInactiveJobTitles();
     }
 
