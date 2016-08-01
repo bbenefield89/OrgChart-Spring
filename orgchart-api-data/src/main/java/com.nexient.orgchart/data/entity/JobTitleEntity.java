@@ -21,7 +21,7 @@ public class JobTitleEntity extends BaseEntity {
 	private String name;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "jobTitle")
-	private Set<EmployeeEntity> employees = new HashSet<EmployeeEntity>(0);
+	private Set<EmployeeEntity> titleEmployees = new HashSet<EmployeeEntity>(0);
 
 	public String getName() {
 		return name;
@@ -31,11 +31,11 @@ public class JobTitleEntity extends BaseEntity {
 		this.name = name;
 	}
 
-	public Set<EmployeeEntity> getEmployees() {
-		return this.employees;
+	public Set<EmployeeEntity> getTitleEmployees() {
+		return this.titleEmployees;
 	}
 
-	public void setEmployees(Set<EmployeeEntity> employees) {
-		this.employees = employees;
+	public void setTitleEmployees(Set<EmployeeEntity> titleEmployees) {
+		this.titleEmployees = titleEmployees;
 	}
 }

@@ -51,30 +51,35 @@ public class EmployeeService {
 		return employeeMapper.entityToModel(this.employeeRepository.findOne(id));
 	}
 
-	public EmployeeEntity storeOrUpdate(Employee employee) {
+	public Employee storeOrUpdate(Employee employee) {
 		Assert.notNull(employee);
 
-		return this.employeeRepository.save(employeeMapper.modelToEntity(employee));
+		return employeeMapper.entityToModel(this.employeeRepository.save(employeeMapper.modelToEntity(employee)));
 	}
 
-	public boolean removeEmployee(Employee employee) {
-		Assert.notNull(employee);
-		employee.setIsActive(false);
-		EmployeeEntity empEnt = employeeMapper.modelToEntity(employee);
+	public boolean removeEmployee(Integer id) {
+		Assert.notNull(id);
+		Assert.notNull(employeeRepository.findOne(id));
+
+
+
+		EmployeeEntity empEnt = employeeRepository.findOne(id);
+
+		empEnt.setIsActive(false);
 
 		for(EmployeeEntity emp : employeeRepository.findByManager(empEnt)){
 			emp.setManager(null);
 			employeeRepository.save(emp);
 		}
 
-		for(DepartmentEntity dept : departmentRepository.findByManager(employeeMapper.modelToEntity(employee))){
+		for(DepartmentEntity dept : departmentRepository.findByManager(empEnt)){
 			dept.setManager(null);
 			departmentRepository.save(dept);
 		}
 
-		empEnt = storeOrUpdate(employee);
+		Employee employee = storeOrUpdate(employeeMapper.entityToModel(empEnt));
 
-		return !(empEnt.getIsActive());
+		return !(employee.getIsActive());
 
 	}
 }

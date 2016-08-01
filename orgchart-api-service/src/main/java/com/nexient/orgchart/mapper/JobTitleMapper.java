@@ -24,6 +24,7 @@ public class JobTitleMapper implements EntityModelMapper<JobTitleEntity, JobTitl
 
     @Override
     public JobTitleEntity modelToEntity(JobTitle model) {
+        Assert.notNull(model);
         JobTitleEntity jobTitleEntity= new JobTitleEntity();
         jobTitleEntity.setId(model.getId());
         jobTitleEntity.setName(model.getName());

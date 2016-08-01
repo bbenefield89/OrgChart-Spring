@@ -54,17 +54,6 @@ public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringCo
         this.empRepo.saveAndFlush(this.employee);
     }
 
-    @AfterSuite
-    public void after() {
-        this.empRepo.delete(this.employee);
-        this.deptRepo.delete(this.departmentEntity);
-        this.jobTitleRepo.delete(this.jobTitle);
-
-        if (this.manager != null) {
-            this.empRepo.delete(this.manager);
-        }
-    }
-
     @Test
     public void testInstantiation() {
         Assert.assertNotNull(deptRepo);

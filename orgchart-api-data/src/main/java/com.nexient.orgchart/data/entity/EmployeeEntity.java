@@ -44,10 +44,10 @@ public class EmployeeEntity extends BaseEntity {
 	private Boolean isManager = false;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "manager")
-	private Set<DepartmentEntity> departments = new HashSet<>(0);
+	private Set<DepartmentEntity> managedDepartments = new HashSet<>(0);
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "manager")
-	private Set<EmployeeEntity> employees = new HashSet<>(0);
+	private Set<EmployeeEntity> managedEmployees = new HashSet<>(0);
 
 	public boolean getIsManager() {
 		return isManager;
@@ -121,19 +121,19 @@ public class EmployeeEntity extends BaseEntity {
 		this.jobTitle = jobTitle;
 	}
 
-	public Set<DepartmentEntity> getDepartments() {
-		return departments;
+	public Set<DepartmentEntity> getManagedDepartments() {
+		return managedDepartments;
 	}
 
-	public void setDepartments(Set<DepartmentEntity> departments) {
-		this.departments = departments;
+	public void setManagedDepartments(Set<DepartmentEntity> departments) {
+		this.managedDepartments = departments;
 	}
 
-	public Set<EmployeeEntity> getEmployees() {
-		return employees;
+	public Set<EmployeeEntity> getManagedEmployees() {
+		return managedEmployees;
 	}
 
-	public void setEmployees(Set<EmployeeEntity> employees) {
-		this.employees = employees;
+	public void setManagedEmployees(Set<EmployeeEntity> employees) {
+		this.managedEmployees = employees;
 	}
 }

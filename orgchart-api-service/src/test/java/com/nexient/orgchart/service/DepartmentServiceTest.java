@@ -5,6 +5,7 @@ import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.data.entity.Entities;
 import com.nexient.orgchart.data.repository.DepartmentRepository;
 import com.nexient.orgchart.mapper.DepartmentMapper;
+import com.nexient.orgchart.mapper.EmployeeMapper;
 import com.nexient.orgchart.model.Department;
 import org.mockito.*;
 import org.mockito.invocation.InvocationOnMock;
@@ -34,6 +35,9 @@ public class DepartmentServiceTest {
 	@Spy
 	private DepartmentMapper departmentMapper = new DepartmentMapper();
 
+	@Spy
+	private EmployeeMapper employeeMapper = new EmployeeMapper();
+
 	@Mock
 	private DepartmentRepository repo;
 
@@ -48,6 +52,8 @@ public class DepartmentServiceTest {
 
 		department=Entities.department();
 		department.setId(Entities.DEPT_ID);
+
+		departmentMapper.setEmployeeMapper(employeeMapper);
 
 		when(repo.findAll()).thenReturn(this.listOfFoundDepts);
 		when(repo.findOne(Entities.DEPT_ID)).thenReturn(this.department);
@@ -73,7 +79,7 @@ public class DepartmentServiceTest {
 
 	@Test
 	public void storeDepartment() {
-		DepartmentEntity dept = this.departmentService.storeOrUpdate(departmentMapper.entityToModel(this.department));
+		Department dept = this.departmentService.storeOrUpdate(departmentMapper.entityToModel(this.department));
 		Assert.assertNotNull(dept);
 		Assert.assertEquals(Entities.DEPT_ID, dept.getId(), "Expected " + Entities.DEPT_ID + " but got " + dept.getId());
 	}
@@ -84,17 +90,7 @@ public class DepartmentServiceTest {
 		this.department.setParentDepartment(Entities.department());
 		this.department.setManager(Entities.manager());
 
-		doAnswer(new Answer<DepartmentEntity>() {
-			@Override
-			public DepartmentEntity answer(InvocationOnMock invocation) throws Throwable {
-				Object[] args = invocation.getArguments();
-				DepartmentEntity depy = (DepartmentEntity) args[0];
-				depy.setIsActive(false);
-				return depy;
-			}
-		}).when(this.repo).save(any(DepartmentEntity.class));
-
-		Assert.assertTrue(departmentService.removeDepartment(departmentMapper.entityToModel(this.department)));
+		Assert.assertTrue(departmentService.removeDepartment(this.department.getId()));
 	}
 
 	@Test
@@ -111,7 +107,7 @@ public class DepartmentServiceTest {
 			}
 		}).when(this.repo).save(any(DepartmentEntity.class));
 
-		Assert.assertFalse(this.departmentService.removeDepartment(departmentMapper.entityToModel(department)));
+		Assert.assertFalse(this.departmentService.removeDepartment(department.getId()));
 	}
 	@Test
 	public void updateDepartment() throws Exception {

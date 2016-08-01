@@ -57,26 +57,28 @@ public class DepartmentService {
 		return departmentMapper.entityToModel(this.deptRepository.findOne(departmentId));
 	}
 
-	public DepartmentEntity storeOrUpdate(Department department) {
+	public Department storeOrUpdate(Department department) {
 		Assert.notNull(department);
 		DepartmentEntity departmentEntity = departmentMapper.modelToEntity(department);
-		return this.deptRepository.save(departmentEntity);
+		return departmentMapper.entityToModel(this.deptRepository.save(departmentEntity));
 	}
 
-	public boolean removeDepartment(Department department) {
-		Assert.notNull(department);
-		DepartmentEntity deptEntity = departmentMapper.modelToEntity(department);
+	public boolean removeDepartment(Integer id) {
+		Assert.notNull(id);
+		Assert.notNull(deptRepository.findOne(id));
 
-		department.setIsActive(false);
+		DepartmentEntity deptEntity = deptRepository.findOne(id);
 
-		for(DepartmentEntity child: deptRepository.findByParentDepartment(departmentMapper.modelToEntity(department))){
+		deptEntity.setIsActive(false);
+
+		for(DepartmentEntity child: deptRepository.findByParentDepartment(deptEntity)){
 			child.setParentDepartment(null);
 			deptRepository.save(child);
 		}
 
-		deptEntity = storeOrUpdate(department);
+		Department dept = storeOrUpdate(departmentMapper.entityToModel(deptEntity));
 
-		return !(deptEntity.getIsActive());
+		return !(dept.getIsActive());
 	}
 
 

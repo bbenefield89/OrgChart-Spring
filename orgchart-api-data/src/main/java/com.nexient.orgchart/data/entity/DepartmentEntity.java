@@ -57,19 +57,19 @@ public class DepartmentEntity extends BaseEntity {
 		this.manager = manager;
 	}
 
-    public Set<DepartmentEntity> getDepartments() {
+    public Set<DepartmentEntity> getChildDepartments() {
         return departments;
     }
 
-    public void setDepartments(Set<DepartmentEntity> departments) {
+    public void setChildDepartments(Set<DepartmentEntity> departments) {
         this.departments = departments;
     }
 
-    public Set<EmployeeEntity> getEmployees() {
+    public Set<EmployeeEntity> getDepartmentEmployees() {
         return employees;
     }
 
-    public void setEmployees(Set<EmployeeEntity> employees) {
+    public void setDepartmentEmployees(Set<EmployeeEntity> employees) {
         this.employees = employees;
     }
 }

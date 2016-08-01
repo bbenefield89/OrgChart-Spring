@@ -16,58 +16,70 @@ import java.util.List;
 @Service("jobTitleService")
 public class JobTitleService {
 
-	@Autowired
-	JobTitleRepository jobRepository;
+    @Autowired
+    JobTitleRepository jobRepository;
 
-	@Autowired
-	EmployeeRepository empRepository;
+    @Autowired
+    EmployeeRepository empRepository;
 
-	@Autowired
-	JobTitleMapper mapper;
+    @Autowired
+    JobTitleMapper mapper;
 
-	public List<JobTitle> findAll() {
-		List<JobTitle> jtModel = new ArrayList<>();
+    public List<JobTitle> findAll() {
+        List<JobTitle> jtModel = new ArrayList<>();
 
-		for(JobTitleEntity title : jobRepository.findAll()){
-			jtModel.add(mapper.entityToModel(title));
-		}
+        for (JobTitleEntity title : jobRepository.findAll()) {
+            jtModel.add(mapper.entityToModel(title));
+        }
 
-		return jtModel;
-	}
+        return jtModel;
+    }
 
-	public List<JobTitle> findAllActiveJobTitles() {
-		List<JobTitle> jtModel = new ArrayList<>();
+    public List<JobTitle> findAllActiveJobTitles() {
+        List<JobTitle> jtModel = new ArrayList<>();
 
-		for(JobTitleEntity title : jobRepository.findByIsActiveIsTrue()){
-			jtModel.add(mapper.entityToModel(title));
-		}
+        for (JobTitleEntity title : jobRepository.findByIsActiveIsTrue()) {
+            jtModel.add(mapper.entityToModel(title));
+        }
 
-		return jtModel;
-	}
+        return jtModel;
+    }
 
-	public JobTitle findJobTitleByID(Integer id) {
-		return mapper.entityToModel(this.jobRepository.findOne(id));
-	}
+    public List<JobTitle> findAllInactiveJobTitles(){
+        List<JobTitle> jobTitleModel = new ArrayList<>();
 
-	public JobTitleEntity storeOrUpdate(JobTitle jobTitle) {
-		Assert.notNull(jobTitle);
+        for(JobTitleEntity title: jobRepository.findByIsActiveIsFalse()){
+            jobTitleModel.add(mapper.entityToModel(title));
+        }
+        return jobTitleModel;
+    }
+
+    public JobTitle findJobTitleByID(Integer id) {
+        return mapper.entityToModel(this.jobRepository.findOne(id));
+    }
+
+    public JobTitle storeOrUpdate(JobTitle jobTitle) {
+        Assert.notNull(jobTitle);
         JobTitleEntity titleEntity = mapper.modelToEntity(jobTitle);
-		return this.jobRepository.save(titleEntity);
-	}
+        return mapper.entityToModel(this.jobRepository.save(titleEntity));
+    }
 
-	public boolean removeJobTitle(JobTitle jobTitle) {
-		Assert.notNull(jobTitle);
-		JobTitleEntity titleEntity = mapper.modelToEntity(jobTitle);
+    public boolean removeJobTitle(Integer id) {
+        Assert.notNull(id);
+        Assert.notNull(jobRepository.findOne(id));
 
-		jobTitle.setIsActive(false);
 
-		for(EmployeeEntity emp : empRepository.findByJobTitle(mapper.modelToEntity(jobTitle))){
-			emp.setJobTitle(null);
-		}
+        JobTitleEntity titleEntity =jobRepository.findOne(id);
 
-		titleEntity = storeOrUpdate(jobTitle);
+        titleEntity.setIsActive(false);
 
-		return !(titleEntity.getIsActive());
-	}
+        for (EmployeeEntity emp : empRepository.findByJobTitle(titleEntity)) {
+            emp.setJobTitle(null);
+        }
+
+        JobTitle title= storeOrUpdate(mapper.entityToModel(titleEntity));
+
+        return !(title.getIsActive());
+    }
 
 }
