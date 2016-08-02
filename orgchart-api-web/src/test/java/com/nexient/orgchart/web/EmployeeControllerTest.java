@@ -1,5 +1,6 @@
 package com.nexient.orgchart.web;
 
+import com.nexient.orgchart.data.repository.EmployeeRepository;
 import com.nexient.orgchart.model.Department;
 import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.model.Models;
@@ -28,6 +29,9 @@ public class EmployeeControllerTest {
 
     @Mock
     private EmployeeService mockEmployeeService;
+
+    @Mock
+    private EmployeeRepository mockEmployeeRepo;
 
     @InjectMocks
     private EmployeeController controller = new EmployeeController();

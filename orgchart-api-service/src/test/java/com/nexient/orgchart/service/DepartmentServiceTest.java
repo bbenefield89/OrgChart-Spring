@@ -61,7 +61,7 @@ public class DepartmentServiceTest {
 		when(repo.findByIsActiveIsTrue()).thenReturn(this.listOfFoundDepts);
 		when(repo.findByManager(any(EmployeeEntity.class))).thenReturn(this.listOfFoundDepts);
 		when(repo.findByParentDepartment(any(DepartmentEntity.class))).thenReturn(this.listOfFoundDepts);
-
+		when(repo.findByIsActiveIsFalse()).thenReturn(this.listOfFoundDepts);
 	}
 	@Test
 	public void findAllDepartments() {
@@ -120,7 +120,16 @@ public class DepartmentServiceTest {
 	@Test
 	public void findAllActiveDepartments() {
 		List<Department> depts = departmentService.findAllActiveDepartments();
+		Assert.assertNotNull(depts);
 		Assert.assertTrue(depts.size()>0);
+	}
+
+	@Test
+	public void findAllInactiveDepartments() {
+		List<Department> depts = departmentService.findAllInactiveDepartments();
+		Assert.assertNotNull(depts);
+		Assert.assertTrue(depts.size()>0);
+
 	}
 
     @Test(expectedExceptions = IllegalArgumentException.class)

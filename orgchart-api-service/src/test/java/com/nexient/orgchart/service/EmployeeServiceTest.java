@@ -76,6 +76,7 @@ public class EmployeeServiceTest {
         when(repo.findByManager(any(EmployeeEntity.class))).thenReturn(this.listOfFoundEmployees);
         when(repo.findByJobTitle(any(JobTitleEntity.class))).thenReturn(this.listOfFoundEmployees);
         when(deptRepo.findByManager(any(EmployeeEntity.class))).thenReturn(this.listOfFoundDepts);
+		when(repo.findByIsActiveIsFalse()).thenReturn(this.listOfFoundEmployees);
 
 	}
 
@@ -104,6 +105,13 @@ public class EmployeeServiceTest {
 		List<Employee> emps = employeeService.findAllActiveEmployees();
 		Assert.assertNotNull(emps);
         Assert.assertTrue(emps.size()>0);
+	}
+
+	@Test
+	public void findByIsActiveIsFalse(){
+		List<Employee> emps = employeeService.findAllInactiveEmployees();
+		Assert.assertNotNull(emps);
+		Assert.assertTrue(emps.size()>0);
 	}
 
 	@Test

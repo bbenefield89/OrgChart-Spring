@@ -13,6 +13,8 @@ import org.springframework.util.Assert;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+
 @Service("jobTitleService")
 public class JobTitleService {
 
@@ -45,10 +47,10 @@ public class JobTitleService {
         return jtModel;
     }
 
-    public List<JobTitle> findAllInactiveJobTitles(){
+    public List<JobTitle> findAllInactiveJobTitles() {
         List<JobTitle> jobTitleModel = new ArrayList<>();
 
-        for(JobTitleEntity title: this.jobRepository.findByIsActiveIsFalse()){
+        for (JobTitleEntity title : this.jobRepository.findByIsActiveIsFalse()) {
             jobTitleModel.add(mapper.entityToModel(title));
         }
         return jobTitleModel;
@@ -59,17 +61,16 @@ public class JobTitleService {
     }
 
     public JobTitle storeOrUpdate(JobTitle jobTitle) {
-        Assert.notNull(jobTitle);
+        assertNotNull(jobTitle);
         JobTitleEntity titleEntity = mapper.modelToEntity(jobTitle);
         return mapper.entityToModel(this.jobRepository.save(titleEntity));
     }
 
     public boolean removeJobTitle(Integer id) {
         Assert.notNull(id);
-        Assert.notNull(jobRepository.findOne(id));
 
-
-        JobTitleEntity titleEntity =jobRepository.findOne(id);
+        JobTitleEntity titleEntity = jobRepository.findOne(id);
+        Assert.notNull(titleEntity);
 
         titleEntity.setIsActive(false);
 
@@ -77,7 +78,7 @@ public class JobTitleService {
             emp.setJobTitle(null);
         }
 
-        JobTitle title= storeOrUpdate(mapper.entityToModel(titleEntity));
+        JobTitle title = storeOrUpdate(mapper.entityToModel(titleEntity));
 
         return !(title.getIsActive());
     }

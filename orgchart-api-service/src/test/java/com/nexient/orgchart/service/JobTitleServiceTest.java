@@ -32,16 +32,16 @@ import static org.testng.Assert.assertTrue;
 
 public class JobTitleServiceTest {
 
-   @InjectMocks
+    @InjectMocks
     JobTitleService jobTitleService;
 
     @Spy
-    JobTitleMapper mockJobTitleMapper= new JobTitleMapper();
+    JobTitleMapper mockJobTitleMapper = new JobTitleMapper();
 
     private JobTitleEntity title;
 
-    @Mock
-    EmployeeEntity mockEmployee;
+
+    EmployeeEntity employee;
 
     @Mock
     private JobTitleRepository repo;
@@ -52,8 +52,9 @@ public class JobTitleServiceTest {
     private List<JobTitleEntity> listOfFoundTitles;
 
     private List<EmployeeEntity> listOfFoundEmployees;
-	@BeforeTest
-	public void before() throws Exception {
+
+    @BeforeTest
+    public void before() throws Exception {
         MockitoAnnotations.initMocks(this);
 
         listOfFoundTitles = new ArrayList<>();
@@ -61,16 +62,19 @@ public class JobTitleServiceTest {
         title.setId(Entities.JOB_TITLE_ID);
         listOfFoundTitles.add(title);
 
+        employee = Entities.employee();
+        employee.setId(Entities.EMPLOYEE_ID);
         listOfFoundEmployees = new ArrayList<EmployeeEntity>();
-        listOfFoundEmployees.add(mockEmployee);
+        listOfFoundEmployees.add(employee);
 
         when(repo.findAll()).thenReturn(this.listOfFoundTitles);
         when(repo.findOne(Entities.JOB_TITLE_ID)).thenReturn(this.title);
         when(repo.save(any(JobTitleEntity.class))).thenReturn(this.title);
         when(repo.findByIsActiveIsTrue()).thenReturn(this.listOfFoundTitles);
         when(empRepo.findByJobTitle(any(JobTitleEntity.class))).thenReturn(this.listOfFoundEmployees);
+        when(repo.findByIsActiveIsFalse()).thenReturn(this.listOfFoundTitles);
 
-	}
+    }
 
     @Test
     public void findAllJobTitlesTest() {
@@ -80,7 +84,14 @@ public class JobTitleServiceTest {
     }
 
     @Test
-    public void findAllActiveJobTitlesTest(){
+    public void findAllInactiveJobTitlesTest() {
+        List<JobTitle> titles = this.jobTitleService.findAllInactiveJobTitles();
+        Assert.assertNotNull(titles);
+        Assert.assertTrue(titles.size() > 0);
+    }
+
+    @Test
+    public void findAllActiveJobTitlesTest() {
         List<JobTitle> titles = this.jobTitleService.findAllActiveJobTitles();
         Assert.assertNotNull(titles);
         Assert.assertTrue(titles.size() > 0);
@@ -98,17 +109,19 @@ public class JobTitleServiceTest {
     public void storeJobTitleTest() {
         JobTitle title = this.jobTitleService.storeOrUpdate(mockJobTitleMapper.entityToModel(this.title));
         Assert.assertNotNull(title);
+        Assert.assertNotNull(title.getId());
         Assert.assertEquals(this.title.getId(), title.getId());
     }
 
     @Test
-    public void removeJobTitleTest(){
+    public void removeJobTitleTest() {
         this.title.setIsActive(true);
+        Assert.assertNotNull(this.jobTitleService.removeJobTitle(this.title.getId()));
         Assert.assertTrue(this.jobTitleService.removeJobTitle(this.title.getId()));
     }
 
     @Test
-    public void removeJobTitleTest_False(){
+    public void removeJobTitleTest_False() {
         this.title.setIsActive(true);
 
         doAnswer(new Answer<JobTitleEntity>() {
@@ -120,29 +133,19 @@ public class JobTitleServiceTest {
                 return jobby;
             }
         }).when(this.repo).save(any(JobTitleEntity.class));
-
+        Assert.assertNotNull(this.jobTitleService.removeJobTitle(this.title.getId()));
         Assert.assertFalse(this.jobTitleService.removeJobTitle(this.title.getId()));
 
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void storeJobTitle_Null(){
+    public void storeJobTitle_Null() {
         this.jobTitleService.storeOrUpdate(null);
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
-    public void removeJobTitle_Null(){
+    public void removeJobTitle_Null() {
         this.jobTitleService.removeJobTitle(null);
     }
 
-    @Test
-    public void remove(){
-        EmployeeEntity emp = Entities.employee();
-        emp.setId(Entities.EMPLOYEE_ID);
-        emp.setJobTitle(title);
-        listOfFoundEmployees.add(emp);
-
-        when(empRepo.findByJobTitle(any(JobTitleEntity.class))).thenReturn(listOfFoundEmployees);
-        Assert.assertTrue(this.jobTitleService.removeJobTitle(this.title.getId()));
-    }
 }
