@@ -4,10 +4,7 @@ import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -15,6 +12,9 @@ import java.util.List;
 /**
  * Created by mrangel on 7/26/2016.
  */
+
+@RestController
+@RequestMapping("/emps")
 public class EmployeeController {
 
     @Autowired
