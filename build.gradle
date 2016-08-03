@@ -61,6 +61,8 @@ allprojects {
                 "com.fasterxml.jackson:jackson-parent:$jacksonVersion",
                 "org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.0.1.Final",
                 "org.hibernate:hibernate-validator:$hibernateVersion"
+                "javax.el:javax.el-api:3.0.0"
+        compile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '1.4.0.RELEASE'
 
         testCompile "org.testng:testng:$testNgVersion",
                 "org.springframework:spring-test:$springVersion",
@@ -164,6 +166,7 @@ project("orgchart-api-web") {
                 "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
                 "io.springfox:springfox-swagger-ui:2.2.2"
 
+
         testCompile project(":orgchart-api-data").sourceSets.test.output
         testCompile project(":orgchart-api-model").sourceSets.test.output
 
@@ -171,8 +174,10 @@ project("orgchart-api-web") {
     }
 
     pitest {
-        targetClasses = ["com.nexient.orgchart.web.*"
-        ]
+        targetClasses = ["com.nexient.orgchart.web.*"]
+    }
+    test{
+        useJUnit();
     }
     war {
         archiveName = 'api#orgchart.war'

@@ -1,5 +1,6 @@
 package com.nexient.orgchart.web;
 
+import com.nexient.orgchart.model.JobTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,6 +24,6 @@ public class WebTestConfig {
 
     @Bean
     public MockMvc init(){
-        return MockMvcBuilders.webAppContextSetup(context).build();
+        return MockMvcBuilders.standaloneSetup(JobTitleController.class).build();
     }
 }
