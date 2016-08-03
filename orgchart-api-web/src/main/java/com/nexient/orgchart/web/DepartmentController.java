@@ -24,7 +24,7 @@ public class DepartmentController {
         return deptService.findAllActiveDepartments();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{deptId}", method = RequestMethod.GET)
     public Department readDepartment(@PathVariable int deptId){
         return deptService.findDepartmentByID(deptId);
     }
@@ -35,16 +35,16 @@ public class DepartmentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Department createDepartment(@Valid @RequestBody Department dept){
+    public Department createDepartment(@Valid Department dept){
         return deptService.storeOrUpdate(dept);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Department updateDepartment(@Valid @RequestBody Department dept){
+    public Department updateDepartment(@Valid Department dept){
         return deptService.storeOrUpdate(dept);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{departmentId}", method = RequestMethod.DELETE)
     public boolean deleteDepartment(@PathVariable int departmentId){
         return deptService.removeDepartment(departmentId);
     }

@@ -25,9 +25,9 @@ public class JobTitleController {
         return titleService.findAllActiveJobTitles();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public JobTitle readJobTitle(@PathVariable int jobTitleID){
-        return titleService.findJobTitleByID(jobTitleID);
+    @RequestMapping(value = "/{jobTitleId}", method = RequestMethod.GET)
+    public JobTitle readJobTitle(@PathVariable int jobTitleId){
+        return titleService.findJobTitleByID(jobTitleId);
     }
 
     @RequestMapping(value = "/archives", method = RequestMethod.GET)
@@ -36,16 +36,16 @@ public class JobTitleController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public JobTitle createJobTitle(@Valid @RequestBody JobTitle title){
+    public JobTitle createJobTitle(@Valid JobTitle title){
         return titleService.storeOrUpdate(title);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public JobTitle updateJobTitle(@Valid @RequestBody JobTitle title){
+    public JobTitle updateJobTitle(@Valid JobTitle title){
         return titleService.storeOrUpdate(title);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{jobTitleId}", method = RequestMethod.DELETE)
     public boolean deleteJobTitle(@PathVariable int jobTitleId){
         return titleService.removeJobTitle(jobTitleId);
     }

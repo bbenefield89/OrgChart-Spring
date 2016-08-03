@@ -25,7 +25,7 @@ public class EmployeeController {
         return empService.findAllActiveEmployees();
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{empId}", method = RequestMethod.GET)
     public Employee readEmployee(@PathVariable int empId){
         return empService.findEmployeeById(empId);
     }
@@ -36,16 +36,16 @@ public class EmployeeController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Employee createEmployee(@Valid @RequestBody Employee emp){
+    public Employee createEmployee(@Valid Employee emp){
         return empService.storeOrUpdate(emp);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Employee updateEmployee(@Valid @RequestBody Employee emp){
+    public Employee updateEmployee(@Valid Employee emp){
         return empService.storeOrUpdate(emp);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{employeeId}", method = RequestMethod.DELETE)
     public boolean deleteEmployee(@PathVariable int employeeId){
         return empService.removeEmployee(employeeId);
     }
