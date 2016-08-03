@@ -1,90 +1,105 @@
 package com.nexient.orgchart.web;
 
+
 import com.nexient.orgchart.model.Department;
-import com.nexient.orgchart.model.JobTitle;
 import com.nexient.orgchart.model.Models;
 import com.nexient.orgchart.service.DepartmentService;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.testng.Assert;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by mrangel on 8/1/2016.
  */
 public class DepartmentControllerTest {
 
-    private Department department;
-    private ArrayList<Department> findAllDepartmentList;
+    @InjectMocks
+    DepartmentController controller;
+
+    private MockMvc mvc;
 
     @Mock
-    private DepartmentService mockDepartmentService;
+    private DepartmentService departmentService;
 
-    @InjectMocks
-    private DepartmentController controller = new DepartmentController();
+    private List<Department> departmentList;
+
+    private Department department;
 
     @BeforeClass
     public void before(){
         MockitoAnnotations.initMocks(this);
-        this.department = Models.department();
-        this.department.setId(Models.DEPT_ID);
-        this.findAllDepartmentList = new ArrayList<>();
-        this.findAllDepartmentList.add(department);
+        department = Models.department();
+        department.setId(Models.DEPT_ID);
+        departmentList= new ArrayList<>();
+        departmentList.add(department);
 
-        when(this.mockDepartmentService.findAllActiveDepartments()).thenReturn(this.findAllDepartmentList);
-        when(this.mockDepartmentService.findDepartmentByID(anyInt())).thenReturn(this.department);
-        when(this.mockDepartmentService.findAllInactiveDepartments()).thenReturn(this.findAllDepartmentList);
-        when(this.mockDepartmentService.storeOrUpdate(any(Department.class))).thenReturn(this.department);
-        when(this.mockDepartmentService.removeDepartment(this.department.getId())).thenReturn(true);
+        mvc= MockMvcBuilders.standaloneSetup(controller).build();
     }
 
     @Test
-    public void getAllActiveDepartmentTest(){
-        List<Department> deptList = this.mockDepartmentService.findAllActiveDepartments();
-
-        Assert.assertNotNull(deptList);
-        Assert.assertFalse(deptList.isEmpty());
+    public void readDepartment() throws Exception{
+        given(this.departmentService.findDepartmentByID(Models.DEPT_ID))
+                .willReturn(department);
+        this.mvc.perform(get("/depts/"+department.getId()).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void readDepartmentTest(){
-        Department dept = this.mockDepartmentService.findDepartmentByID(department.getId());
-
-        Assert.assertNotNull(dept);
-        Assert.assertEquals(this.department.getId(), dept.getId());
-        Assert.assertEquals(this.department.getName(), dept.getName());
+    public void getAllActiveDepartments() throws Exception{
+        given(this.departmentService.findAllActiveDepartments())
+                .willReturn(departmentList);
+        this.mvc.perform(get("/depts").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void findAllInactiveDepartmentTest(){
-        List<Department> dept= this.mockDepartmentService.findAllInactiveDepartments();
-
-        Assert.assertNotNull(dept);
-        Assert.assertFalse(dept.isEmpty());
+    public void getAllInactiveDepartments() throws Exception{
+        given(this.departmentService.findAllInactiveDepartments())
+                .willReturn(departmentList);
+        this.mvc.perform(get("/depts/archives").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void createOrUpdateTest(){
-        Department dept = this.mockDepartmentService.storeOrUpdate(department);
-
-        Assert.assertNotNull(dept);
-        Assert.assertEquals(department.getId(), dept.getId());
+    public void createDepartment() throws Exception{
+        given(this.departmentService.storeOrUpdate(department))
+                .willReturn(department);
+        this.mvc.perform(post("/depts").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
     @Test
-    public void deleteTest(){
-        boolean hasDeleted = this.mockDepartmentService.removeDepartment(department.getId());
+    public void updateDepartment() throws Exception{
+        given(this.departmentService.storeOrUpdate(department))
+                .willReturn(department);
+        this.mvc.perform(put("/depts").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
 
-        Assert.assertNotNull(hasDeleted);
-        Assert.assertTrue(hasDeleted);
+    @Test
+    public void deleteDepartment() throws Exception{
+        given(this.departmentService.removeDepartment(department.getId()))
+                .willReturn(true);
+        this.mvc.perform(delete("/depts/"+department.getId()).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 }
