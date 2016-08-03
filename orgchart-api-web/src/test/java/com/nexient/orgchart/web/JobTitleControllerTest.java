@@ -35,13 +35,11 @@ public class JobTitleControllerTest {
     @InjectMocks
     JobTitleController controller;
 
-    private MockMvc mvc;
-
     @Mock
     private JobTitleService jobTitleService;
 
+    private MockMvc mvc;
     private List<JobTitle> titles;
-
     private JobTitle jobTitle;
 
     @BeforeClass
@@ -59,9 +57,19 @@ public class JobTitleControllerTest {
     public void readJobTitle() throws Exception{
         given(this.jobTitleService.findJobTitleByID(Models.JOB_TITLE_ID))
                 .willReturn(jobTitle);
-        this.mvc.perform(get("/titles/"+jobTitle.getId()).accept(MediaType.APPLICATION_JSON))
+        this.mvc.perform(get("/titles/"+jobTitle.getId()).accept(MediaType.APPLICATION_JSON).content(jobTitle.toString()))
                 .andDo(print())
                 .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    public void readJobTitle_nonValue() throws Exception{
+        given(this.jobTitleService.findJobTitleByID((Integer) null))
+                .willReturn(null);
+        this.mvc.perform(get("/titles/" + null).accept(MediaType.APPLICATION_JSON).content(jobTitle.toString()))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
                 .andReturn();
     }
 
@@ -113,4 +121,5 @@ public class JobTitleControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
     }
+
 }
