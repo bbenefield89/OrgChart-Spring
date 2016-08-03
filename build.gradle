@@ -169,15 +169,11 @@ project("orgchart-api-web") {
 
         testCompile project(":orgchart-api-data").sourceSets.test.output
         testCompile project(":orgchart-api-model").sourceSets.test.output
-
         providedCompile "javax.servlet:javax.servlet-api:3.0.1"
     }
 
     pitest {
         targetClasses = ["com.nexient.orgchart.web.*"]
-    }
-    test{
-        useJUnit();
     }
     war {
         archiveName = 'api#orgchart.war'
