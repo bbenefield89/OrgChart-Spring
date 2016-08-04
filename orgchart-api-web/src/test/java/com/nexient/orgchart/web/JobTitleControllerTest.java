@@ -6,12 +6,14 @@ import com.nexient.orgchart.model.Models;
 import com.nexient.orgchart.service.JobTitleService;
 
 
+import org.json.JSONObject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import org.testng.Assert;
@@ -67,10 +69,13 @@ public class JobTitleControllerTest {
     public void readJobTitle_nonValue() throws Exception{
         given(this.jobTitleService.findJobTitleByID((Integer) null))
                 .willReturn(null);
-        this.mvc.perform(get("/titles/" + null).accept(MediaType.APPLICATION_JSON).content(jobTitle.toString()))
+        MvcResult result = this.mvc.perform(get("/titles/" + null).accept(MediaType.APPLICATION_JSON).content(jobTitle.toString()))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
                 .andReturn();
+
+        JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
     }
 
     @Test

@@ -74,6 +74,7 @@ public class DepartmentControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
+
         JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
         Assert.assertNotNull(mvc_result);
     }

@@ -4,12 +4,15 @@ package com.nexient.orgchart.web;
 import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.model.Models;
 import com.nexient.orgchart.service.EmployeeService;
+import org.json.JSONObject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -53,9 +56,14 @@ public class EmployeeControllerTest {
     public void readJobTitle() throws Exception{
         given(this.employeeService.findEmployeeById(Models.EMPLOYEE_ID))
                 .willReturn(employee);
-        this.mvc.perform(get("/emps/"+ employee.getId()).accept(MediaType.APPLICATION_JSON))
+       MvcResult result = this.mvc.perform(get("/emps/"+ employee.getId()).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
+
     }
 
     @Test
