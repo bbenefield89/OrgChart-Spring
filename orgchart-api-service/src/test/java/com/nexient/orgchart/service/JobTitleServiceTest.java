@@ -5,9 +5,7 @@ import com.nexient.orgchart.data.entity.Entities;
 import com.nexient.orgchart.data.entity.JobTitleEntity;
 import com.nexient.orgchart.data.repository.EmployeeRepository;
 import com.nexient.orgchart.data.repository.JobTitleRepository;
-import com.nexient.orgchart.mapper.EmployeeMapper;
 import com.nexient.orgchart.mapper.JobTitleMapper;
-import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.model.JobTitle;
 import com.nexient.orgchart.model.Models;
 import org.mockito.InjectMocks;
@@ -17,7 +15,6 @@ import org.mockito.Spy;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.testng.Assert;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -38,19 +35,15 @@ public class JobTitleServiceTest {
     @Spy
     JobTitleMapper mockJobTitleMapper = new JobTitleMapper();
 
-    private JobTitleEntity title;
-
-
-    EmployeeEntity employee;
-
     @Mock
     private JobTitleRepository repo;
 
     @Mock
     private EmployeeRepository empRepo;
 
+    private JobTitleEntity titleEntity;
+    private EmployeeEntity employeeEntity;
     private List<JobTitleEntity> listOfFoundTitles;
-
     private List<EmployeeEntity> listOfFoundEmployees;
 
     @BeforeTest
@@ -58,18 +51,19 @@ public class JobTitleServiceTest {
         MockitoAnnotations.initMocks(this);
 
         listOfFoundTitles = new ArrayList<>();
-        title = Entities.jobTitle();
-        title.setId(Entities.JOB_TITLE_ID);
-        listOfFoundTitles.add(title);
+        titleEntity = Entities.jobTitle();
+        titleEntity.setId(Entities.JOB_TITLE_ID);
+        listOfFoundTitles.add(titleEntity);
 
-        employee = Entities.employee();
-        employee.setId(Entities.EMPLOYEE_ID);
+        employeeEntity = Entities.employee();
+        employeeEntity.setId(Entities.EMPLOYEE_ID);
+        employeeEntity.setJobTitle(titleEntity);
         listOfFoundEmployees = new ArrayList<EmployeeEntity>();
-        listOfFoundEmployees.add(employee);
+        listOfFoundEmployees.add(employeeEntity);
 
         when(repo.findAll()).thenReturn(this.listOfFoundTitles);
-        when(repo.findOne(Entities.JOB_TITLE_ID)).thenReturn(this.title);
-        when(repo.save(any(JobTitleEntity.class))).thenReturn(this.title);
+        when(repo.findOne(Entities.JOB_TITLE_ID)).thenReturn(this.titleEntity);
+        when(repo.save(any(JobTitleEntity.class))).thenReturn(this.titleEntity);
         when(repo.findByIsActiveIsTrue()).thenReturn(this.listOfFoundTitles);
         when(empRepo.findByJobTitle(any(JobTitleEntity.class))).thenReturn(this.listOfFoundEmployees);
         when(repo.findByIsActiveIsFalse()).thenReturn(this.listOfFoundTitles);
@@ -99,7 +93,6 @@ public class JobTitleServiceTest {
 
     @Test
     public void findJobTitleByIDTest() {
-
         JobTitle title = this.jobTitleService.findJobTitleByID(Entities.JOB_TITLE_ID);
         Assert.assertNotNull(title);
         Assert.assertEquals(title.getId(), Models.JOB_TITLE_ID);
@@ -107,22 +100,24 @@ public class JobTitleServiceTest {
 
     @Test
     public void storeJobTitleTest() {
-        JobTitle title = this.jobTitleService.storeOrUpdate(mockJobTitleMapper.entityToModel(this.title));
+        JobTitle title = this.jobTitleService.storeOrUpdate(mockJobTitleMapper.entityToModel(this.titleEntity));
         Assert.assertNotNull(title);
         Assert.assertNotNull(title.getId());
-        Assert.assertEquals(this.title.getId(), title.getId());
+        Assert.assertEquals(this.titleEntity.getId(), title.getId());
     }
 
     @Test
     public void removeJobTitleTest() {
-        this.title.setIsActive(true);
-        Assert.assertNotNull(this.jobTitleService.removeJobTitle(this.title.getId()));
-        Assert.assertTrue(this.jobTitleService.removeJobTitle(this.title.getId()));
+        this.titleEntity.setIsActive(true);
+        boolean isRemoved = this.jobTitleService.removeJobTitle((this.titleEntity.getId()));
+
+        Assert.assertNotNull(isRemoved);
+        Assert.assertTrue(isRemoved);
     }
 
     @Test
     public void removeJobTitleTest_False() {
-        this.title.setIsActive(true);
+        this.titleEntity.setIsActive(true);
 
         doAnswer(new Answer<JobTitleEntity>() {
             @Override
@@ -133,9 +128,19 @@ public class JobTitleServiceTest {
                 return jobby;
             }
         }).when(this.repo).save(any(JobTitleEntity.class));
-        Assert.assertNotNull(this.jobTitleService.removeJobTitle(this.title.getId()));
-        Assert.assertFalse(this.jobTitleService.removeJobTitle(this.title.getId()));
+        Assert.assertNotNull(this.jobTitleService.removeJobTitle(this.titleEntity.getId()));
+        Assert.assertFalse(this.jobTitleService.removeJobTitle(this.titleEntity.getId()));
+    }
 
+    @Test
+    public void testSetEmployeesJobTitleWithJobTitleToNull(){
+        List<EmployeeEntity> emps = jobTitleService.setEmployeesJobTitleWithJobTitleToNull(listOfFoundEmployees);
+        Assert.assertNotNull(emps);
+        Assert.assertTrue(emps.size() > 0);
+
+        for(EmployeeEntity e: emps){
+            Assert.assertNull(e.getJobTitle());
+        }
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)

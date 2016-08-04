@@ -71,13 +71,21 @@ public class JobTitleService {
         JobTitleEntity titleEntity = jobRepository.findOne(id);
         titleEntity.setIsActive(false);
 
-        for (EmployeeEntity emp : empRepository.findByJobTitle(titleEntity)) {
-            emp.setJobTitle(null);
-        }
+        this.setEmployeesJobTitleWithJobTitleToNull(empRepository.findByJobTitle(titleEntity));
 
         JobTitle title = storeOrUpdate(mapper.entityToModel(titleEntity));
 
         return !(title.getIsActive());
+    }
+
+    public List<EmployeeEntity> setEmployeesJobTitleWithJobTitleToNull(List<EmployeeEntity> emps){
+        List<EmployeeEntity> empsWithNullJobTitle = new ArrayList<>();
+
+        for (EmployeeEntity emp : emps) {
+            emp.setJobTitle(null);
+            empsWithNullJobTitle.add(emp);
+        }
+        return empsWithNullJobTitle;
     }
 
 }
