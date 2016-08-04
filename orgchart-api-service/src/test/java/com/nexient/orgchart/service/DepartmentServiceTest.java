@@ -39,17 +39,21 @@ public class DepartmentServiceTest {
     private DepartmentRepository repo;
 
     private DepartmentEntity department;
+    private DepartmentEntity parentDepartment;
     private List<DepartmentEntity> listOfFoundDepts;
 
     @BeforeTest
     public void before() {
         MockitoAnnotations.initMocks(this);
 
-        listOfFoundDepts = new ArrayList<>();
-        listOfFoundDepts.add(Entities.department());
+        parentDepartment = Entities.department();
 
         department = Entities.department();
         department.setId(Entities.DEPT_ID);
+        department.setParentDepartment(parentDepartment);
+
+        listOfFoundDepts = new ArrayList<>();
+        listOfFoundDepts.add(department);
 
         departmentMapper.setEmployeeMapper(employeeMapper);
 
@@ -140,6 +144,17 @@ public class DepartmentServiceTest {
     @Test(expectedExceptions = IllegalArgumentException.class)
     public void removeDepartment_Null() throws Exception {
         this.departmentService.removeDepartment(null);
+    }
+
+    @Test
+    public void testSetParentDepartmentToNullByParent(){
+        List<DepartmentEntity> depts = departmentService.setParentDepartmentToNullByParent(listOfFoundDepts);
+        Assert.assertNotNull(depts);
+        Assert.assertTrue(depts.size() > 0);
+
+        for(DepartmentEntity d: depts){
+            Assert.assertNull(d.getParentDepartment());
+        }
     }
 
 }
