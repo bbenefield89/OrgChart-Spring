@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
  * Created by mrangel on 7/26/2016.
  */
 @Component
-public class EmployeeMapper implements EntityModelMapper<EmployeeEntity, Employee> {
+public class EmployeeMapper     implements EntityModelMapper<EmployeeEntity, Employee> {
 
 
     @Autowired

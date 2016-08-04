@@ -83,9 +83,9 @@ public class DepartmentMapperTest {
     public void testDepartmentModelToEntity(){
         this.departmentModel.setManager(managerModel);
         this.departmentModel.setParentDepartment(parentDeptModel);
-
         this.departmentEntity = this.deptMapper.modelToEntity(departmentModel);
         Assert.assertNotNull(departmentEntity);
+        Assert.assertNotNull(this.departmentEntity.getName());
         Assert.assertNotNull(this.departmentEntity.getManager());
         Assert.assertNotNull(this.departmentEntity.getParentDepartment());
     }

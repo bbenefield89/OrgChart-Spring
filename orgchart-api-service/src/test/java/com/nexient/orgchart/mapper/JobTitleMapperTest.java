@@ -39,6 +39,7 @@ public class JobTitleMapperTest {
     public void testJobTitleEntityToModel(){
         this.titleModel = this.titleMapper.entityToModel(titleEntity);
         Assert.assertNotNull(titleModel);
+        Assert.assertNotNull(titleModel.getName());
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -50,6 +51,7 @@ public class JobTitleMapperTest {
     public void testJobTitleModelToEntity(){
         this.titleEntity = this.titleMapper.modelToEntity(titleModel);
         Assert.assertNotNull(titleEntity);
+        Assert.assertNotNull(titleEntity.getName());
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
