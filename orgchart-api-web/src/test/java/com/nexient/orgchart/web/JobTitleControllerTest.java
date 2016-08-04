@@ -59,11 +59,10 @@ public class JobTitleControllerTest {
     public void readJobTitle() throws Exception{
         given(this.jobTitleService.findJobTitleByID(Models.JOB_TITLE_ID))
                 .willReturn(jobTitle);
-        MvcResult result = this.mvc.perform(get("/titles/" + null).accept(MediaType.APPLICATION_JSON).content(jobTitle.toString()))
+        MvcResult result = this.mvc.perform(get("/titles/" + jobTitle.getId()).accept(MediaType.APPLICATION_JSON).content(jobTitle.toString()))
                 .andDo(print())
-                .andExpect(status().isBadRequest())
+                .andExpect(status().isOk())
                 .andReturn();
-
         JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
         Assert.assertNotNull(mvc_result);
     }

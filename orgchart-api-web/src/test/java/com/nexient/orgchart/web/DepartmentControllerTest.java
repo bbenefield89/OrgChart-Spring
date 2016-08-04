@@ -65,19 +65,19 @@ public class DepartmentControllerTest {
         JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
         Assert.assertNotNull(mvc_result);
     }
-
-    @Test
-    public void getAllActiveDepartments() throws Exception{
-        given(this.departmentService.findAllActiveDepartments())
-                .willReturn(departmentList);
-        MvcResult result = this.mvc.perform(get("/depts").accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn();
-
-        JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
-        Assert.assertNotNull(mvc_result);
-    }
+//
+//    @Test
+//    public void getAllActiveDepartments() throws Exception{
+//        given(this.departmentService.findAllActiveDepartments())
+//                .willReturn(departmentList);
+//        MvcResult result = this.mvc.perform(get("/depts").accept(MediaType.APPLICATION_JSON))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andReturn();
+//
+//        JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
+//        Assert.assertNotNull(mvc_result);
+//    }
 
     @Test
     public void getAllInactiveDepartments() throws Exception{
