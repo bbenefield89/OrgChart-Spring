@@ -26,7 +26,7 @@ public class DepartmentController {
 
     @RequestMapping(value = "/{deptId}", method = RequestMethod.GET)
     public Department readDepartment(@PathVariable int deptId){
-        return deptService.findDepartmentByID(deptId);
+     return deptService.findDepartmentByID(deptId);
     }
 
     @RequestMapping(value = "/archives", method = RequestMethod.GET)
