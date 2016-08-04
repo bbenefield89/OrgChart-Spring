@@ -59,16 +59,6 @@ public class JobTitleControllerTest {
     public void readJobTitle() throws Exception{
         given(this.jobTitleService.findJobTitleByID(Models.JOB_TITLE_ID))
                 .willReturn(jobTitle);
-        this.mvc.perform(get("/titles/"+jobTitle.getId()).accept(MediaType.APPLICATION_JSON).content(jobTitle.toString()))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andReturn();
-    }
-
-    @Test
-    public void readJobTitle_nonValue() throws Exception{
-        given(this.jobTitleService.findJobTitleByID((Integer) null))
-                .willReturn(null);
         MvcResult result = this.mvc.perform(get("/titles/" + null).accept(MediaType.APPLICATION_JSON).content(jobTitle.toString()))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
@@ -76,6 +66,17 @@ public class JobTitleControllerTest {
 
         JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
         Assert.assertNotNull(mvc_result);
+    }
+
+    @Test
+    public void readJobTitle_nonValue() throws Exception{
+        given(this.jobTitleService.findJobTitleByID((Integer) null))
+                .willReturn(null);
+        this.mvc.perform(get("/titles/" + null).accept(MediaType.APPLICATION_JSON).content(jobTitle.toString()))
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andReturn();
+
     }
 
     @Test
