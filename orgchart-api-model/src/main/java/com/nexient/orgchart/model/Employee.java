@@ -13,7 +13,7 @@ public class Employee extends BaseModel {
     private Employee manager;
     private String email;
     private String skypeName;
-    private boolean isManager;
+    private Boolean isManager;
 
     public String getFirstName() {
         return firstName;

@@ -41,7 +41,7 @@ public class EmployeeEntity extends BaseEntity {
 	private String email;
 
 	@Column(name = "IS_MANAGER", nullable = false)
-	private Boolean isManager = false;
+	private Boolean isManager;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "manager")
 	private Set<DepartmentEntity> managedDepartments = new HashSet<>(0);

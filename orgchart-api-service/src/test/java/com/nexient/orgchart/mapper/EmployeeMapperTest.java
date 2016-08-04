@@ -78,9 +78,13 @@ public class EmployeeMapperTest {
         this.employeeEntity.setManager(managerEntity);
         this.employeeModel = empMapper.entityToModel(this.employeeEntity);
         Assert.assertNotNull(this.employeeModel);
+        Assert.assertNotNull(this.employeeModel.getIsManager());
         Assert.assertNotNull(this.employeeModel.getManager());
         Assert.assertNotNull(this.employeeModel.getDepartment());
         Assert.assertNotNull(this.employeeModel.getJobTitle());
+        Assert.assertEquals(this.employeeEntity.getEmail(), this.employeeModel.getEmail());
+        Assert.assertNotNull(this.employeeModel.getLastName());
+        Assert.assertEquals(this.employeeEntity.getMiddleInitial(), this.employeeModel.getMiddleInitial());
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
@@ -95,9 +99,16 @@ public class EmployeeMapperTest {
         this.employeeModel.setManager(managerModel);
         this.employeeEntity = empMapper.modelToEntity(this.employeeModel);
         Assert.assertNotNull(this.employeeEntity);
+        Assert.assertNotNull(this.employeeEntity.getIsManager());
         Assert.assertNotNull(this.employeeEntity.getManager());
         Assert.assertNotNull(this.employeeEntity.getDepartment());
         Assert.assertNotNull(this.employeeEntity.getJobTitle());
+        Assert.assertNotNull(this.employeeEntity.getSkypeName());
+        Assert.assertNotNull(this.employeeEntity.getFirstName());
+        Assert.assertEquals(this.employeeEntity.getEmail(), this.employeeModel.getEmail());
+        Assert.assertNotNull(this.employeeEntity.getLastName());
+        Assert.assertEquals(this.employeeEntity.getMiddleInitial(), this.employeeModel.getMiddleInitial());
+
     }
 
     @Test(expectedExceptions = IllegalArgumentException.class)
