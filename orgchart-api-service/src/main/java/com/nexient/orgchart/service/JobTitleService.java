@@ -61,17 +61,14 @@ public class JobTitleService {
     }
 
     public JobTitle storeOrUpdate(JobTitle jobTitle) {
-        assertNotNull(jobTitle);
         JobTitleEntity titleEntity = mapper.modelToEntity(jobTitle);
         return mapper.entityToModel(this.jobRepository.save(titleEntity));
     }
 
     public boolean removeJobTitle(Integer id) {
-        Assert.notNull(id);
+        Assert.notNull(jobRepository.findOne(id));
 
         JobTitleEntity titleEntity = jobRepository.findOne(id);
-        Assert.notNull(titleEntity);
-
         titleEntity.setIsActive(false);
 
         for (EmployeeEntity emp : empRepository.findByJobTitle(titleEntity)) {

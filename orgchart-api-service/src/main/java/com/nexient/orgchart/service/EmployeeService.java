@@ -52,19 +52,14 @@ public class EmployeeService {
 	}
 
 	public Employee storeOrUpdate(Employee employee) {
-		Assert.notNull(employee);
-
-		return employeeMapper.entityToModel(this.employeeRepository.save(employeeMapper.modelToEntity(employee)));
+		EmployeeEntity employeeEntity = employeeMapper.modelToEntity(employee);
+		return employeeMapper.entityToModel(this.employeeRepository.save(employeeEntity));
 	}
 
 	public boolean removeEmployee(Integer id) {
-		Assert.notNull(id);
 		Assert.notNull(employeeRepository.findOne(id));
 
-
-
 		EmployeeEntity empEnt = employeeRepository.findOne(id);
-
 		empEnt.setIsActive(false);
 
 		for(EmployeeEntity emp : employeeRepository.findByManager(empEnt)){
