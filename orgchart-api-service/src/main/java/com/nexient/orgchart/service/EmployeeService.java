@@ -16,75 +16,98 @@ import java.util.List;
 @Service("employeeService")
 public class EmployeeService {
 
-	@Autowired
-	EmployeeRepository employeeRepository;
+    @Autowired
+    EmployeeRepository employeeRepository;
 
-	@Autowired
-	DepartmentRepository departmentRepository;
+    @Autowired
+    DepartmentRepository departmentRepository;
 
-	@Autowired
-	EmployeeMapper employeeMapper;
+    @Autowired
+    EmployeeMapper employeeMapper;
 
-	public List<Employee> findAll() {
-		List<Employee> empModels = new ArrayList<>();
+    public List<Employee> findAll() {
+        List<Employee> empModels = new ArrayList<>();
 
-		for(EmployeeEntity emp : employeeRepository.findAll()){
-			empModels.add(employeeMapper.entityToModel(emp));
-		}
+        for (EmployeeEntity emp : employeeRepository.findAll()) {
+            empModels.add(employeeMapper.entityToModel(emp));
+        }
 
-		return empModels;
-	}
+        return empModels;
+    }
 
-	public List<Employee> findAllActiveEmployees(){
+    public List<Employee> findAllActiveEmployees() {
 
-		List<Employee> empModels = new ArrayList<>();
+        List<Employee> empModels = new ArrayList<>();
 
-		for(EmployeeEntity emp: employeeRepository.findByIsActiveIsTrue()){
-			empModels.add(employeeMapper.entityToModel(emp));
-		}
+        for (EmployeeEntity emp : employeeRepository.findByIsActiveIsTrue()) {
+            empModels.add(employeeMapper.entityToModel(emp));
+        }
 
-		return empModels;
+        return empModels;
 
-	}
+    }
 
-	public Employee findEmployeeById(Integer id) {
-		return employeeMapper.entityToModel(this.employeeRepository.findOne(id));
-	}
+    public Employee findEmployeeById(Integer id) {
+        return employeeMapper.entityToModel(this.employeeRepository.findOne(id));
+    }
 
-	public Employee storeOrUpdate(Employee employee) {
-		EmployeeEntity employeeEntity = employeeMapper.modelToEntity(employee);
-		return employeeMapper.entityToModel(this.employeeRepository.save(employeeEntity));
-	}
+    public Employee storeOrUpdate(Employee employee) {
+        EmployeeEntity employeeEntity = employeeMapper.modelToEntity(employee);
+        return employeeMapper.entityToModel(this.employeeRepository.save(employeeEntity));
+    }
 
-	public boolean removeEmployee(Integer id) {
-		Assert.notNull(employeeRepository.findOne(id));
+    public boolean removeEmployee(Integer id) {
+        Assert.notNull(employeeRepository.findOne(id));
 
-		EmployeeEntity empEnt = employeeRepository.findOne(id);
-		empEnt.setIsActive(false);
+        EmployeeEntity parent = employeeRepository.findOne(id);
+        parent.setIsActive(false);
 
-		for(EmployeeEntity emp : employeeRepository.findByManager(empEnt)){
-			emp.setManager(null);
-			employeeRepository.save(emp);
-		}
+        this.setEmployeeManagerToNullByManager(employeeRepository.findByManager(parent));
+        this.setDepartmentManagerToNullByManager(departmentRepository.findByManager(parent));
 
-		for(DepartmentEntity dept : departmentRepository.findByManager(empEnt)){
-			dept.setManager(null);
-			departmentRepository.save(dept);
-		}
+//        for (EmployeeEntity emp : employeeRepository.findByManager(empEnt)) {
+//            emp.setManager(null);
+//            employeeRepository.save(emp);
+//        }
+//
+//        for (DepartmentEntity dept : departmentRepository.findByManager(empEnt)) {
+//            dept.setManager(null);
+//            departmentRepository.save(dept);
+//        }
 
-		Employee employee = storeOrUpdate(employeeMapper.entityToModel(empEnt));
+        Employee employee = storeOrUpdate(employeeMapper.entityToModel(parent));
 
-		return !(employee.getIsActive());
+        return !(employee.getIsActive());
 
-	}
+    }
 
-	public List<Employee> findAllInactiveEmployees(){
-		List<Employee> emps = new ArrayList<>();
+    public List<EmployeeEntity> setEmployeeManagerToNullByManager(List<EmployeeEntity> emps) {
+        List<EmployeeEntity> orphans = new ArrayList<>();
 
-		for(EmployeeEntity e: this.employeeRepository.findByIsActiveIsFalse()){
-			emps.add(employeeMapper.entityToModel(e));
-		}
+        for (EmployeeEntity child : emps) {
+            child.setManager(null);
+            orphans.add(child);
+        }
+        return orphans;
+    }
 
-		return emps;
-	}
+    public List<DepartmentEntity> setDepartmentManagerToNullByManager(List<DepartmentEntity> depts) {
+        List<DepartmentEntity> orphans = new ArrayList<>();
+
+        for (DepartmentEntity child : depts) {
+            child.setManager(null);
+            orphans.add(child);
+        }
+        return orphans;
+    }
+
+    public List<Employee> findAllInactiveEmployees() {
+        List<Employee> emps = new ArrayList<>();
+
+        for (EmployeeEntity e : this.employeeRepository.findByIsActiveIsFalse()) {
+            emps.add(employeeMapper.entityToModel(e));
+        }
+
+        return emps;
+    }
 }
