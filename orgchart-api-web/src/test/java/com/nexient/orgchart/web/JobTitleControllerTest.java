@@ -121,10 +121,13 @@ public class JobTitleControllerTest {
         int id= jobTitle.getId();
         given(this.jobTitleService.removeJobTitle(jobTitle.getId()))
                 .willReturn(true);
-        this.mvc.perform(delete("/titles/"+id).accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(delete("/titles/"+id).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
+        String mvc_result = result.getResponse().getContentAsString();
+        Assert.assertNotNull(mvc_result);
+        Assert.assertEquals(mvc_result, "true");
     }
 
 }

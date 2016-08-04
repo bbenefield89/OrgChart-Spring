@@ -9,6 +9,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.SystemProfileValueSource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -110,8 +111,12 @@ public class DepartmentControllerTest {
     public void deleteDepartment() throws Exception{
         given(this.departmentService.removeDepartment(department.getId()))
                 .willReturn(true);
-        this.mvc.perform(delete("/depts/"+department.getId()).accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(delete("/depts/"+department.getId()).accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+        String mvc_result = result.getResponse().getContentAsString();
+        Assert.assertNotNull(mvc_result);
+        Assert.assertEquals(mvc_result, "true");
     }
 }
