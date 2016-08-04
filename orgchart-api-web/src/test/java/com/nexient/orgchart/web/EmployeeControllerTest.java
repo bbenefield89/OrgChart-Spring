@@ -4,6 +4,7 @@ package com.nexient.orgchart.web;
 import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.model.Models;
 import com.nexient.orgchart.service.EmployeeService;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -70,18 +71,24 @@ public class EmployeeControllerTest {
     public void getAllActiveJobTitles() throws Exception{
         given(this.employeeService.findAllActiveEmployees())
                 .willReturn(employeeList);
-        this.mvc.perform(get("/emps").accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(get("/emps").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONArray mvc_result = new JSONArray(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
     }
 
     @Test
     public void findAllArchivedJobTitles() throws Exception{
         given(this.employeeService.findAllInactiveEmployees())
                 .willReturn(employeeList);
-        this.mvc.perform(get("/emps/archives").accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(get("/emps/archives").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONArray mvc_result = new JSONArray(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
     }
 
     @Test

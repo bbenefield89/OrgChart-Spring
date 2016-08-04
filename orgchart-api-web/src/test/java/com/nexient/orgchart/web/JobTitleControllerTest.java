@@ -6,6 +6,7 @@ import com.nexient.orgchart.model.Models;
 import com.nexient.orgchart.service.JobTitleService;
 
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -82,18 +83,24 @@ public class JobTitleControllerTest {
     public void getAllActiveJobTitles() throws Exception{
         given(this.jobTitleService.findAllActiveJobTitles())
                 .willReturn(titles);
-        this.mvc.perform(get("/titles").accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(get("/titles").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONArray mvc_result = new JSONArray(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
     }
 
     @Test
     public void findAllArchivedJobTitles() throws Exception{
         given(this.jobTitleService.findAllInactiveJobTitles())
                 .willReturn(titles);
-        this.mvc.perform(get("/titles/archives").accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(get("/titles/archives").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONArray mvc_result = new JSONArray(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
     }
 
     @Test

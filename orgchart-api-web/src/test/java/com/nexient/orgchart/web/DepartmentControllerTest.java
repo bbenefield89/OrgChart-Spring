@@ -4,6 +4,7 @@ package com.nexient.orgchart.web;
 import com.nexient.orgchart.model.Department;
 import com.nexient.orgchart.model.Models;
 import com.nexient.orgchart.service.DepartmentService;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -66,27 +67,29 @@ public class DepartmentControllerTest {
         JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
         Assert.assertNotNull(mvc_result);
     }
-//
-//    @Test
-//    public void getAllActiveDepartments() throws Exception{
-//        given(this.departmentService.findAllActiveDepartments())
-//                .willReturn(departmentList);
-//        MvcResult result = this.mvc.perform(get("/depts").accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andReturn();
-//
-//        JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
-//        Assert.assertNotNull(mvc_result);
-//    }
 
     @Test
-    public void getAllInactiveDepartments() throws Exception{
+    public void getAllActiveDepartments() throws Exception{
+        given(this.departmentService.findAllActiveDepartments())
+                .willReturn(departmentList);
+        MvcResult result = this.mvc.perform(get("/depts").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONArray mvc_result = new JSONArray(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
+    }
+
+    @Test
+    public void getAllArchivedDepartments() throws Exception{
         given(this.departmentService.findAllInactiveDepartments())
                 .willReturn(departmentList);
-        this.mvc.perform(get("/depts/archives").accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(get("/depts/archives").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONArray mvc_result = new JSONArray(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
     }
 
     @Test
