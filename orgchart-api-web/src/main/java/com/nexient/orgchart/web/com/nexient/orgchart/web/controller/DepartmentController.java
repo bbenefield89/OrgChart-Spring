@@ -1,4 +1,4 @@
-package com.nexient.orgchart.web;
+package com.nexient.orgchart.web.com.nexient.orgchart.web.controller;
 
 import com.nexient.orgchart.model.Department;
 import com.nexient.orgchart.service.DepartmentService;

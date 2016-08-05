@@ -1,9 +1,8 @@
-package com.nexient.orgchart.web;
+package com.nexient.orgchart.web.com.nexient.orgchart.web.controller;
 
 import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;

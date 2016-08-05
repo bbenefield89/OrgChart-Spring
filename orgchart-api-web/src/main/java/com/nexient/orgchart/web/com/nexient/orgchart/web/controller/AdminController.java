@@ -1,4 +1,4 @@
-package com.nexient.orgchart.web;
+package com.nexient.orgchart.web.com.nexient.orgchart.web.controller;
 
 import com.nexient.orgchart.web.View;
 import org.springframework.stereotype.Controller;
