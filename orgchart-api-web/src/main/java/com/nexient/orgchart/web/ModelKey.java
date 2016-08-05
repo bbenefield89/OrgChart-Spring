@@ -1,6 +1,0 @@
-package com.nexient.orgchart.web;
-
-public class ModelKey {
-	public static final String DEPARTMENT = "dept";
-	public static final String DEPARTMENTS = "depts";
-}
