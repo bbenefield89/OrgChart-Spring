@@ -1,5 +1,6 @@
 package com.nexient.orgchart.web;
 
+import com.nexient.orgchart.web.com.nexient.orgchart.web.controller.HomeController;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.testng.Assert;

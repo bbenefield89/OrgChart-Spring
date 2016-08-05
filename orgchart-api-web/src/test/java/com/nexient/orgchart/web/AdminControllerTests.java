@@ -1,6 +1,6 @@
 package com.nexient.orgchart.web;
 
-import com.nexient.orgchart.web.View;
+import com.nexient.orgchart.web.com.nexient.orgchart.web.controller.AdminController;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
