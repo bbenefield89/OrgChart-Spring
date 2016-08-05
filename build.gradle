@@ -154,9 +154,12 @@ project("orgchart-api-web") {
     apply plugin: 'war'
 
     ext.jacksonVersion = "2.6.0"
+    def tomcatVersion = '7.0.59'
+
 
     dependencies {
         compile project(':orgchart-api-service')
+        compile(group: 'com.nexient', name: 'security', version: '1.2.0')
         compile "javax.servlet:javax.servlet-api:3.0.1",
                 "org.springframework.security:spring-security-web:$springSecurityVersion",
                 "org.springframework.security:spring-security-config:$springSecurityVersion",
@@ -169,7 +172,13 @@ project("orgchart-api-web") {
 
         testCompile project(":orgchart-api-data").sourceSets.test.output
         testCompile project(":orgchart-api-model").sourceSets.test.output
+
         providedCompile "javax.servlet:javax.servlet-api:3.0.1"
+
+        tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+                "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
+                "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+
     }
 
     pitest {
@@ -178,25 +187,8 @@ project("orgchart-api-web") {
     war {
         archiveName = 'api#orgchart.war'
     }
+
+    tomcat {
+        contextPath = 'api/orgchart'
+    }
 }
-/*
-    compile group: "org.springframework.security", name: "spring-security-config", version:"3.1.0.RELEASE"
-    compile group: "org.springframework.security", name: "spring-security-taglibs", version:"3.1.0.RELEASE"
-    compile group: "cglib", name: "cglib", version:"2.2"
-    compile group: "javassist", name: "javassist", version:"3.12.1.GA"
-    compile group: "antlr", name: "antlr", version:"2.7.6"
-    compile group: "commons-collections", name: "commons-collections", version:"3.1"
-    compile group: "org.apache.tiles", name: "tiles-jsp", version:"2.2.2"
-    compile group: "org.slf4j", name: "slf4j-api", version:"1.7.12"
-    compile group: "org.slf4j", name: "slf4j-log4j12", version:"1.7.12"
-    compile group: "log4j", name: "log4j", version:"1.2.14"
-    compile group: "org.slf4j", name: "jcl-over-slf4j", version:"1.7.12"
-    compile group: "dom4j", name: "dom4j", version:"1.6.1"
-    compile group: "javax.servlet.jsp.jstl", name: "javax.servlet.jsp.jstl-api", version:"1.2.1"
-    compile group: "taglibs", name: "standard", version:"1.1.2"
-    compile group: "org.springframework", name: "spring-orm", version:"3.1.0.RELEASE"
-    compile group: "org.hibernate", name: "hibernate-annotations", version:"3.5.6-Final"
-    compile group: "org.hibernate", name: "hibernate-entitymanager", version:"4.0.0.Final"
-    compile group: "org.hibernate", name: "hibernate-validator", version:"4.2.0.Final"
-    compile group: "mysql", name: "mysql-connector-java", version:"5.1.36"
- */
