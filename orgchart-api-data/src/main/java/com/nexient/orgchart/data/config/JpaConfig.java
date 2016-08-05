@@ -27,36 +27,35 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @Import(PropertyPlaceholderConfig.class)
 @EnableJpaRepositories({ "com.nexient.orgchart.data.repository" })
 @EnableTransactionManagement
-//@ComponentScan("com.nexient.orgchart.data.builders")
 public class JpaConfig {
 
     public static final String ENTITIES_PACKAGE = "com.nexient.orgchart.data.entity";
 
-    @Value("${bulletin.jdbc.maxPoolSize}")
+    @Value("${orgchart.jdbc.maxPoolSize}")
     private int maxPoolSize;
 
-    @Value("${bulletin.jdbc.maxStatements}")
+    @Value("${orgchart.jdbc.maxStatements}")
     private int maxStatements;
 
-    @Value("${bulletin.jdbc.minPoolSize}")
+    @Value("${orgchart.jdbc.minPoolSize}")
     private int minPoolSize;
 
-    @Value("${bulletin.jdbc.testConnection}")
+    @Value("${orgchart.jdbc.testConnection}")
     private Boolean testConnection;
 
-    @Value("${bulletin.db.password}")
+    @Value("${orgchart.db.password}")
     private String databasePassword;
 
-    @Value("${bulletin.db.url}")
+    @Value("${orgchart.db.url}")
     private String databaseUrl;
 
-    @Value("${bulletin.db.username}")
+    @Value("${orgchart.db.username}")
     private String databaseUsername;
 
-    @Value("${bulletin.db.driverClassName}")
+    @Value("${orgchart.db.driverClassName}")
     private String driverClassName;
 
-    @Value("${bulletin.db.showSql}")
+    @Value("${orgchart.db.showSql}")
     private Boolean showSql;
 
     @Bean(destroyMethod = "close")
