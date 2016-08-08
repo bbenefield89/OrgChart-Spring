@@ -23,7 +23,7 @@ Deploying to Tomcat (First-time setup)
 
 Apache Tomcat is currently used as our application server.
 Create new directory "Nexient" in the Tomcat root directory
-Copy bulletin-api.properties and security.properties from {orgchart}\orgchart-config\environment\dev into the newly created Nexient directory
+Copy orgchart-api.properties and security.properties from {orgchart}\orgchart-config\environment\dev into the newly created Nexient directory
 Update 'common.loader' property in '[tomcat-home]/conf' to add '${catalina.base}/Nexient'
 'common.loader=some/other/paths,${catalina.base}/Nexient'
 For Intellij:
