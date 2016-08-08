@@ -1,6 +1,3 @@
-//sourceCompatibility = 1.8
-//targetCompatibility = 1.8
-
 ext {
     apacheCommonsVersion = "3.4"
     hibernateVersion = "5.1.0.Final"
@@ -8,9 +5,9 @@ ext {
     jsonassertVersion = "1.3.0"
     hamcrestVersion = "1.3"
     mockitoVersion = "2.0.53-beta"
-    springDataJpaVersion = "1.10.1.RELEASE"
+    springDataJpaVersion = "1.10.2.RELEASE"
     springVersion = "4.2.6.RELEASE"
-    springSecurityVersion = "4.1.0.RELEASE"
+    springSecurityVersion = "4.1.1.RELEASE"
     testNgVersion = "6.9.10"
     jacocoToolVersion = "0.7.6.201602180812"
 }
@@ -21,6 +18,10 @@ buildscript {
         maven {
             url 'http://repo.corp.nexient.com:8081/artifactory/plugins-release'
         }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+
         jcenter()
         mavenCentral()
     }
@@ -29,6 +30,8 @@ buildscript {
         classpath "org.liquibase:liquibase-gradle-plugin:1.2.1"
         classpath "com.bmuschko:gradle-tomcat-plugin:2.2.4"
         classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.9"
+        classpath 'mysql:mysql-connector-java:5.1.36'
+        classpath 'org.liquibase:liquibase-gradle-plugin:1.1.0'
     }
 }
 
@@ -120,6 +123,22 @@ project("orgchart-api-data") {
 
 }
 
+liquibase {
+    activities {
+        def dbUrl = project.hasProperty("orgchart.db.url") ? project.getProperty("orgchart.db.url") : "jdbc:mysql://localhost:3306/orgchart_api"
+        def dbUsername = project.hasProperty("orgchart.db.username") ? project.getProperty("orgchart.db.username") : "orgchart"
+        def dbPassword = project.hasProperty("orgchart.db.password") ? project.getProperty("orgchart.db.password") : "orgchart"
+
+        main {
+            changeLogFile "$projectDir/liquibase/db.changelog.xml"
+            url dbUrl
+            username dbUsername
+            password dbPassword
+        }
+        runList = 'main'
+    }
+}
+
 project("orgchart-api-model") {
     apply plugin: "info.solidsoft.pitest"
 
@@ -145,7 +164,8 @@ project("orgchart-api-service") {
         testCompile project(":orgchart-api-model").sourceSets.test.output
     }
     pitest {
-        targetClasses = ["com.nexient.orgchart.service.*"
+        targetClasses = ["com.nexient.orgchart.service.*",
+                "com.nexient.orgchart.mapper"
         ]
     }
 }
@@ -192,4 +212,11 @@ project("orgchart-api-web") {
     tomcat {
         contextPath = 'api/orgchart'
     }
+
+    [tomcatRun, tomcatRunWar].each { task ->
+
+        task.additionalRuntimeResources << file("$rootDir/orgchart-config/environment/dev/")
+
+    }
+
 }
