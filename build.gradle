@@ -1,21 +1,57 @@
-apply plugin: 'java'
-apply plugin: "eclipse"
-apply plugin: "eclipse-wtp"
-apply plugin: "idea"
-apply plugin: 'liquibase'
-apply plugin: "jacoco"
-apply plugin: "info.solidsoft.pitest"
-
-group = "com.nexient"
-version = "0.0.2-SNAPSHOT"
-description = "OrgChart"
-
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+ext {
+    apacheCommonsVersion = "3.4"
+    hibernateVersion = "5.1.0.Final"
+    jacksonVersion = "2.6.2"
+    jsonassertVersion = "1.3.0"
+    hamcrestVersion = "1.3"
+    mockitoVersion = "2.0.53-beta"
+    springDataJpaVersion = "1.10.2.RELEASE"
+    springVersion = "4.2.6.RELEASE"
+    springSecurityVersion = "4.1.1.RELEASE"
+    testNgVersion = "6.9.10"
+    jacocoToolVersion = "0.7.6.201602180812"
+}
 
 buildscript {
     repositories {
         mavenLocal()
+        maven {
+            url 'http://repo.corp.nexient.com:8081/artifactory/plugins-release'
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+
+        jcenter()
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.liquibase:liquibase-gradle-plugin:1.2.1"
+        classpath "com.bmuschko:gradle-tomcat-plugin:2.2.4"
+        classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.9"
+        classpath 'mysql:mysql-connector-java:5.1.36'
+        classpath 'org.liquibase:liquibase-gradle-plugin:1.1.0'
+    }
+}
+
+allprojects {
+    apply plugin: 'java'
+    apply plugin: "eclipse"
+    apply plugin: "eclipse-wtp"
+    apply plugin: "idea"
+    apply plugin: 'liquibase'
+    apply plugin: "jacoco"
+
+    group = "com.nexient"
+    version = "0.0.2-SNAPSHOT"
+    description = "OrgChart"
+
+    repositories {
+        mavenLocal()
+        maven {
+            url 'http://repo.corp.nexient.com:8081/artifactory/libs-release-local'
+        }
         maven {
             url 'http://repo.corp.nexient.com:8081/artifactory/plugins-release'
         }
@@ -24,86 +60,163 @@ buildscript {
     }
 
     dependencies {
-        classpath "org.liquibase:liquibase-gradle-plugin:1.2.1"
-        classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.9"
+        compile "org.springframework:spring-webmvc:$springVersion",
+                "org.springframework.data:spring-data-jpa:$springDataJpaVersion",
+                "com.fasterxml.jackson:jackson-parent:$jacksonVersion",
+                "org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.0.1.Final",
+                "org.hibernate:hibernate-validator:$hibernateVersion"
+                "javax.el:javax.el-api:3.0.0"
+                'org.springframework.boot:spring-boot-starter-test:1.4.0.RELEASE'
+
+        testCompile "org.testng:testng:$testNgVersion",
+                "org.springframework:spring-test:$springVersion",
+                "org.mockito:mockito-core:$mockitoVersion",
+                "org.hamcrest:hamcrest-all:$hamcrestVersion",
+                "com.jayway.jsonpath:json-path:2.0.0",
+                "com.github.springtestdbunit:spring-test-dbunit:+",
+                "org.apache.commons:commons-lang3:$apacheCommonsVersion",
+                "org.assertj:assertj-core:3.2.0",
+                "org.skyscreamer:jsonassert:$jsonassertVersion",
+                "commons-beanutils:commons-beanutils:1.9.2"
+
     }
-}
-
-ext {
-    apacheCommonsVersion = "3.4"
-    hibernateVersion = "5.1.0.Final"
-    jacksonVersion = "2.6.2"
-    jsonassertVersion = "1.3.0"
-    hamcrestVersion = "1.3"
-    mockitoVersion = "2.0.53-beta"
-    springDataJpaVersion = "1.10.1.RELEASE"
-    springVersion = "4.2.6.RELEASE"
-    springSecurityVersion = "4.1.0.RELEASE"
-    testNgVersion = "6.9.10"
-}
-
-repositories {
-    mavenLocal()
-    maven {
-        url 'http://repo.corp.nexient.com:8081/artifactory/libs-release-local'
+    jacoco {
+        toolVersion = jacocoToolVersion
     }
-    maven {
-        url 'http://repo.corp.nexient.com:8081/artifactory/plugins-release'
+    jacocoTestReport {
+        reports {
+            html.enabled = true
+        }
     }
-    jcenter()
-    mavenCentral()
-}
+    test {
+        // enable TestNG support (default is JUnit)
+        useTestNG()
+    }
+    test.finalizedBy jacocoTestReport
 
-dependencies {
-    compile "org.springframework:spring-webmvc:$springVersion",
-            "org.springframework.data:spring-data-jpa:$springDataJpaVersion",
-            "com.fasterxml.jackson:jackson-parent:$jacksonVersion",
-            "org.hibernate:hibernate-entitymanager:$hibernateVersion",
-            "org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.0.1.Final"
-
-    testCompile "org.testng:testng:$testNgVersion",
-            "org.springframework:spring-test:$springVersion",
-            "org.mockito:mockito-core:$mockitoVersion",
-            "org.hamcrest:hamcrest-all:$hamcrestVersion",
-            "com.jayway.jsonpath:json-path:2.0.0",
-            "com.github.springtestdbunit:spring-test-dbunit:+",
-            "org.apache.commons:commons-lang3:$apacheCommonsVersion",
-            "org.assertj:assertj-core:3.2.0",
-            "org.skyscreamer:jsonassert:$jsonassertVersion",
-            "commons-beanutils:commons-beanutils:1.9.2"
-}
-
-test {
-    // enable TestNG support (default is JUnit)
-    useTestNG()
-}
-
-pitest {
-    targetClasses = ["com.nexient.orgchart.data.entity.*"]
 }
 
 task wrapper(type: Wrapper) {
     gradleVersion = "2.13"
 }
 
-/*
-    compile group: "org.springframework.security", name: "spring-security-config", version:"3.1.0.RELEASE"
-    compile group: "org.springframework.security", name: "spring-security-taglibs", version:"3.1.0.RELEASE"
-    compile group: "cglib", name: "cglib", version:"2.2"
-    compile group: "javassist", name: "javassist", version:"3.12.1.GA"
-    compile group: "antlr", name: "antlr", version:"2.7.6"
-    compile group: "commons-collections", name: "commons-collections", version:"3.1"
-    compile group: "org.apache.tiles", name: "tiles-jsp", version:"2.2.2"
-    compile group: "org.slf4j", name: "slf4j-api", version:"1.7.12"
-    compile group: "org.slf4j", name: "slf4j-log4j12", version:"1.7.12"
-    compile group: "log4j", name: "log4j", version:"1.2.14"
-    compile group: "org.slf4j", name: "jcl-over-slf4j", version:"1.7.12"
-    compile group: "dom4j", name: "dom4j", version:"1.6.1"
-    compile group: "javax.servlet.jsp.jstl", name: "javax.servlet.jsp.jstl-api", version:"1.2.1"
-    compile group: "taglibs", name: "standard", version:"1.1.2"
-    compile group: "org.springframework", name: "spring-orm", version:"3.1.0.RELEASE"
-    compile group: "org.hibernate", name: "hibernate-annotations", version:"3.5.6-Final"
-    compile group: "org.hibernate", name: "hibernate-entitymanager", version:"4.0.0.Final"
-    compile group: "org.hibernate", name: "hibernate-validator", version:"4.2.0.Final"
-    compile group: "mysql", name: "mysql-connector-java", version:"5.1.36"
- */
+project("orgchart-api-data") {
+    apply plugin: "info.solidsoft.pitest"
+
+    dependencies {
+        compile "org.springframework.data:spring-data-jpa:$springDataJpaVersion",
+                "org.springframework.security:spring-security-web:$springSecurityVersion",
+                "org.apache.commons:commons-lang3:$apacheCommonsVersion",
+                "org.hibernate:hibernate-entitymanager:$hibernateVersion",
+                "c3p0:c3p0:0.9.0.4",//replace with Hikari
+                "mysql:mysql-connector-java:5.1.36"
+
+        testCompile "org.hsqldb:hsqldb:2.3.4",
+                "org.testng:testng:$testNgVersion"
+    }
+
+    pitest{
+        targetClasses =["com.nexient.orgchart.data.entity.*",
+                "com.nexient.orgchart.data.repository.*"
+        ]
+    }
+
+}
+
+liquibase {
+    activities {
+        def dbUrl = project.hasProperty("orgchart.db.url") ? project.getProperty("orgchart.db.url") : "jdbc:mysql://localhost:3306/orgchart_api"
+        def dbUsername = project.hasProperty("orgchart.db.username") ? project.getProperty("orgchart.db.username") : "orgchart"
+        def dbPassword = project.hasProperty("orgchart.db.password") ? project.getProperty("orgchart.db.password") : "orgchart"
+
+        main {
+            changeLogFile "$projectDir/liquibase/db.changelog.xml"
+            url dbUrl
+            username dbUsername
+            password dbPassword
+        }
+        runList = 'main'
+    }
+}
+
+project("orgchart-api-model") {
+    apply plugin: "info.solidsoft.pitest"
+
+    dependencies {
+        compile "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+                "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:$jacksonVersion"
+    }
+
+    pitest {
+        targetClasses = ["com.nexient.orgchart.model.*"]
+    }
+
+}
+project("orgchart-api-service") {
+    apply plugin: "info.solidsoft.pitest"
+
+    dependencies {
+        compile project(":orgchart-api-data"),
+                project(":orgchart-api-model"),
+                "org.springframework:spring-webmvc:$springVersion"
+
+        testCompile project(":orgchart-api-data").sourceSets.test.output
+        testCompile project(":orgchart-api-model").sourceSets.test.output
+    }
+    pitest {
+        targetClasses = ["com.nexient.orgchart.service.*",
+                "com.nexient.orgchart.mapper"
+        ]
+    }
+}
+project("orgchart-api-web") {
+    apply plugin: "info.solidsoft.pitest"
+    apply plugin: 'com.bmuschko.tomcat'
+    apply plugin: 'war'
+
+    ext.jacksonVersion = "2.6.0"
+    def tomcatVersion = '7.0.59'
+
+
+    dependencies {
+        compile project(':orgchart-api-service')
+        compile(group: 'com.nexient', name: 'security', version: '1.2.0')
+        compile "javax.servlet:javax.servlet-api:3.0.1",
+                "org.springframework.security:spring-security-web:$springSecurityVersion",
+                "org.springframework.security:spring-security-config:$springSecurityVersion",
+                "io.springfox:springfox-swagger2:2.2.2",
+                "io.springfox:springfox-swagger-ui:2.2.2",
+                "org.springframework:spring-webmvc:$springVersion",
+                "com.fasterxml.jackson.core:jackson-databind:$jacksonVersion",
+                "io.springfox:springfox-swagger-ui:2.2.2"
+
+
+        testCompile project(":orgchart-api-data").sourceSets.test.output
+        testCompile project(":orgchart-api-model").sourceSets.test.output
+
+        providedCompile "javax.servlet:javax.servlet-api:3.0.1"
+
+        tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+                "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}",
+                "org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}"
+
+    }
+
+    pitest {
+        targetClasses = ["com.nexient.orgchart.web.*"]
+    }
+    war {
+        archiveName = 'api#orgchart.war'
+    }
+
+    tomcat {
+        contextPath = 'api/orgchart'
+    }
+
+    [tomcatRun, tomcatRunWar].each { task ->
+
+        task.additionalRuntimeResources << file("$rootDir/orgchart-config/environment/dev/")
+
+    }
+
+}
