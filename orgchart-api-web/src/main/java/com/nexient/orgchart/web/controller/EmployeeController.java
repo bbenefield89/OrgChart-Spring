@@ -1,8 +1,9 @@
-package com.nexient.orgchart.web.com.nexient.orgchart.web.controller;
+package com.nexient.orgchart.web.controller;
 
 import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,15 +36,16 @@ public class EmployeeController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Employee createEmployee(@Valid Employee emp){
+    public Employee createEmployee(@Valid @RequestBody Employee emp){
         return empService.storeOrUpdate(emp);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Employee updateEmployee(@Valid Employee emp){
+    public Employee updateEmployee(@Valid @RequestBody Employee emp){
         return empService.storeOrUpdate(emp);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{employeeId}", method = RequestMethod.DELETE)
     public boolean deleteEmployee(@PathVariable int employeeId){
         return empService.removeEmployee(employeeId);

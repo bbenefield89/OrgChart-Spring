@@ -10,21 +10,21 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "DEPARTMENT")
+@Table(name = "department")
 public class DepartmentEntity extends BaseEntity {
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "MANAGER_ID")
+	@JoinColumn(name = "manager_id")
 	private EmployeeEntity manager;
 
-	@Column(name = "NAME", nullable = false, length = 50, unique = true)
+	@Column(name = "name", nullable = false, length = 50, unique = true)
 	@NotNull
 	@NotEmpty
 	@Size(min = 1, max = 45)
 	private String name;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "PARENT_DEPARTMENT_ID", referencedColumnName = "ID")
+	@JoinColumn(name = "parent_department_id", referencedColumnName = "ID")
 	private DepartmentEntity parentDepartment;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "parentDepartment")

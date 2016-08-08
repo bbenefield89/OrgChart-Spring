@@ -1,9 +1,11 @@
 package com.nexient.orgchart.model;
 
+import java.io.Serializable;
+
 /**
  * Created by mrangel on 7/20/2016.
  */
-public class BaseModel {
+public class BaseModel implements Serializable{
 
     private Integer id;
 

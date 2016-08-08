@@ -15,10 +15,10 @@ public class BaseEntity {
 
 	@Id
 	@GeneratedValue(strategy = IDENTITY)
-	@Column(name = "ID", unique = true, nullable = false)
+	@Column(name = "id", unique = true, nullable = false)
 	private Integer id;
 
-	@Column(name = "IS_ACTIVE", columnDefinition="boolean default true")
+	@Column(name = "is_active", columnDefinition="boolean default true")
 	private Boolean isActive;
 
 	public Boolean getIsActive() {

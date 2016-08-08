@@ -4,7 +4,7 @@ package com.nexient.orgchart.web;
 import com.nexient.orgchart.model.Employee;
 import com.nexient.orgchart.model.Models;
 import com.nexient.orgchart.service.EmployeeService;
-import com.nexient.orgchart.web.com.nexient.orgchart.web.controller.EmployeeController;
+import com.nexient.orgchart.web.controller.EmployeeController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mockito.InjectMocks;
@@ -96,7 +96,11 @@ public class EmployeeControllerTest {
     public void createJobTitle() throws Exception{
         given(this.employeeService.storeOrUpdate(employee))
                 .willReturn(employee);
-        this.mvc.perform(post("/emps").accept(MediaType.APPLICATION_JSON))
+        this.mvc.perform(post("/emps").accept(MediaType.APPLICATION_JSON)
+                .content(this.employeeCurl())
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
@@ -106,23 +110,49 @@ public class EmployeeControllerTest {
     public void updateJobTitle() throws Exception{
         given(this.employeeService.storeOrUpdate(employee))
                 .willReturn(employee);
-        this.mvc.perform(put("/emps").accept(MediaType.APPLICATION_JSON))
+        this.mvc.perform(put("/emps").accept(MediaType.APPLICATION_JSON)
+                .content(this.employeeCurl())
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
     }
+
     @Test
     public void deleteJobTitle() throws Exception{
 
         given(this.employeeService.removeEmployee(employee.getId()))
                 .willReturn(true);
-        MvcResult result = this.mvc.perform(delete("/emps/"+employee.getId()).accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(delete("/emps/"+employee.getId()).accept(MediaType.APPLICATION_JSON)
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andReturn();
         String mvc_result = result.getResponse().getContentAsString();
         Assert.assertNotNull(mvc_result);
         Assert.assertEquals(mvc_result, "true");
     }
 
+    private String employeeCurl(){
+        String curl = "{\n" +
+                "  \"email\": \"string\",\n" +
+                "  \"first_name\": \"string\",\n" +
+                "  \"id\": 0,\n" +
+                "  \"is_active\": true,\n" +
+                "  \"is_manager\": true,\n" +
+                "  \"job_title\": {\n" +
+                "    \"id\": 0,\n" +
+                "    \"is_active\": true,\n" +
+                "    \"name\": \"string\"\n" +
+                "  },\n" +
+                "  \"last_name\": \"string\",\n" +
+                "  \"middle_initial\": {},\n" +
+                "  \"skype_name\": \"string\"\n" +
+                "}";
+        return curl;
+    }
 }

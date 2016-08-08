@@ -1,8 +1,9 @@
-package com.nexient.orgchart.web.com.nexient.orgchart.web.controller;
+package com.nexient.orgchart.web.controller;
 
 import com.nexient.orgchart.model.Department;
 import com.nexient.orgchart.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,15 +36,16 @@ public class DepartmentController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public Department createDepartment(@Valid Department dept){
+    public Department createDepartment(@Valid @RequestBody Department dept){
         return deptService.storeOrUpdate(dept);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public Department updateDepartment(@Valid Department dept){
+    public Department updateDepartment(@Valid @RequestBody Department dept){
         return deptService.storeOrUpdate(dept);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @RequestMapping(value = "/{departmentId}", method = RequestMethod.DELETE)
     public boolean deleteDepartment(@PathVariable int departmentId){
         return deptService.removeDepartment(departmentId);

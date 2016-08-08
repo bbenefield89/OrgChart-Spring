@@ -6,7 +6,7 @@ import com.nexient.orgchart.model.Models;
 import com.nexient.orgchart.service.JobTitleService;
 
 
-import com.nexient.orgchart.web.com.nexient.orgchart.web.controller.JobTitleController;
+import com.nexient.orgchart.web.controller.JobTitleController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mockito.InjectMocks;
@@ -108,7 +108,11 @@ public class JobTitleControllerTest {
     public void createJobTitle() throws Exception{
         given(this.jobTitleService.storeOrUpdate(jobTitle))
                 .willReturn(jobTitle);
-        this.mvc.perform(post("/titles").accept(MediaType.APPLICATION_JSON))
+        this.mvc.perform(post("/titles").accept(MediaType.APPLICATION_JSON)
+                .content(this.jobTitleCurl())
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
@@ -118,7 +122,10 @@ public class JobTitleControllerTest {
     public void updateJobTitle() throws Exception{
         given(this.jobTitleService.storeOrUpdate(jobTitle))
                 .willReturn(jobTitle);
-        this.mvc.perform(put("/titles").accept(MediaType.APPLICATION_JSON))
+        this.mvc.perform(put("/titles").accept(MediaType.APPLICATION_JSON).content(this.jobTitleCurl())
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andReturn();
@@ -129,13 +136,25 @@ public class JobTitleControllerTest {
         int id= jobTitle.getId();
         given(this.jobTitleService.removeJobTitle(jobTitle.getId()))
                 .willReturn(true);
-        MvcResult result = this.mvc.perform(delete("/titles/"+id).accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(delete("/titles/"+id).accept(MediaType.APPLICATION_JSON)
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andReturn();
+
         String mvc_result = result.getResponse().getContentAsString();
         Assert.assertNotNull(mvc_result);
         Assert.assertEquals(mvc_result, "true");
     }
 
+    private String jobTitleCurl(){
+        String curl = "{\n" +
+                "  \"id\": 0,\n" +
+                "  \"is_active\": true,\n" +
+                "  \"name\": \"string\"\n" +
+                "}";
+        return curl;
+    }
 }

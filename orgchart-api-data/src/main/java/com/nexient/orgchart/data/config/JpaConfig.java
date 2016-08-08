@@ -74,10 +74,7 @@ public class JpaConfig {
         return dataSource;
     }
 
-
-
     @Bean
-
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() throws PropertyVetoException {
 
         final HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();

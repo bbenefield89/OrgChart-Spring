@@ -4,7 +4,7 @@ package com.nexient.orgchart.web;
 import com.nexient.orgchart.model.Department;
 import com.nexient.orgchart.model.Models;
 import com.nexient.orgchart.service.DepartmentService;
-import com.nexient.orgchart.web.com.nexient.orgchart.web.controller.DepartmentController;
+import com.nexient.orgchart.web.controller.DepartmentController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mockito.InjectMocks;
@@ -24,6 +24,7 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -96,7 +97,11 @@ public class DepartmentControllerTest {
     public void createDepartment() throws Exception{
         given(this.departmentService.storeOrUpdate(department))
                 .willReturn(department);
-        this.mvc.perform(post("/depts").accept(MediaType.APPLICATION_JSON))
+        this.mvc.perform(post("/depts").accept(MediaType.APPLICATION_JSON)
+                .content(this.departmentCurl())
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -105,7 +110,11 @@ public class DepartmentControllerTest {
     public void updateDepartment() throws Exception{
         given(this.departmentService.storeOrUpdate(department))
                 .willReturn(department);
-        this.mvc.perform(put("/depts").accept(MediaType.APPLICATION_JSON))
+        this.mvc.perform(put("/depts").accept(MediaType.APPLICATION_JSON)
+                .content(this.departmentCurl())
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
@@ -114,12 +123,41 @@ public class DepartmentControllerTest {
     public void deleteDepartment() throws Exception{
         given(this.departmentService.removeDepartment(department.getId()))
                 .willReturn(true);
-        MvcResult result = this.mvc.perform(delete("/depts/"+department.getId()).accept(MediaType.APPLICATION_JSON))
+        MvcResult result = this.mvc.perform(delete("/depts/"+department.getId())
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
                 .andDo(print())
-                .andExpect(status().isOk())
+                .andExpect(status().isNoContent())
                 .andReturn();
         String mvc_result = result.getResponse().getContentAsString();
         Assert.assertNotNull(mvc_result);
         Assert.assertEquals(mvc_result, "true");
+    }
+
+    private String departmentCurl(){
+        String curl = "{\n" +
+                "  \"id\": 0,\n" +
+                "  \"is_active\": true,\n" +
+                "  \"manager\": {\n" +
+                "    \"email\": \"string\",\n" +
+                "    \"first_name\": \"string\",\n" +
+                "    \"id\": 0,\n" +
+                "    \"is_active\": true,\n" +
+                "    \"is_manager\": true,\n" +
+                "    \"job_title\": {\n" +
+                "      \"id\": 0,\n" +
+                "      \"is_active\": true,\n" +
+                "      \"name\": \"string\"\n" +
+                "    },\n" +
+                "    \"last_name\": \"string\",\n" +
+                "    \"middle_initial\": {},\n" +
+                "    \"skype_name\": \"string\"\n" +
+                "  },\n" +
+                "  \"name\": \"string\",\n" +
+                "  \"parent_department\": {}\n" +
+                "}";
+                return curl;
     }
 }

@@ -1,12 +1,10 @@
-package com.nexient.orgchart.web.com.nexient.orgchart.web.config;
+package com.nexient.orgchart.web.config;
 
 /**
  * Created by mrangel on 8/5/2016.
  */
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.nexient.security.authentication.AuthoritiesMap;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -18,14 +16,12 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-import java.util.Arrays;
 import java.util.List;
 
 
 @Configuration
 @Import({SwaggerConfig.class})
 @EnableWebMvc
-
 public class WebConfig extends WebMvcConfigurerAdapter {
 
 
@@ -48,7 +44,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     // This must be a bean so tests can access it.
-
     @Bean
     public MappingJackson2HttpMessageConverter jackson2HttpMessageConverter() {
 

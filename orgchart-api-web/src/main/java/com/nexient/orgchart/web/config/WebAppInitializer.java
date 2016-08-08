@@ -1,4 +1,4 @@
-package com.nexient.orgchart.web.com.nexient.orgchart.web.config;
+package com.nexient.orgchart.web.config;
 
 /**
  * Created by mrangel on 8/5/2016.

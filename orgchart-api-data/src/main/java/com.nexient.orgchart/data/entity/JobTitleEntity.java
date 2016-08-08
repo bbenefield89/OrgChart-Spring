@@ -12,10 +12,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "JOB_TITLE")
+@Table(name = "job_title")
 public class JobTitleEntity extends BaseEntity {
 
-	@Column(name = "NAME", unique = true, nullable = false)
+	@Column(name = "name", unique = true, nullable = false)
 	@NotNull
 	@NotEmpty
 	private String name;

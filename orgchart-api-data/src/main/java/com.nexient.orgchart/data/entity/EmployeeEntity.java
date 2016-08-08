@@ -9,38 +9,38 @@ import java.util.Set;
  * EmployeeEntity entity. @author dhoover
  */
 @Entity
-@Table(name = "EMPLOYEE")
+@Table(name = "employee")
 public class EmployeeEntity extends BaseEntity {
 
 	@ManyToOne
-	@JoinColumn(name = "JOB_TITLE_ID")
+	@JoinColumn(name = "job_title_id")
 	private JobTitleEntity jobTitle;
 
 	@ManyToOne
-	@JoinColumn(name = "DEPARTMENT_ID")
+	@JoinColumn(name = "department_id")
 	private DepartmentEntity department;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "MANAGER_ID")
+	@JoinColumn(name = "manager_id")
 	private EmployeeEntity manager;
 
-	@Column(name = "SKYPE_NAME", unique = true, nullable = false)
+	@Column(name = "skype_name", unique = true, nullable = false)
 	@NotNull
 	private String skypeName;
 
-	@Column(name = "FIRST_NAME", nullable = false, length = 20)
+	@Column(name = "first_name", nullable = false, length = 20)
 	private String firstName;
 
-	@Column(name ="MIDDLE_INITIAL", length = 1)
+	@Column(name ="middle_initial", length = 1)
 	private Character middleInitial;
 
-	@Column(name = "LAST_NAME", nullable = false, length = 45)
+	@Column(name = "last_name", nullable = false, length = 45)
 	private String lastName;
 
-	@Column(name = "EMAIL", length = 100)
+	@Column(name = "email", length = 100)
 	private String email;
 
-	@Column(name = "IS_MANAGER", nullable = false)
+	@Column(name = "is_manager", nullable = false)
 	private Boolean isManager;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "manager")
