@@ -19,66 +19,65 @@ import java.util.List;
 @Service("departmentService")
 public class DepartmentService {
 
+    private static final Logger log = LoggerFactory.getLogger(DepartmentService.class);
 
-	private static final Logger log = LoggerFactory.getLogger(DepartmentService.class);
+    @Autowired
+    private DepartmentRepository deptRepository;
 
-	@Autowired
-	private DepartmentRepository deptRepository;
+    @Autowired
+    private EmployeeRepository empRepository;
 
-	@Autowired
-	private EmployeeRepository empRepository;
+    @Autowired
+    DepartmentMapper departmentMapper;
 
-	@Autowired
-	DepartmentMapper departmentMapper;
+    public List<Department> findAllDepartments() {
+        List<Department> deptsModel = new ArrayList<>();
 
-	public List<Department> findAllDepartments() {
-		List<Department> deptsModel = new ArrayList<>();
+        for (DepartmentEntity de : deptRepository.findAll()) {
+            deptsModel.add(departmentMapper.entityToModel(de));
+        }
 
-		for(DepartmentEntity de: deptRepository.findAll()){
-			deptsModel.add(departmentMapper.entityToModel(de));
-		}
+        return deptsModel;
+    }
 
-		return deptsModel;
-	}
+    public List<Department> findAllActiveDepartments() {
+        List<DepartmentEntity> deptsEntity = this.deptRepository.findByIsActiveIsTrue();
+        List<Department> deptsModel = new ArrayList<>();
 
-	public List<Department> findAllActiveDepartments() {
-		List<DepartmentEntity> deptsEntity = this.deptRepository.findByIsActiveIsTrue();
-		List<Department> deptsModel = new ArrayList<>();
+        for (DepartmentEntity de : deptsEntity) {
+            deptsModel.add(departmentMapper.entityToModel(de));
+        }
 
-		for(DepartmentEntity de: deptsEntity){
-			deptsModel.add(departmentMapper.entityToModel(de));
-		}
+        return deptsModel;
+    }
 
-		return deptsModel;
-	}
+    public Department findDepartmentByID(Integer departmentId) {
 
-	public Department findDepartmentByID(Integer departmentId) {
+        return departmentMapper.entityToModel(this.deptRepository.findOne(departmentId));
+    }
 
-		return departmentMapper.entityToModel(this.deptRepository.findOne(departmentId));
-	}
+    public Department storeOrUpdate(Department department) {
+        DepartmentEntity departmentEntity = departmentMapper.modelToEntity(department);
+        return departmentMapper.entityToModel(this.deptRepository.save(departmentEntity));
+    }
 
-	public Department storeOrUpdate(Department department) {
-		DepartmentEntity departmentEntity = departmentMapper.modelToEntity(department);
-		return departmentMapper.entityToModel(this.deptRepository.save(departmentEntity));
-	}
+    public boolean removeDepartment(Integer id) {
+        Assert.notNull(deptRepository.findOne(id));
 
-	public boolean removeDepartment(Integer id) {
-		Assert.notNull(deptRepository.findOne(id));
-
-		DepartmentEntity parent = deptRepository.findOne(id);
-		parent.setIsActive(false);
+        DepartmentEntity parent = deptRepository.findOne(id);
+        parent.setIsActive(false);
 
         this.setParentDepartmentToNullByParent(deptRepository.findByParentDepartment(parent));
 
-		Department dept = storeOrUpdate(departmentMapper.entityToModel(parent));
+        Department dept = storeOrUpdate(departmentMapper.entityToModel(parent));
 
-		return !(dept.getIsActive());
-	}
+        return !(dept.getIsActive());
+    }
 
-    public List<DepartmentEntity> setParentDepartmentToNullByParent(List<DepartmentEntity> depts){
+    public List<DepartmentEntity> setParentDepartmentToNullByParent(List<DepartmentEntity> depts) {
         List<DepartmentEntity> deptsWithNullParent = new ArrayList<>();
 
-        for(DepartmentEntity child: depts){
+        for (DepartmentEntity child : depts) {
             child.setParentDepartment(null);
             deptsWithNullParent.add(child);
         }
@@ -86,12 +85,12 @@ public class DepartmentService {
     }
 
     public List<Department> findAllInactiveDepartments() {
-    	List<Department> depts = new ArrayList<>();
+        List<Department> depts = new ArrayList<>();
 
-		for(DepartmentEntity department: this.deptRepository.findByIsActiveIsFalse()){
-			depts.add(departmentMapper.entityToModel(department));
-		}
+        for (DepartmentEntity department : this.deptRepository.findByIsActiveIsFalse()) {
+            depts.add(departmentMapper.entityToModel(department));
+        }
 
-		return depts;
-	}
+        return depts;
+    }
 }
