@@ -35,28 +35,28 @@ public class JobTitleMapperTest {
 
     }
 
-    @Test
-    public void testJobTitleEntityToModel(){
-        this.titleModel = this.titleMapper.entityToModel(titleEntity);
-        Assert.assertNotNull(titleModel);
-        Assert.assertNotNull(titleModel.getName());
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testJobTitleEntityNull(){
-        this.titleMapper.entityToModel(null);
-    }
-
-    @Test
-    public void testJobTitleModelToEntity(){
-        this.titleEntity = this.titleMapper.modelToEntity(titleModel);
-        Assert.assertNotNull(titleEntity);
-        Assert.assertNotNull(titleEntity.getName());
-    }
-
-    @Test(expectedExceptions = IllegalArgumentException.class)
-    public void testJobTitleModelNull(){
-        this.titleMapper.modelToEntity(null);
-    }
+//    @Test
+//    public void testJobTitleEntityToModel(){
+//        this.titleModel = this.titleMapper.entityToModel(titleEntity);
+//        Assert.assertNotNull(titleModel);
+//        Assert.assertNotNull(titleModel.getName());
+//    }
+//
+//    @Test(expectedExceptions = IllegalArgumentException.class)
+//    public void testJobTitleEntityNull(){
+//        this.titleMapper.entityToModel(null);
+//    }
+//
+//    @Test
+//    public void testJobTitleModelToEntity(){
+//        this.titleEntity = this.titleMapper.modelToEntity(titleModel);
+//        Assert.assertNotNull(titleEntity);
+//        Assert.assertNotNull(titleEntity.getName());
+//    }
+//
+//    @Test(expectedExceptions = IllegalArgumentException.class)
+//    public void testJobTitleModelNull(){
+//        this.titleMapper.modelToEntity(null);
+//    }
 
 }

@@ -37,31 +37,30 @@ public class DepartmentMapperTest {
     private EmployeeEntity managerEntity;
     private Employee managerModel;
 
-    @BeforeClass
-    public void before(){
-        MockitoAnnotations.initMocks(this);
-
-        this.departmentEntity = Entities.department();
-        this.departmentEntity.setId(Entities.DEPT_ID);
-        this.departmentModel = Models.department();
-        this.departmentModel.setId(Models.DEPT_ID);
-
-        this.parentDeptEntity = Entities.department();
-        this.parentDeptEntity.setId(Entities.DEPT_ID);
-        this.parentDeptModel = Models.department();
-        this.parentDeptModel.setId(Models.DEPT_ID);
-
-        this.managerEntity = Entities.manager();
-        this.managerEntity.setId(Entities.MANAGER_ID);
-        this.managerModel = Models.manager();
-        this.managerModel.setId(Models.MANAGER_ID);
-
-        this.deptMapper.setEmployeeMapper(empMapper);
-
-        when(this.empMapper.entityToModel(any(EmployeeEntity.class))).thenReturn(Models.employee());
-        when(this.empMapper.modelToEntity(any(Employee.class))).thenReturn(Entities.employee());
-
-    }
+//    @BeforeClass
+//    public void before(){
+//        MockitoAnnotations.initMocks(this);
+//
+//        this.departmentEntity = Entities.department();
+//        this.departmentEntity.setId(Entities.DEPT_ID);
+//        this.departmentModel = Models.department();
+//        this.departmentModel.setId(Models.DEPT_ID);
+//
+//        this.parentDeptEntity = Entities.department();
+//        this.parentDeptEntity.setId(Entities.DEPT_ID);
+//        this.parentDeptModel = Models.department();
+//        this.parentDeptModel.setId(Models.DEPT_ID);
+//
+//        this.managerEntity = Entities.manager();
+//        this.managerEntity.setId(Entities.MANAGER_ID);
+//        this.managerModel = Models.manager();
+//        this.managerModel.setId(Models.MANAGER_ID);
+//
+//        this.deptMapper.setEmployeeMapper(empMapper);
+//
+//        when(this.empMapper.entityToModel(any(EmployeeEntity.class))).thenReturn(Models.employee());
+//        when(this.empMapper.modelToEntity(any(Employee.class))).thenReturn(Entities.employee());
+//    }
 
     @Test
     public void testDepartmentEntityToModel(){
