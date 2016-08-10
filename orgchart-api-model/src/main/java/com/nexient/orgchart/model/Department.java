@@ -1,12 +1,9 @@
 package com.nexient.orgchart.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
  * Created by mrangel on 7/20/2016.
  */
-public class Department extends BaseModel {
+public class Department {
 
     private Department parentDepartment;
     private Employee manager;
