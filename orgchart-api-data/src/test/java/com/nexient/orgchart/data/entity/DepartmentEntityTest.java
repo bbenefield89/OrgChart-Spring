@@ -24,17 +24,17 @@ public class DepartmentEntityTest {
 
     private static final Random RANDOM = new Random();
 
-    @BeforeSuite
-    public void before() {
-        dept = Entities.department();
-        emp = Entities.employee();
-        child = Entities.department();
-
-        childDepartments= new HashSet<>();
-        departmentEmployees= new HashSet<>();
-
-        emp.setId(Entities.EMPLOYEE_ID);
-    }
+//    @BeforeSuite
+//    public void before() {
+//        dept = Entities.department();
+//        emp = Entities.employee();
+//        child = Entities.department();
+//
+//        childDepartments= new HashSet<>();
+//        departmentEmployees= new HashSet<>();
+//
+//        emp.setId(Entities.EMPLOYEE_ID);
+//    }
 
     @Test
     public void instantiated() {
