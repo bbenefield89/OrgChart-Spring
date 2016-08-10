@@ -9,6 +9,10 @@ import org.hibernate.validator.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Created by kskronek on 5/24/2016.
+ */
+
 @Entity
 @Table(name = "department")
 public class DepartmentEntity extends BaseEntity {
