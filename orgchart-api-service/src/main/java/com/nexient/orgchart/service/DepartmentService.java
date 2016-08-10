@@ -61,18 +61,18 @@ public class DepartmentService {
         return departmentMapper.entityToModel(this.deptRepository.save(departmentEntity));
     }
 
-    public boolean removeDepartment(Integer id) {
-        Assert.notNull(deptRepository.findOne(id));
-
-        DepartmentEntity parent = deptRepository.findOne(id);
-        parent.setIsActive(false);
-
-        this.setParentDepartmentToNullByParent(deptRepository.findByParentDepartment(parent));
-
-        Department dept = storeOrUpdate(departmentMapper.entityToModel(parent));
-
-        return !(dept.getIsActive());
-    }
+//    public boolean removeDepartment(Integer id) {
+//        Assert.notNull(deptRepository.findOne(id));
+//
+//        DepartmentEntity parent = deptRepository.findOne(id);
+//        parent.setIsActive(false);
+//
+//        this.setParentDepartmentToNullByParent(deptRepository.findByParentDepartment(parent));
+//
+//        Department dept = storeOrUpdate(departmentMapper.entityToModel(parent));
+//
+//        return !(dept.getIsActive());
+//    }
 
     public List<DepartmentEntity> setParentDepartmentToNullByParent(List<DepartmentEntity> depts) {
         List<DepartmentEntity> deptsWithNullParent = new ArrayList<>();
@@ -84,13 +84,13 @@ public class DepartmentService {
         return deptsWithNullParent;
     }
 
-    public List<Department> findAllInactiveDepartments() {
-        List<Department> depts = new ArrayList<>();
-
-        for (DepartmentEntity department : this.deptRepository.findByIsActiveIsFalse()) {
-            depts.add(departmentMapper.entityToModel(department));
-        }
-
-        return depts;
-    }
+//    public List<Department> findAllInactiveDepartments() {
+//        List<Department> depts = new ArrayList<>();
+//
+//        for (DepartmentEntity department : this.deptRepository.findByIsActiveIsFalse()) {
+//            depts.add(departmentMapper.entityToModel(department));
+//        }
+//
+//        return depts;
+//    }
 }
