@@ -13,7 +13,7 @@ import java.util.List;
 @Repository
 public interface DepartmentRepository extends BaseRepository<DepartmentEntity, Integer> {
 
-    public DepartmentEntity findByName(String name);
+    DepartmentEntity findByName(String name);
 
     List<DepartmentEntity> findByManager(EmployeeEntity employeeEntity);
 
