@@ -22,12 +22,11 @@ public class JobTitleTest {
         Assert.assertNotNull(jobTitle);
     }
 
-    @Test
-    public void descriptionSetandGetTest(){
-        jobTitle.setName(name);
-        String descript=jobTitle.getName();
-        Assert.assertEquals(descript, name);
-    }
-
+//    @Test
+//    public void descriptionSetandGetTest(){
+//        jobTitle.setName(name);
+//        String descript=jobTitle.getName();
+//        Assert.assertEquals(descript, name);
+//    }
 
 }
