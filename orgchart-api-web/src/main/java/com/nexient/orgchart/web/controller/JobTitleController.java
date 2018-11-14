@@ -36,7 +36,7 @@ public class JobTitleController {
 
     @RequestMapping(method = RequestMethod.POST)
     public JobTitle createJobTitle(@Valid @RequestBody JobTitle title){
-         return titleService.storeOrUpdate(title);
+        return titleService.storeOrUpdate(title);
     }
 
     @RequestMapping(method = RequestMethod.PUT)

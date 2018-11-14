@@ -3,8 +3,8 @@ package com.nexient.orgchart.web.config;
 /**
  * Created by mrangel on 8/5/2016.
  */
-import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.fasterxml.jackson.databind.SerializationFeature;
+//import com.fasterxml.jackson.databind.PropertyNamingStrategy;
+//import com.fasterxml.jackson.databind.SerializationFeature;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -48,14 +48,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
 
         final MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         final Jackson2ObjectMapperBuilder builder = this.jacksonBuilder();
-        converter.setObjectMapper(builder.build().enable(SerializationFeature.INDENT_OUTPUT));
+        //converter.setObjectMapper(builder.build().enable(SerializationFeature.INDENT_OUTPUT));
         return converter;
     }
 
     private Jackson2ObjectMapperBuilder jacksonBuilder() {
 
         final Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
-        builder.propertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
+        //builder.propertyNamingStrategy(PropertyNamingStrategy.CAMEL_CASE_TO_LOWER_CASE_WITH_UNDERSCORES);
         return builder;
     }
 

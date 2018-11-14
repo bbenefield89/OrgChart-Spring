@@ -1,6 +1,6 @@
 package com.nexient.orgchart.mapper;
 
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+//import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.nexient.orgchart.data.entity.DepartmentEntity;
 import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.data.entity.Entities;
