@@ -59,19 +59,19 @@ public class Entities {
 //		emp.setIsManager(false);
 //		return emp;
 //	}
-//
-//	public static EmployeeEntity employee() {
-//		EmployeeEntity emp = new EmployeeEntity();
-//		emp.setIsActive(true);
-//		emp.setFirstName(FIRST_NAME);
-//		emp.setMiddleInitial(MIDDLE_INITIAL);
-//		emp.setLastName(LAST_NAME);
-//		emp.setEmail(EMAIL + random.nextInt());
-//		emp.setSkypeName(SKYPE_NAME + random.nextInt());
-//		emp.setIsManager(false);
-//		return emp;
-//	}
-//
+
+	public static EmployeeEntity employee() {
+		EmployeeEntity emp = new EmployeeEntity();
+		emp.setIsActive(true);
+		emp.setFirstName(FIRST_NAME);
+		emp.setMiddleInitial(MIDDLE_INITIAL);
+		emp.setLastName(LAST_NAME);
+		emp.setEmail(EMAIL + random.nextInt());
+		emp.setSkypeName(SKYPE_NAME + random.nextInt());
+		emp.setIsManager(false);
+		return emp;
+	}
+
 //	public static EmployeeEntity employee(Integer employeeId) {
 //		EmployeeEntity emp = new EmployeeEntity();
 //		emp.setIsActive(true);
