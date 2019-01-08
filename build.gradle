@@ -5,7 +5,7 @@ ext {
     jsonassertVersion = "1.3.0"
     hamcrestVersion = "1.3"
     mockitoVersion = "2.0.53-beta"
-    springDataJpaVersion = "1.10.2.RELEASE"
+    springDataJpaVersion = "1.11.15.RELEASE"
     springVersion = "4.2.6.RELEASE"
     springSecurityVersion = "4.1.1.RELEASE"
     testNgVersion = "6.9.10"
@@ -30,7 +30,7 @@ buildscript {
         classpath "org.liquibase:liquibase-gradle-plugin:1.2.1"
         classpath "com.bmuschko:gradle-tomcat-plugin:2.2.4"
         classpath "info.solidsoft.gradle.pitest:gradle-pitest-plugin:1.1.9"
-        classpath 'mysql:mysql-connector-java:5.1.36'
+        classpath 'mysql:mysql-connector-java:8.0.13'
         classpath 'org.liquibase:liquibase-gradle-plugin:1.1.0'
     }
 }
@@ -65,8 +65,8 @@ allprojects {
                 "com.fasterxml.jackson:jackson-parent:$jacksonVersion",
                 "org.jboss.spec.javax.transaction:jboss-transaction-api_1.2_spec:1.0.1.Final",
                 "org.hibernate:hibernate-validator:$hibernateVersion"
-                "javax.el:javax.el-api:3.0.0"
-                'org.springframework.boot:spring-boot-starter-test:1.4.0.RELEASE'
+        "javax.el:javax.el-api:3.0.0"
+        'org.springframework.boot:spring-boot-starter-test:1.4.0.RELEASE'
 
         testCompile "org.testng:testng:$testNgVersion",
                 "org.springframework:spring-test:$springVersion",
@@ -109,7 +109,7 @@ project("orgchart-api-data") {
                 "org.apache.commons:commons-lang3:$apacheCommonsVersion",
                 "org.hibernate:hibernate-entitymanager:$hibernateVersion",
                 "c3p0:c3p0:0.9.0.4",//replace with Hikari
-                "mysql:mysql-connector-java:5.1.36"
+                "mysql:mysql-connector-java:8.0.13"
 
         testCompile "org.hsqldb:hsqldb:2.3.4",
                 "org.testng:testng:$testNgVersion"
@@ -117,7 +117,7 @@ project("orgchart-api-data") {
 
     pitest{
         targetClasses =["com.nexient.orgchart.data.entity.*",
-                "com.nexient.orgchart.data.repository.*"
+                        "com.nexient.orgchart.data.repository.*"
         ]
     }
 
@@ -165,7 +165,7 @@ project("orgchart-api-service") {
     }
     pitest {
         targetClasses = ["com.nexient.orgchart.service.*",
-                "com.nexient.orgchart.mapper"
+                         "com.nexient.orgchart.mapper"
         ]
     }
 }
@@ -180,7 +180,7 @@ project("orgchart-api-web") {
 
     dependencies {
         compile project(':orgchart-api-service')
-        compile(group: 'com.nexient', name: 'security', version: '1.2.0')
+        compile(group: 'com.nexient', name: 'nexient-security', version: '5.4.3')
         compile "javax.servlet:javax.servlet-api:3.0.1",
                 "org.springframework.security:spring-security-web:$springSecurityVersion",
                 "org.springframework.security:spring-security-config:$springSecurityVersion",
