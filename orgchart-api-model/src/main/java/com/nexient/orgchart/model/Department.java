@@ -8,6 +8,8 @@ public class Department {
     private Department parentDepartment;
     private Employee manager;
     private String name;
+    private int id;
+    private boolean isActive;
 
     public Department getParentDepartment() {
         return parentDepartment;
@@ -33,4 +35,15 @@ public class Department {
         this.name = name;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setIsActive(boolean active) {
+        isActive = active;
+    }
 }
