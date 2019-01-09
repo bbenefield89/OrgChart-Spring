@@ -42,7 +42,7 @@ public class JobTitleEntityTest {
 	}
 
 	@Test
-	public void setAndGetTitleEmployees(){
+	public void setAndGetTitleEmployees() {
 		titleEmployees.add(emp);
 		jobTitle.setTitleEmployees(titleEmployees);
 		Assert.assertNotNull(jobTitle.getTitleEmployees());
