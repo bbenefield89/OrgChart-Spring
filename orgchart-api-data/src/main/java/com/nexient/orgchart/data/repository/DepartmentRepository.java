@@ -5,6 +5,7 @@ import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.data.entity.JobTitleEntity;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,4 +19,6 @@ public interface DepartmentRepository extends BaseRepository<DepartmentEntity, I
     List<DepartmentEntity> findByManager(EmployeeEntity employeeEntity);
 
     List<DepartmentEntity> findByParentDepartment(DepartmentEntity departmentEntity);
+
+
 }

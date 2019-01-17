@@ -78,31 +78,30 @@ public class Entities {
 //		emp.setId(EMPLOYEE_ID);
 //		return emp;
 //	}
-//
-//	public static EmployeeEntity manager() {
-//		EmployeeEntity mgr = new EmployeeEntity();
-//		mgr.setFirstName(FIRST_NAME);
-//		mgr.setIsActive(true);
-//		mgr.setMiddleInitial(MIDDLE_INITIAL);
-//		mgr.setLastName(LAST_NAME);
-//		mgr.setEmail(EMAIL + random.nextInt());
-//		mgr.setSkypeName(SKYPE_NAME + random.nextInt());
-//		mgr.setIsManager(true);
-//		return mgr;
-//	}
-//
+
+	public static EmployeeEntity manager() {
+		EmployeeEntity mgr = new EmployeeEntity();
+		mgr.setFirstName(FIRST_NAME);
+		mgr.setIsActive(true);
+		mgr.setMiddleInitial(MIDDLE_INITIAL);
+		mgr.setLastName(LAST_NAME);
+		mgr.setEmail(EMAIL + random.nextInt());
+		mgr.setSkypeName(SKYPE_NAME + random.nextInt());
+		mgr.setIsManager(true);
+		return mgr;
+	}
+
 //	public static JobTitleEntity jobTitle(Integer jobTitleId) {
 //		JobTitleEntity title = new JobTitleEntity();
 //		title.setId(JOB_TITLE_ID);
 //		title.setIsActive(true);
 //		return title;
 //	}
-//
-//	public static JobTitleEntity jobTitle() {
-//		JobTitleEntity jobTitle = new JobTitleEntity();
-//		jobTitle.setIsActive(true);
-//		jobTitle.setName(JOB_TITLE_NAME + random.nextInt());
-//		return jobTitle;
-//	}
 
+	public static JobTitleEntity jobTitle() {
+		JobTitleEntity jobTitle = new JobTitleEntity();
+		jobTitle.setIsActive(true);
+		jobTitle.setName(JOB_TITLE_NAME + random.nextInt());
+		return jobTitle;
+	}
 }

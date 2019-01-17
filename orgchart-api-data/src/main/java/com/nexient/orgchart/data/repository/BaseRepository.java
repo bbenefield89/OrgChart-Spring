@@ -16,4 +16,6 @@ public interface BaseRepository<T extends BaseEntity, ID extends Serializable> e
 
     List<T> findByIsActiveIsTrue();
 
+    List<T> findByIsActiveIsFalse();
+
 }

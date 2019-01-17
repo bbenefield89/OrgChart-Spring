@@ -1,9 +1,20 @@
 package com.nexient.orgchart.data.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
 import java.util.Set;
 
+@Entity
+@Table(name = "job_title")
 public class JobTitleEntity extends BaseEntity {
+
+    @Column(name = "name", unique = true)
+    @NotEmpty
     private String name;
+
+    @OneToMany
+    @JoinColumn(name = "employee_id")
     private Set<EmployeeEntity> titleEmployees;
 
     public String getName() {
@@ -21,4 +32,5 @@ public class JobTitleEntity extends BaseEntity {
     public void setTitleEmployees(Set<EmployeeEntity> titleEmployees) {
         this.titleEmployees = titleEmployees;
     }
+
 }

@@ -28,12 +28,12 @@ public class DepartmentEntityTest {
     public void before() {
         dept = Entities.department();
         emp = Entities.employee();
-//        child = Entities.department();
-//
+        child = Entities.department();
+
         childDepartments= new HashSet<>();
         departmentEmployees= new HashSet<>();
-//
-//        emp.setId(Entities.EMPLOYEE_ID);
+
+        emp.setId(Entities.EMPLOYEE_ID);
     }
 
     @Test

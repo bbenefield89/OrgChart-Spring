@@ -1,18 +1,67 @@
 package com.nexient.orgchart.data.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Set;
 
+import com.nexient.orgchart.data.entity.JobTitleEntity;
+
+@Entity
+@Table(name = "employees")
 public class EmployeeEntity extends BaseEntity {
+
+    @Column(name = "first_name")
+    @NotEmpty
+    @Size(min = 1)
 	private String firstName;
+
+    @Column(name = "middle_initial")
+    @NotEmpty
+    @Size(min = 1)
 	private char middleInitial;
+
+    @Column(name = "last_name")
+    @NotEmpty
+    @Size(min = 1)
 	private String lastName;
+
+    @Column(name = "email")
+    @NotEmpty
+    @Size(min = 1)
 	private String email;
+
+    @Column(name = "skype_name")
+    @NotEmpty
+    @Size(min = 1)
 	private String skypeName;
+
+    @ManyToOne
+    @JoinColumn(name = "jobtitle_id")
     private JobTitleEntity jobTitle;
+
+    @ManyToOne
+    @JoinColumn(name = "manager")
+    @NotNull
     private EmployeeEntity manager;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id")
+    @NotEmpty
     private DepartmentEntity department;
+
+    @OneToMany
+    @NotNull
     private Set<EmployeeEntity> ManagedEmployees;
+
+    @OneToMany
+    @NotNull
     private Set<DepartmentEntity> ManagedDepartments;
+
+    @Column(name = "is_manager")
+    @NotNull
 	private boolean isManager;
 
     public String getFirstName() {

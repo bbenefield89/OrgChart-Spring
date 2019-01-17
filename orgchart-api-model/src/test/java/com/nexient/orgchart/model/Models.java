@@ -79,18 +79,17 @@ public class Models {
         return jobTitle;
     }
 
-//    public static Employee manager() {
-//        Employee mgr = new Employee();
-//        mgr.setFirstName(FIRST_NAME);
-//        mgr.setMiddleInitial(MIDDLE_INITIAL);
-//        mgr.setLastName(LAST_NAME);
-//        mgr.setEmail(EMAIL + random.nextInt());
-//        mgr.setSkypeName(SKYPE_NAME + random.nextInt());
-//        mgr.setIsManager(true);
-//        return mgr;
-//    }
-//
-//
+    public static Employee manager() {
+        Employee mgr = new Employee();
+        mgr.setFirstName(FIRST_NAME);
+        mgr.setMiddleInitial(MIDDLE_INITIAL);
+        mgr.setLastName(LAST_NAME);
+        mgr.setEmail(EMAIL + random.nextInt());
+        mgr.setSkypeName(SKYPE_NAME + random.nextInt());
+        mgr.setIsManager(true);
+        return mgr;
+    }
+
 //    public static Employee employee(Integer employeeId) {
 //        Employee emp = new Employee();
 //        emp.setId(EMPLOYEE_ID);

@@ -17,33 +17,43 @@ public class DepartmentMapper implements EntityModelMapper<DepartmentEntity, Dep
 
     @Override
     public Department entityToModel(DepartmentEntity entity) {
-//        Assert.notNull(entity);
+        Assert.notNull(entity, "Entity cannot be null.");
+
         Department deptModel= new Department();
-//        deptModel.setId(entity.getId());
-//        deptModel.setName(entity.getName());
-//        if(entity.getManager()!= null) {
-//            deptModel.setManager(employeeMapper.entityToModel(entity.getManager()));
-//        }
-//        if(entity.getParentDepartment()!= null) {
-//            deptModel.setParentDepartment(entityToModel(entity.getParentDepartment()));
-//        }
-//        deptModel.setIsActive(entity.getIsActive());
+        deptModel.setId(entity.getId());
+        deptModel.setName(entity.getName());
+
+        if (entity.getManager() != null) {
+            deptModel.setManager(employeeMapper.entityToModel(entity.getManager()));
+        }
+
+        if (entity.getParentDepartment() != null) {
+            deptModel.setParentDepartment(entityToModel(entity.getParentDepartment()));
+        }
+
+        deptModel.setIsActive(entity.getIsActive());
+
         return deptModel;
     }
 
     @Override
     public DepartmentEntity modelToEntity(Department model) {
-//        Assert.notNull(model);
+        Assert.notNull(model);
+
         DepartmentEntity deptModel= new DepartmentEntity();
-//        deptModel.setId(model.getId());
-//        deptModel.setName(model.getName());
-//        if(model.getManager()!= null) {
-//            deptModel.setManager(employeeMapper.modelToEntity(model.getManager()));
-//        }
-//        if(model.getParentDepartment()!= null) {
-//            deptModel.setParentDepartment(modelToEntity(model.getParentDepartment()));
-//        }
-//        deptModel.setIsActive(model.getIsActive());
+        deptModel.setId(model.getId());
+        deptModel.setName(model.getName());
+
+        if(model.getManager()!= null) {
+            deptModel.setManager(employeeMapper.modelToEntity(model.getManager()));
+        }
+
+        if(model.getParentDepartment()!= null) {
+            deptModel.setParentDepartment(modelToEntity(model.getParentDepartment()));
+        }
+
+        deptModel.setIsActive(model.getIsActive());
+
         return deptModel;
     }
 

@@ -1,9 +1,6 @@
 package com.nexient.orgchart.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -11,6 +8,7 @@ import static javax.persistence.GenerationType.IDENTITY;
  * Created by kskronek on 5/24/2016.
  */
 @MappedSuperclass
+//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)  // Keep this here for future reference (just in case)
 public class BaseEntity {
 
 	@Id

@@ -45,29 +45,29 @@ public class DepartmentControllerTest {
 
     private Department department;
 
-//    @BeforeClass
-//    public void before(){
-//        MockitoAnnotations.initMocks(this);
-//        department = Models.department();
-//        department.setId(Models.DEPT_ID);
-//        departmentList= new ArrayList<>();
-//        departmentList.add(department);
-//
-//        mvc= MockMvcBuilders.standaloneSetup(controller).build();
-//    }
-//
-//    @Test
-//    public void readDepartment() throws Exception{
-//        given(this.departmentService.findDepartmentByID(Models.DEPT_ID))
-//                .willReturn(department);
-//
-//        MvcResult result = this.mvc.perform(get("/depts/"+department.getId()).accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andReturn();
-//        JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
-//        Assert.assertNotNull(mvc_result);
-//    }
+    @BeforeClass
+    public void before(){
+        MockitoAnnotations.initMocks(this);
+        department = Models.department();
+        department.setId(Models.DEPT_ID);
+        departmentList= new ArrayList<>();
+        departmentList.add(department);
+
+        mvc= MockMvcBuilders.standaloneSetup(controller).build();
+    }
+
+    @Test
+    public void readDepartment() throws Exception {
+        given(this.departmentService.findDepartmentByID(Models.DEPT_ID))
+                .willReturn(department);
+
+        MvcResult result = this.mvc.perform(get("/depts/"+department.getId()).accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONObject mvc_result = new JSONObject(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
+    }
 
     @Test
     public void getAllActiveDepartments() throws Exception{
@@ -81,17 +81,17 @@ public class DepartmentControllerTest {
         Assert.assertNotNull(mvc_result);
     }
 
-//    @Test
-//    public void getAllArchivedDepartments() throws Exception{
-//        given(this.departmentService.findAllInactiveDepartments())
-//                .willReturn(departmentList);
-//        MvcResult result = this.mvc.perform(get("/depts/archives").accept(MediaType.APPLICATION_JSON))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andReturn();
-//        JSONArray mvc_result = new JSONArray(result.getResponse().getContentAsString());
-//        Assert.assertNotNull(mvc_result);
-//    }
+    @Test
+    public void getAllArchivedDepartments() throws Exception{
+        given(this.departmentService.findAllInactiveDepartments())
+                .willReturn(departmentList);
+        MvcResult result = this.mvc.perform(get("/depts/archives").accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+        JSONArray mvc_result = new JSONArray(result.getResponse().getContentAsString());
+        Assert.assertNotNull(mvc_result);
+    }
 
     @Test
     public void createDepartment() throws Exception{
@@ -119,22 +119,22 @@ public class DepartmentControllerTest {
                 .andExpect(status().isOk());
     }
 
-//    @Test
-//    public void deleteDepartment() throws Exception{
-//        given(this.departmentService.removeDepartment(department.getId()))
-//                .willReturn(true);
-//        MvcResult result = this.mvc.perform(delete("/depts/"+department.getId())
-//                .accept(MediaType.APPLICATION_JSON)
-//                .header("Accept-Language", "en-US,en;q=0.5")
-//                .header("Content-type", "application/json")
-//                .header("Accept", "application/json"))
-//                .andDo(print())
-//                .andExpect(status().isNoContent())
-//                .andReturn();
-//        String mvc_result = result.getResponse().getContentAsString();
-//        Assert.assertNotNull(mvc_result);
-//        Assert.assertEquals(mvc_result, "true");
-//    }
+    @Test
+    public void deleteDepartment() throws Exception{
+        given(this.departmentService.removeDepartment(department.getId()))
+                .willReturn(true);
+        MvcResult result = this.mvc.perform(delete("/depts/"+department.getId())
+                .accept(MediaType.APPLICATION_JSON)
+                .header("Accept-Language", "en-US,en;q=0.5")
+                .header("Content-type", "application/json")
+                .header("Accept", "application/json"))
+                .andDo(print())
+                .andExpect(status().isNoContent())
+                .andReturn();
+        String mvc_result = result.getResponse().getContentAsString();
+        Assert.assertNotNull(mvc_result);
+        Assert.assertEquals(mvc_result, "true");
+    }
 
     private String departmentCurl(){
         String curl = "{\n" +

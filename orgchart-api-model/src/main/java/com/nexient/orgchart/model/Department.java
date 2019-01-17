@@ -3,13 +3,11 @@ package com.nexient.orgchart.model;
 /**
  * Created by mrangel on 7/20/2016.
  */
-public class Department {
+public class Department extends BaseModel {
 
     private Department parentDepartment;
     private Employee manager;
     private String name;
-    private int id;
-    private boolean isActive;
 
     public Department getParentDepartment() {
         return parentDepartment;
@@ -33,17 +31,5 @@ public class Department {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setIsActive(boolean active) {
-        isActive = active;
     }
 }

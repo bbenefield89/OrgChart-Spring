@@ -20,7 +20,7 @@ import java.util.Random;
  */
 @ContextConfiguration(classes= TestJpaConfig.class)
 @Transactional
-public class DepartmentRepositoryTest  extends AbstractTransactionalTestNGSpringContextTests {
+public class DepartmentRepositoryTest extends AbstractTransactionalTestNGSpringContextTests {
     private static Random random = new Random();
 
     private static final String SOME_NEW_NAME = "Some New Name";

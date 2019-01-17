@@ -31,10 +31,10 @@ public class DepartmentEntity extends BaseEntity {
 	@JoinColumn(name = "parent_department_id", referencedColumnName = "ID")
 	private DepartmentEntity parentDepartment;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "parentDepartment")
+	@OneToMany(mappedBy = "parentDepartment")
 	private Set<DepartmentEntity> departments = new HashSet<>(0);
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
+	@OneToMany(mappedBy = "department")
 	private Set<EmployeeEntity> employees = new HashSet<>(0);
 
 	public String getName() {

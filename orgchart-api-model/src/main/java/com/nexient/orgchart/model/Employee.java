@@ -1,7 +1,6 @@
 package com.nexient.orgchart.model;
 
-public class Employee {
-    private int id;
+public class Employee extends BaseModel {
     private Department department;
     private Employee manager;
     private String firstName;
@@ -11,14 +10,6 @@ public class Employee {
     private String email;
     private String skypeName;
     private boolean isManager;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Department getDepartment() {
         return department;

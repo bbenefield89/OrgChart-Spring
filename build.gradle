@@ -180,7 +180,7 @@ project("orgchart-api-web") {
 
     dependencies {
         compile project(':orgchart-api-service')
-        compile(group: 'com.nexient', name: 'nexient-security', version: '5.4.3')
+        compile 'com.nexient:nexient-security:5.4.3'
         compile "javax.servlet:javax.servlet-api:3.0.1",
                 "org.springframework.security:spring-security-web:$springSecurityVersion",
                 "org.springframework.security:spring-security-config:$springSecurityVersion",
