@@ -128,7 +128,7 @@ public class EmployeeServiceTest {
 
         doAnswer(new Answer<EmployeeEntity>() {
             @Override
-            public EmployeeEntity answer(InvocationOnMock invocation) throws Throwable {
+            public EmployeeEntity answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
                 EmployeeEntity empy = (EmployeeEntity) args[0];
                 empy.setIsActive(true);

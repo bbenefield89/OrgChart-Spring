@@ -76,4 +76,5 @@ public class DepartmentEntity extends BaseEntity {
     public void setDepartmentEmployees(Set<EmployeeEntity> employees) {
         this.employees = employees;
     }
+
 }

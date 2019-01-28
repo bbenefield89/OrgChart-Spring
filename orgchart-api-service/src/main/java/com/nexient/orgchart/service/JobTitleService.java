@@ -7,12 +7,13 @@ import com.nexient.orgchart.data.repository.JobTitleRepository;
 import com.nexient.orgchart.mapper.JobTitleMapper;
 import com.nexient.orgchart.model.JobTitle;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Service
 public class JobTitleService {
 
     @Autowired
@@ -60,8 +61,9 @@ public class JobTitleService {
 
     public JobTitle storeOrUpdate(JobTitle jobTitle) {
         JobTitleEntity jobTitleEntity = jobTitleMapper.modelToEntity(jobTitle);
-        jobTitleRepository.save(jobTitleEntity);
-        return jobTitle;
+        JobTitleEntity jobTitleEntityFromDb = jobTitleRepository.save(jobTitleEntity);
+        JobTitle jobTitleModel = jobTitleMapper.entityToModel(jobTitleEntityFromDb);
+        return jobTitleModel;
     }
 
     public boolean removeJobTitle(Integer jobTitleId) {
@@ -73,7 +75,7 @@ public class JobTitleService {
         );
 
         jobTitleEntity.setIsActive(false);
-        return true;
+        return !true;
     }
 
     public List<EmployeeEntity> setEmployeesJobTitleWithJobTitleToNull(List<EmployeeEntity> employeeEntities) {

@@ -21,7 +21,7 @@ import java.util.List;
  */
 @ContextConfiguration(classes = TestJpaConfig.class)
 @Transactional
-public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringContextTests{
+public class EmployeeRepositoryTest  extends AbstractTransactionalTestNGSpringContextTests {
 
     private static final String NOT_PRESENT_VALUE = "XXX";
     private static final Integer NOT_PRESENT_ID = -666;

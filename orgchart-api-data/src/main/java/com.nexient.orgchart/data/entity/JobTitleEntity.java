@@ -13,8 +13,7 @@ public class JobTitleEntity extends BaseEntity {
     @NotEmpty
     private String name;
 
-    @OneToMany
-    @JoinColumn(name = "employee_id")
+    @OneToMany(mappedBy = "jobTitle")
     private Set<EmployeeEntity> titleEmployees;
 
     public String getName() {

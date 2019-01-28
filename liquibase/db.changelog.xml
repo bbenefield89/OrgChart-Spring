@@ -56,6 +56,9 @@
             <column name="last_name" type="varchar(50)">
                 <constraints nullable="false" />
             </column>
+            <column name="middle_initial" type="char(1)">
+                <constraints nullable="true"/>
+            </column>
             <column name="email" type="varchar(100)">
                 <constraints unique="true" uniqueConstraintName="unq_employee_email" />
             </column>
@@ -164,9 +167,6 @@
     </changeSet>
 
     <changeSet id="20" author="kskronek">
-        <addColumn tableName="employee">
-            <column name="middle_initial" type="char(1)" />
-        </addColumn>
         <addColumn tableName="employee">
             <column name="is_active" type="boolean" defaultValueBoolean="true" />
         </addColumn>

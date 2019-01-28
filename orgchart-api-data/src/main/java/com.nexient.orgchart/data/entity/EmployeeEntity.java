@@ -7,10 +7,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
-import com.nexient.orgchart.data.entity.JobTitleEntity;
-
 @Entity
-@Table(name = "employees")
+@Table(name = "employee")
 public class EmployeeEntity extends BaseEntity {
 
     @Column(name = "first_name")
@@ -19,9 +17,7 @@ public class EmployeeEntity extends BaseEntity {
 	private String firstName;
 
     @Column(name = "middle_initial")
-    @NotEmpty
-    @Size(min = 1)
-	private char middleInitial;
+	private Character middleInitial;
 
     @Column(name = "last_name")
     @NotEmpty
@@ -39,25 +35,21 @@ public class EmployeeEntity extends BaseEntity {
 	private String skypeName;
 
     @ManyToOne
-    @JoinColumn(name = "jobtitle_id")
+    @JoinColumn(name = "job_title_id")
     private JobTitleEntity jobTitle;
 
     @ManyToOne
-    @JoinColumn(name = "manager")
-    @NotNull
+    @JoinColumn(name = "manager_id")
     private EmployeeEntity manager;
 
     @ManyToOne
     @JoinColumn(name = "department_id")
-    @NotEmpty
     private DepartmentEntity department;
 
-    @OneToMany
-    @NotNull
+    @OneToMany(mappedBy = "manager")
     private Set<EmployeeEntity> ManagedEmployees;
 
-    @OneToMany
-    @NotNull
+    @OneToMany(mappedBy = "manager")
     private Set<DepartmentEntity> ManagedDepartments;
 
     @Column(name = "is_manager")
@@ -76,11 +68,11 @@ public class EmployeeEntity extends BaseEntity {
         this.firstName = firstName;
     }
 
-    public char getMiddleInitial() {
+    public Character getMiddleInitial() {
         return middleInitial;
     }
 
-    public void setMiddleInitial(char middleInitial) {
+    public void setMiddleInitial(Character middleInitial) {
         this.middleInitial = middleInitial;
     }
 

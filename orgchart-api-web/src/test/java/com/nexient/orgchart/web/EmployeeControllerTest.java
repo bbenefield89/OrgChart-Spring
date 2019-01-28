@@ -92,7 +92,7 @@ public class EmployeeControllerTest {
     }
 
     @Test
-    public void createJobTitle() throws Exception{
+    public void createJobTitle() throws Exception {
         given(this.employeeService.storeOrUpdate(employee))
                 .willReturn(employee);
         this.mvc.perform(post("/emps").accept(MediaType.APPLICATION_JSON)

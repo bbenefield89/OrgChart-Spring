@@ -38,23 +38,23 @@ public class DepartmentMapper implements EntityModelMapper<DepartmentEntity, Dep
 
     @Override
     public DepartmentEntity modelToEntity(Department model) {
-        Assert.notNull(model);
+        Assert.notNull(model, "\n\nDepartment Mapper Error\n\n");
 
-        DepartmentEntity deptModel= new DepartmentEntity();
-        deptModel.setId(model.getId());
-        deptModel.setName(model.getName());
+        DepartmentEntity deptEntity= new DepartmentEntity();
+        deptEntity.setId(model.getId());
+        deptEntity.setName(model.getName());
 
         if(model.getManager()!= null) {
-            deptModel.setManager(employeeMapper.modelToEntity(model.getManager()));
+            deptEntity.setManager(employeeMapper.modelToEntity(model.getManager()));
         }
 
         if(model.getParentDepartment()!= null) {
-            deptModel.setParentDepartment(modelToEntity(model.getParentDepartment()));
+            deptEntity.setParentDepartment(modelToEntity(model.getParentDepartment()));
         }
 
-        deptModel.setIsActive(model.getIsActive());
+        deptEntity.setIsActive(model.getIsActive());
 
-        return deptModel;
+        return deptEntity;
     }
 
     public EmployeeMapper getEmployeeMapper() {

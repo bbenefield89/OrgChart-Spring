@@ -4,7 +4,7 @@ public class Employee extends BaseModel {
     private Department department;
     private Employee manager;
     private String firstName;
-    private char middleInitial;
+    private Character middleInitial;
     private String lastName;
     private JobTitle jobTitle;
     private String email;
@@ -35,11 +35,11 @@ public class Employee extends BaseModel {
         this.firstName = firstName;
     }
 
-    public char getMiddleInitial() {
+    public Character getMiddleInitial() {
         return middleInitial;
     }
 
-    public void setMiddleInitial(char middleInitial) {
+    public void setMiddleInitial(Character middleInitial) {
         this.middleInitial = middleInitial;
     }
 

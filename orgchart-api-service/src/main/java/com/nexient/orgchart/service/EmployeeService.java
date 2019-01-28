@@ -1,35 +1,32 @@
 package com.nexient.orgchart.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-
 import com.nexient.orgchart.data.entity.DepartmentEntity;
 import com.nexient.orgchart.data.entity.EmployeeEntity;
 import com.nexient.orgchart.data.repository.EmployeeRepository;
-import com.nexient.orgchart.model.Department;
+import com.nexient.orgchart.mapper.EmployeeMapper;
 import com.nexient.orgchart.model.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import com.nexient.orgchart.mapper.EmployeeMapper;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+
+@Service
 public class EmployeeService {
+
     @Autowired
     private EmployeeRepository employeeRepository;
 
     @Autowired
     EmployeeMapper employeeMapper;
 
-    private List<Employee> employees = new ArrayList<>();
-
     public List<Employee> findAll() {
         List<EmployeeEntity> employeeEntities = employeeRepository.findAll();
-        return convertEmployeeEntitiesToEmployeeModels(employeeEntities);
+        List<Employee> employeeModels = mapListOfEmployeeEntitiesToEmployeeModels(employeeEntities);
+        return employeeModels;
     }
 
     public Employee findEmployeeById(Integer employeeId) {
@@ -40,43 +37,39 @@ public class EmployeeService {
 
     public List<Employee> findAllActiveEmployees() {
         List<EmployeeEntity> activeEmployeeEntities = employeeRepository.findByIsActiveIsTrue();
-        return convertEmployeeEntitiesToEmployeeModels(activeEmployeeEntities);
+        List<Employee> employeeModels = mapListOfEmployeeEntitiesToEmployeeModels(activeEmployeeEntities);
+        return employeeModels;
     }
 
     public List<Employee> findAllInactiveEmployees() {
         List<EmployeeEntity> activeEmployeeEntities = employeeRepository.findByIsActiveIsFalse();
-        return convertEmployeeEntitiesToEmployeeModels(activeEmployeeEntities);
+        List<Employee> employeeModels = mapListOfEmployeeEntitiesToEmployeeModels(activeEmployeeEntities);
+        return employeeModels;
     }
 
     public Employee storeOrUpdate(Employee employee) {
         EmployeeEntity employeeEntity = employeeMapper.modelToEntity(employee);
-        employeeRepository.save(employeeEntity);
-        return employee;
+        EmployeeEntity preExistingEmployeeEntity = employeeRepository.findByEmail(employee.getEmail());
+        EmployeeEntity savedEmployeeEntity = employeeRepository.save(employeeEntity);
+        Employee employeeModel = employeeMapper.entityToModel(savedEmployeeEntity);
+        return employeeModel;
     }
 
-    private List<Employee> convertEmployeeEntitiesToEmployeeModels(List<EmployeeEntity> employeeEntities) {
-        Consumer<EmployeeEntity> employeeEntitiesForEachCallBack = employeeEntity -> {
-            Employee employee = employeeMapper.entityToModel(employeeEntity);
-            employees.add(employee);
-        };
-        employeeEntities.forEach(employeeEntitiesForEachCallBack);
-        return employees;
+    private List<Employee> mapListOfEmployeeEntitiesToEmployeeModels(List<EmployeeEntity> employeeEntities) {
+        List<Employee> activeEmployees = employeeEntities.stream()
+                .map(employeeEntity -> employeeMapper.entityToModel(employeeEntity))
+                .collect(Collectors.toList());
+        return activeEmployees;
     }
 
     public boolean removeEmployee(Integer id) {
         EmployeeEntity employee = employeeRepository.findOne(id);
-
         Assert.notNull(employee, "[Assertion Error] - Employee not found in the database.");
 
-        employee.setDepartment(null);
-        employee.setManager(null);
-        employee.setJobTitle(null);
-        employee.setManagedDepartments(null);
-        employee.setManagedEmployees(null);
         employee.setIsActive(false);
-        employee.setIsManager(false);
+        employeeRepository.save(employee);
 
-        return true;
+        return !employee.getIsActive();
     }
 
     public List<DepartmentEntity> setDepartmentManagerToNullByManager(List<DepartmentEntity> departmentEntities) {

@@ -5,11 +5,11 @@ import java.io.Serializable;
 /**
  * Created by mrangel on 7/20/2016.
  */
-public class BaseModel implements Serializable{
+public class BaseModel implements Serializable {
 
     private Integer id;
 
-    private boolean isActive;
+    private boolean isActive = true;
 
     public boolean getIsActive() {
         return isActive;

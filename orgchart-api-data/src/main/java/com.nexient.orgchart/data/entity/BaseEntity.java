@@ -1,5 +1,7 @@
 package com.nexient.orgchart.data.entity;
 
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
@@ -8,7 +10,6 @@ import static javax.persistence.GenerationType.IDENTITY;
  * Created by kskronek on 5/24/2016.
  */
 @MappedSuperclass
-//@Inheritance(strategy = InheritanceType.SINGLE_TABLE)  // Keep this here for future reference (just in case)
 public class BaseEntity {
 
 	@Id
@@ -34,4 +35,12 @@ public class BaseEntity {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	@PrePersist
+	public void preInsert() {
+		if (isActive == null) {
+			isActive = true;
+		}
+	}
+
 }

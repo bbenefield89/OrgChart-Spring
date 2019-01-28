@@ -57,19 +57,20 @@ public class DepartmentService {
     }
 
     public Department storeOrUpdate(Department department) {
+        Assert.notNull(department, "Department can not be null");
         DepartmentEntity departmentEntity = departmentMapper.modelToEntity(department);
-        return departmentMapper.entityToModel(this.deptRepository.save(departmentEntity));
+        return departmentMapper.entityToModel(deptRepository.save(departmentEntity));
     }
 
     public boolean removeDepartment(Integer id) {
-        Assert.notNull(deptRepository.findOne(id));
+        Assert.notNull(deptRepository.findOne(id), "");
 
-        DepartmentEntity parent = deptRepository.findOne(id);
-        parent.setIsActive(false);
+        DepartmentEntity entity = deptRepository.findOne(id);
+        entity.setIsActive(false);
 
-        this.setParentDepartmentToNullByParent(deptRepository.findByParentDepartment(parent));
+        this.setParentDepartmentToNullByParent(deptRepository.findByParentDepartment(entity));
 
-        Department dept = storeOrUpdate(departmentMapper.entityToModel(parent));
+        DepartmentEntity dept = deptRepository.save(entity);
 
         return !(dept.getIsActive());
     }
@@ -83,18 +84,6 @@ public class DepartmentService {
         }
         return deptsWithNullParent;
     }
-
-//    public boolean removeDepartment(Integer id) {
-//        boolean departmentWasRemoved = false;
-//
-//        deptRepository.delete(id);
-//
-//        if (!deptRepository.exists(id)) {
-//            departmentWasRemoved = true;
-//        }
-//
-//        return departmentWasRemoved;
-//    }
 
     public List<Department> findAllInactiveDepartments() {
         List<Department> depts = new ArrayList<>();

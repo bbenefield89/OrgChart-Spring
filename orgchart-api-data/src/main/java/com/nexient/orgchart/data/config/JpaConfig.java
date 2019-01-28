@@ -97,7 +97,6 @@ public class JpaConfig {
     @Bean
 
     public PlatformTransactionManager transactionManager() {
-
         return new JpaTransactionManager();
     }
 
